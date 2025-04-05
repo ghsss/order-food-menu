@@ -1,0 +1,16 @@
+.ProductMenuContainer {
+  background-color: #282c34;
+  height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+h1 {
+  word-wrap: break-word;
+}
