@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './styles/ProductMenu.css';
 import ProductMenuList from './components/ProductMenuList';
 import ProductModel from '../../models/Product';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
+
+const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedido.');
 
 function ProductMenu() {
 
@@ -64,6 +69,16 @@ function ProductMenu() {
   return (
     <div className="ProductMenuContainer">
       <h1 className='scalingAnimation'>Clique no item para copiar o código do produto</h1>
+      <div className='row linksRow'>
+        <a rel='noreferrer' target='_blank' href={"https://wa.me/555499026453?text=" + whatsAppQueryParams}>
+          {'Pedir pelo WhatsApp '}
+          <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
+        </a>
+        <a href={"/#"} className='linkUnavailable'>
+          {'Pedir pelo site '}
+          <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
+        </a>
+      </div>
       <ProductMenuList productMenuItems={productMenuOptions} />
     </div>
   );

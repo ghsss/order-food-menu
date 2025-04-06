@@ -21,34 +21,11 @@ h2 {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-a {
-  /* justify-self: flex-start;
-  align-self: flex-start; */
-  border: solid thin #000;
-  text-align: center;
-  background: #fff;
-  border-radius: 2em;
-  padding: .5em;
-  text-decoration: none;
-  color: #000;
-  display: flex;
-  align-items: center;
-}
-
-.linksRow {
-  margin-bottom: 1em;
-  width: 95%;
-}
-
 @media only screen and (min-width: 600px) {
 
   .ProductMenuListContainer {
-    max-width: 50%;
-  }
-
-  .linksRow {
-    margin-bottom: 1em;
-    width: 55%;
+    max-width: 100%;
+    flex-direction: row;
   }
 
 }

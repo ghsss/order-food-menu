@@ -56,7 +56,7 @@ span {
   height: 100%;
   max-width: 50%;
   border-radius: 2em;
-  border: solid thin #fff000;
+  border: solid thin #000;
   overflow: hidden;
 
 }
@@ -97,6 +97,11 @@ span {
 
   .itemDescription {
     font-size: 1.25em;
+  }
+
+  .ProductMenuListItemContainer {
+    min-width: 50%;
+    width: 50%;
   }
 
 }

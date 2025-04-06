@@ -42,6 +42,57 @@ h1 {
 
 }
 
+.linksRow {
+  height: 100%;
+  margin-bottom: 1em;
+  width: 95%;
+  text-align: center;
+}
+
+.linksRow a {
+  text-align: center;
+  margin: .5em;
+  max-width: 45%;
+}
+
+
+a {
+  border: solid thin #000;
+  text-align: center;
+  background: #fff;
+  border-radius: 2em;
+  padding: .5em;
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  align-items: center;
+  white-space-collapse: preserve;
+}
+
+a:hover {
+
+  background: #a6d0db;
+
+}
+
+.linkUnavailable {
+
+  color: red;
+  pointer-events: none;
+  cursor: none;
+  user-select: none;
+
+}
+
+@media only screen and (min-width: 600px) {
+
+  .linksRow {
+    margin-bottom: 1em;
+    width: 55%;
+  }
+
+}
+
 @keyframes scalingAnimation {
 
   50% {
