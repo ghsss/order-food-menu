@@ -88,3 +88,15 @@ span {
   display: block;
   /* transform: scale(3); */
 }
+
+@media only screen and (min-width: 600px) {
+
+  p {
+    font-size: 2em;
+  }
+
+  .itemDescription {
+    font-size: 1.25em;
+  }
+
+}
