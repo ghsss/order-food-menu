@@ -8,11 +8,12 @@ interface ProductMenuListProps {
   children?: React.ReactNode;
 }
 
-function ProductMenuList({ productMenuItems }: ProductMenuListProps) {
+function ProductMenuList({ productMenuItems, children }: ProductMenuListProps) {
 
   return (
     <div className='ProductMenuListContainer'>
       <h2 className='listTitle linkUnavailable'>🔥 Cardápio 🔥</h2>
+      {children}
       <div className='ProductMenuListContainerScroll'>
         <div className="ProductMenuList">
           {

@@ -45,12 +45,23 @@ h2 {
   align-items: stretch;
 }
 
+input {
+
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 1.25em;
+  padding: .25em;
+  border-radius: .25em;
+
+}
+
 @media only screen and (min-width: 600px) {
 
   .ProductMenuListContainer {
     border-left: none;
-    border-right: none;
+    /* border-right: none; */
+    border-right-width: 1em;
     max-width: 100%;
+    min-width: 100%;
     flex: 0 0 100%;
     flex-shrink: 0;
     flex-wrap: wrap;
@@ -75,13 +86,14 @@ h2 {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    transform: rotateX(180deg);
+    transform: rotateX(180deg) translateX(-5%);
     max-width: 100%;
     flex-direction: row;
     /* flex-wrap: wrap; */
     overflow-x: visible;
     flex: 0 0 100%;
     flex-shrink: 0;
+    /* margin-right: 10em; */
   }
 
   /* width */
