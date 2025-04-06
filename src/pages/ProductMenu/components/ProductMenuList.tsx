@@ -32,7 +32,7 @@ function ProductMenuList({ productMenuItems }: ProductMenuListProps) {
         {/* <a href="https://wa.me/555499026453?text=Olá,%20Gostaria%20de%20fazer%20um%20pedido!">Fazer pedido pelo site</a> */}
       </div>
       <div className="ProductMenuListContainer">
-        <h2 style={{color: `#000`, fontWeight: `bold`, fontSize: `2em`}}>🔥 Cardápio Online 🔥</h2>
+        <h2 style={{color: `#000`, fontWeight: `bold`, fontSize: `2em`, textDecoration: 'underline', textDecorationColor: 'gold'}}>🔥 Cardápio Online 🔥</h2>
         {
           productMenuItems.map(productMenuItem => {
             return (
