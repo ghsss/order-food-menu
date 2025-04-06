@@ -71,7 +71,7 @@ function ProductMenu() {
       <div className='titles'>
         <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique no item para copiar o código do produto! ❤️‍🔥😍
         </h1>
-        <h1 style={{ color: '#000' }} className='linkUnavailable'>
+        <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>
           <span style={{ color: 'green' }}>Redirecionamento automático <FontAwesomeIcon fontSize={`1.25em`} color='green' icon={faWhatsapp} /></span>
         </h1>
       </div>
