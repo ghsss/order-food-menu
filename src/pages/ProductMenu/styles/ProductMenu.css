@@ -143,14 +143,14 @@ label {
   .searchTermInput {
     display: block;
     align-self: center;
-    max-width: 20%;
+    max-width: 30%;
     height: 2.5em;
     margin-right: 5em;
   }
   
   .filterByProductTypeContainer {
     display: block;
-    width: 20%;
+    width: 30%;
   }
 /* 
   .filterByProductType {
