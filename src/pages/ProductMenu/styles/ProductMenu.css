@@ -107,7 +107,7 @@ a:hover {
   display: block;
   justify-self: center;
   width: 90%;
-  margin-bottom: 1em;
+  margin-bottom: .5em;
 }
 
 label {
