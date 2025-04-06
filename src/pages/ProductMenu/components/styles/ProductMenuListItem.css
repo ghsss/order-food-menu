@@ -88,11 +88,14 @@ span {
 }
 
 .itemDescription {
-  color: #000;
+  /* color: #fff; */
   font-size: 1em;
   width: 100%;
   display: block;
-  /* transform: scale(3); */
+}
+
+.itemDescription span {
+  /* color: #000; */
 }
 
 @media (min-width: 600px) {
