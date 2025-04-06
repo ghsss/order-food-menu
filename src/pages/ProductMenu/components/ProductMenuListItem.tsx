@@ -23,6 +23,7 @@ function ProductMenuListItem({
 
       navigator.clipboard.writeText(item.id);
       setshowingIcon(faCheckCircle);
+      window.location.href = 'https://wa.me/555499026453?text='+item.id;
       setTimeout(() => {
         setshowingIcon(faCopy);
       }, 1000);
@@ -36,7 +37,7 @@ function ProductMenuListItem({
   }
 
   return (
-    <div className="ProductMenuListItemContainer glowBox" onClick={event => handleCopyItemCode()}>
+    <div draggable={true} className="ProductMenuListItemContainer glowBox" onClick={event => handleCopyItemCode()}>
       <div id='copyIcon' style={{ color: (showingIcon === faCopy ? `inherit` : (showingIcon === faX ? `red` : `green`)), justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em` }} >
         <FontAwesomeIcon
           icon={showingIcon}
@@ -53,7 +54,7 @@ function ProductMenuListItem({
       <div className='row'>
         <div className='itemImageContainer'>
           Imagem ilustrativa
-          <img className='itemImage' src={item.image_url} about='Imagem ilustrativa' title='Imagem ilustrativa' alt="Imagem ilustrativa" />
+          <img className='itemImage' src={item.image_url || './no-image.png'} about='Imagem ilustrativa' title='Imagem ilustrativa' alt="Imagem ilustrativa" />
         </div>
         <div className='column'>
           <div>

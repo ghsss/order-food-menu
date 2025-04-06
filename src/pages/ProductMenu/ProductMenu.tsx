@@ -40,7 +40,27 @@ function ProductMenu() {
     },
   }, {
     id: 'H1',
-    name: 'Hamburguer salada 🍔😋',
+    name: 'Hamburguer Salada 🍔😋',
+    price: 20.00,
+    image_url: `./hamburguer.jpg`,
+    description: 'Pão, bife, queijo, alface, tomate.',
+    product_type: {
+      id: 'HAMBURGUER',
+      name: 'Hamburguer',
+    },
+  }, {
+    id: 'H1',
+    name: 'Hamburguer Salada 🍔😋',
+    price: 20.00,
+    image_url: `./hamburguer.jpg`,
+    description: 'Pão, bife, queijo, alface, tomate.',
+    product_type: {
+      id: 'HAMBURGUER',
+      name: 'Hamburguer',
+    },
+  }, {
+    id: 'H1',
+    name: 'Hamburguer Salada 🍔😋',
     price: 20.00,
     image_url: `./hamburguer.jpg`,
     description: 'Pão, bife, queijo, alface, tomate.',
@@ -50,9 +70,9 @@ function ProductMenu() {
     },
   }, {
     id: 'X1',
-    name: 'Xis salada 🍔😋',
+    name: 'Xis Salada 🍔😋',
     price: 24.00,
-    image_url: `./hamburguer.jpg`,
+    // image_url: `./hamburguer.jpg`,
     description: 'Pão, bife, queijo, alface, tomate.',
     product_type: {
       id: 'XIS',

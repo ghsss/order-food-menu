@@ -64,6 +64,7 @@ span {
 .itemImage {
 
   height: 100%;
+  object-fit: cover;
   width: 100%;
 
 }
@@ -89,19 +90,31 @@ span {
   /* transform: scale(3); */
 }
 
-@media only screen and (min-width: 600px) {
+@media (min-width: 600px) {
 
   p {
     font-size: 2em;
+    max-width: 100%;
+    overflow: hidden;
   }
-
+  
   .itemDescription {
     font-size: 1.25em;
   }
 
   .ProductMenuListItemContainer {
+    transform-style: preserve-3d;
+    transform: translateZ(3em);
     min-width: 50%;
     width: 50%;
+    /* min-height: 55vh !important; 
+    max-height: 55vh !important;  */
+    padding-left: 2em;
+  }
+
+  .itemImageContainer {
+    height: 25vh;
+    min-width: 25vw;
   }
 
 }
