@@ -16,7 +16,8 @@ span {
 }
 
 .ProductMenuListItemContainer {
-  background: transparent;
+  /* background: transparent; */
+  background: rgba(93, 0, 0, 0.248);
   border: solid thin #fff000;
   border-radius: 2em;
   padding: .5em;
@@ -26,7 +27,7 @@ span {
 
 .ProductMenuListItemContainer:hover {
 
-  background: gray;
+  background: rgb(182, 182, 182);
   cursor: pointer;
 
 }
@@ -35,6 +36,7 @@ span {
   position: absolute;
   opacity: 0;
   color: #fff;
+  z-index: 100;
   transform: scale(3) translateX(50%);
 }
 
@@ -82,5 +84,7 @@ span {
 
 .itemDescription {
   font-size: 1em;
+  width: 100%;
+  display: block;
   /* transform: scale(3); */
 }

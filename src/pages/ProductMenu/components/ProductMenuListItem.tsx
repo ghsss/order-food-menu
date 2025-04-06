@@ -13,7 +13,7 @@ interface ProductMenuListItemProps {
 function ProductMenuListItem({
   item,
 }: ProductMenuListItemProps) {
-  
+
   const [showingIcon, setshowingIcon] = useState<IconDefinition>(faCopy);
 
   function handleCopyItemCode() {
@@ -26,9 +26,9 @@ function ProductMenuListItem({
       setTimeout(() => {
         setshowingIcon(faCopy);
       }, 1000);
-      
+
     } catch (error) {
-      
+
       setshowingIcon(faX);
 
     }
@@ -36,13 +36,13 @@ function ProductMenuListItem({
   }
 
   return (
-    <div className="ProductMenuListItemContainer" onClick={event => handleCopyItemCode()}>
-      <div id='copyIcon' style={{ color: (showingIcon === faCopy? `inherit` : (showingIcon === faX? `red` : `green`)), justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em` }} >
+    <div className="ProductMenuListItemContainer glowBox" onClick={event => handleCopyItemCode()}>
+      <div id='copyIcon' style={{ color: (showingIcon === faCopy ? `inherit` : (showingIcon === faX ? `red` : `green`)), justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em` }} >
         <FontAwesomeIcon
           icon={showingIcon}
         />
       </div>
-      <p id='item.name'>
+      <p id='item.name' className='scalingAnimation'>
         <span>⭐ </span>
         {item.name}
       </p>
@@ -62,12 +62,14 @@ function ProductMenuListItem({
               {item.price.toFixed(2).replace('.', ',')}
             </p>
           </div>
-          <div>
-            <p id='itemDescription' className='itemDescription'>
-              <span>Descrição: </span>
-              {item.description}
-            </p>
-          </div>
+        </div>
+      </div>
+      <div className='row' style={{ width: `100%` }}>
+        <div>
+          <p id='itemDescription' className='itemDescription'>
+            <span>Descrição: </span>
+            {item.description}
+          </p>
         </div>
       </div>
     </div>

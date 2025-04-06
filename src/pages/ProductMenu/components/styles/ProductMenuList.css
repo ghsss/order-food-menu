@@ -1,6 +1,7 @@
 .ProductMenuListContainer {
-  background-color: #282c34;
-  border: solid thin #fff;
+  /* background-color: #282c34; */
+  background-color: rgba(231, 0, 0, 0.663);
+  border: solid .25em #fff;
   border-radius: .5em;
   padding: 1.5em;
   height: 100%;
@@ -16,5 +17,6 @@
 
 h2 {
   color: #fff000;
+  font-weight: bold;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

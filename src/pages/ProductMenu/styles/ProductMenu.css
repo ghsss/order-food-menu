@@ -1,5 +1,6 @@
 .ProductMenuContainer {
-  background-color: #282c34;
+  /* background-color: #fff000; */
+  background-color: rgb(255, 176, 30);
   height: 100%;
   width: 100%;
   max-width: 100vw;
@@ -8,9 +9,57 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #000;
+}
+
+body {
+  font-weight: bold;
 }
 
 h1 {
+  border: solid medium #000;
+  background: #fff;
+  border-radius: 1em;
+  padding: .25em;
+  width: 90%;
   word-wrap: break-word;
+  font-weight: bold;
+}
+
+.scalingAnimation {
+  animation: infinite 1s scalingAnimation ease-in;
+}
+
+.glow {
+  animation: infinite 1.5s glow ease-in;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff000;
+
+}
+
+.glowBox {
+  animation: infinite 1s glowBox ease-in;
+  box-shadow: 0 0 5px #fff, 0 0 10px #fff000;
+
+}
+
+@keyframes scalingAnimation {
+
+  50% {
+    transform: scale(.95);
+  }
+
+}
+
+@keyframes glow {
+  50% {
+    text-shadow: 0 0 25px #fff, 0 0 50px #fff, 0 0 50px #fff000;
+    /* text-shadow: 0 0 20px #fff, 0 0 30px gold, 0 0 40px gold, 0 0 50px gold, 0 0 60px gold, 0 0 70px gold, 0 0 80px gold; */
+  }
+}
+
+@keyframes glowBox {
+  50% {
+    box-shadow: 0 0 25px #fff, 0 0 50px #fff, 0 0 50px #fff000;
+    /* text-shadow: 0 0 20px #fff, 0 0 30px gold, 0 0 40px gold, 0 0 50px gold, 0 0 60px gold, 0 0 70px gold, 0 0 80px gold; */
+  }
 }
