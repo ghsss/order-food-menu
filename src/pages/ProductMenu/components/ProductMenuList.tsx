@@ -12,9 +12,9 @@ function ProductMenuList({ productMenuItems }: ProductMenuListProps) {
 
   return (
     <div className='ProductMenuListContainer'>
-      <h2 style={{ color: `#fff`, fontWeight: `bold`, fontSize: `2em`, textDecoration: 'underline', textDecorationColor: 'gold' }}>🔥 Cardápio 🔥</h2>
+      <h2 className='listTitle linkUnavailable'>🔥 Cardápio 🔥</h2>
       <div className='ProductMenuListContainerScroll'>
-        <div draggable={true} className="ProductMenuList">
+        <div className="ProductMenuList">
           {
             productMenuItems.map(productMenuItem => {
               return (

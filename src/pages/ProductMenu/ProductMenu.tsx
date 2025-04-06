@@ -15,7 +15,7 @@ function ProductMenu() {
     name: 'Cachorro Quente Grande 🌭😋',
     price: 22.50,
     image_url: `./hotdog2.jpg`,
-    description: 'Pão, molho de tomate, salsicha e batata palha.',
+    description: 'Pão grande, molho de tomate, milho, ervilha, 2 salsicha, maionese, ketchup, mostarda e batata palha.',
     product_type: {
       id: 'CACHORRO QUENTE',
       name: 'Cachorro Quente',
@@ -29,7 +29,7 @@ function ProductMenu() {
     name: 'Cachorro Quente Pequeno 🌭😋',
     price: 18.50,
     image_url: `./hotdog2.jpg`,
-    description: 'Pão, molho de tomate, salsicha e batata palha.',
+    description: 'Pão pequeno, molho de tomate, milho, ervilha, 1 salsicha, maionese, ketchup, mostarda e batata palha.',
     product_type: {
       id: 'CACHORRO QUENTE',
       name: 'Cachorro Quente',
@@ -43,27 +43,7 @@ function ProductMenu() {
     name: 'Hamburguer Salada 🍔😋',
     price: 20.00,
     image_url: `./hamburguer.jpg`,
-    description: 'Pão, bife, queijo, alface, tomate.',
-    product_type: {
-      id: 'HAMBURGUER',
-      name: 'Hamburguer',
-    },
-  }, {
-    id: 'H1',
-    name: 'Hamburguer Salada 🍔😋',
-    price: 20.00,
-    image_url: `./hamburguer.jpg`,
-    description: 'Pão, bife, queijo, alface, tomate.',
-    product_type: {
-      id: 'HAMBURGUER',
-      name: 'Hamburguer',
-    },
-  }, {
-    id: 'H1',
-    name: 'Hamburguer Salada 🍔😋',
-    price: 20.00,
-    image_url: `./hamburguer.jpg`,
-    description: 'Pão, bife, queijo, alface, tomate.',
+    description: 'Pão de hamburguer, maionese, ketchup, mostarda, bife pequeno, queijo, alface e tomate.',
     product_type: {
       id: 'HAMBURGUER',
       name: 'Hamburguer',
@@ -73,7 +53,7 @@ function ProductMenu() {
     name: 'Xis Salada 🍔😋',
     price: 24.00,
     // image_url: `./hamburguer.jpg`,
-    description: 'Pão, bife, queijo, alface, tomate.',
+    description: 'Pão de xis, maionese, ketchup, mostarda, bife grande, queijo, alface e tomate.',
     product_type: {
       id: 'XIS',
       name: 'Xis',
@@ -88,9 +68,15 @@ function ProductMenu() {
 
   return (
     <div className="ProductMenuContainer">
-      <h1 className='scalingAnimation'>Clique no item para copiar o código do produto</h1>
+      <div className='titles'>
+        <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique no item para copiar o código do produto! ❤️‍🔥😍
+        </h1>
+        <h1 style={{ color: '#000' }} className='linkUnavailable'>
+          <span style={{ color: 'green' }}>Redirecionamento automático <FontAwesomeIcon fontSize={`1.25em`} color='green' icon={faWhatsapp} /></span>
+        </h1>
+      </div>
       <div className='row linksRow'>
-        <a rel='noreferrer' target='_blank' href={"https://wa.me/555499026453?text=" + whatsAppQueryParams}>
+        <a className='goToWhatsAppLink' rel='noreferrer' target='_blank' href={"https://wa.me/555499026453?text=" + whatsAppQueryParams}>
           {'Pedir pelo WhatsApp '}
           <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
         </a>

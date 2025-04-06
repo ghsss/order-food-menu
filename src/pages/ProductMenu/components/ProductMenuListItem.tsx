@@ -24,7 +24,7 @@ function ProductMenuListItem({
       navigator.clipboard.writeText(item.id);
       setshowingIcon(faCheckCircle);
       setTimeout(() => {
-        window.location.href = 'https://wa.me/555499026453?text='+item.id;
+        window.location.href = 'https://wa.me/555499026453?text=' + item.id;
       }, 100);
       setTimeout(() => {
         setshowingIcon(faCopy);
@@ -39,7 +39,7 @@ function ProductMenuListItem({
   }
 
   return (
-    <div draggable={true} className="ProductMenuListItemContainer glowBox" onClick={event => handleCopyItemCode()}>
+    <div className="ProductMenuListItemContainer glowBox" onClick={event => handleCopyItemCode()}>
       <div id='copyIcon' style={{ color: (showingIcon === faCopy ? `inherit` : (showingIcon === faX ? `red` : `green`)), justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em` }} >
         <FontAwesomeIcon
           icon={showingIcon}
@@ -55,14 +55,15 @@ function ProductMenuListItem({
       </p>
       <div className='row'>
         <div className='itemImageContainer'>
-          Imagem ilustrativa
-          <img className='itemImage' src={item.image_url || './no-image.png'} about='Imagem ilustrativa' title='Imagem ilustrativa' alt="Imagem ilustrativa" />
+          {typeof item.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'}
+          <img draggable={false} className='itemImage' src={item.image_url || './no-image.png'} about={typeof item.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} title={typeof item.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} alt={typeof item.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} />
         </div>
         <div className='column'>
           <div>
             <p id='itemPrice' className='itemPrice'>
-              <span>R$ </span>
-              {item.price.toFixed(2).replace('.', ',')}
+              {/* <span>Promoção por tempo limitado!</span>
+              <br/> */}
+              {` R$ `+item.price.toFixed(2).replace('.', ',')}
             </p>
           </div>
         </div>

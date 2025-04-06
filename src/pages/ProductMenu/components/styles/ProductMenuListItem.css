@@ -55,6 +55,7 @@ span {
   margin-right: .5em;
   height: 100%;
   max-width: 50%;
+  min-width: 50%;
   border-radius: 2em;
   border: solid thin #000;
   overflow: hidden;
@@ -84,6 +85,7 @@ span {
 }
 
 .itemDescription {
+  color: #000;
   font-size: 1em;
   width: 100%;
   display: block;
@@ -107,6 +109,7 @@ span {
     transform: translateZ(3em);
     min-width: 50%;
     width: 50%;
+    user-select: none;
     /* min-height: 55vh !important; 
     max-height: 55vh !important;  */
     padding-left: 2em;
