@@ -177,7 +177,7 @@ function ProductMenu() {
       setFilteredProductMenuOptions(filteredList);
 
     } else {
-      
+
       setFilteredProductMenuOptions(productMenuOptions);
 
     }
@@ -225,7 +225,7 @@ function ProductMenu() {
       >
         <div className='filterInputsContainer'>
           <label htmlFor="searchTermInput"><FontAwesomeIcon icon={faSearch} /></label>
-          <input id='searchTermInput' className='searchTermInput' type="text" value={searchTerm} placeholder='Pesquisar produto' onChange={e => handleSearch(e)} />
+          <input id='searchTermInput' className='searchTermInput' type="text" value={searchTerm} placeholder='Pesquisar produto/sabor' onChange={e => handleSearch(e)} />
           <div className='filterByProductTypeContainer'>
             <label style={{ color: `#000` }} htmlFor="filterByProductType">{`Filtrar por tipo `}
               <FontAwesomeIcon icon={faFilter} />
