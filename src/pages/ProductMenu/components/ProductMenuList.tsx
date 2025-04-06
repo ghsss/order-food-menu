@@ -17,9 +17,12 @@ function ProductMenuList({ productMenuItems, children }: ProductMenuListProps) {
       <div className='ProductMenuListContainerScroll'>
         <div className="ProductMenuList">
           {
+            productMenuItems.length === 0? 
+            <p style={{alignSelf: 'center', justifySelf: 'center', width: '100%'}}>Nenhum produto encontrado. Verifique sua pesquisa</p>
+            :
             productMenuItems.map(productMenuItem => {
               return (
-                <ProductMenuListItem item={productMenuItem} />
+                <ProductMenuListItem key={productMenuItem.id} item={productMenuItem} />
               )
             })
           }

@@ -30,6 +30,10 @@ h1 {
   max-width: 90%;
   word-wrap: break-word;
   font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .scalingAnimation {
@@ -129,6 +133,10 @@ label {
   font-size: 1.125em;
   display: block;
   width: 100%;
+}
+
+.filterInputsContainer {
+  user-select: none;
 }
 
 @media only screen and (min-width: 600px) {

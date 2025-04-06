@@ -115,8 +115,7 @@ span {
     transform: translateZ(3em);
     min-width: 50%;
     width: 50%;
-    /* min-height: 55vh !important; 
-    max-height: 55vh !important;  */
+    height: 100%;
     padding-left: 2em;
   }
 
