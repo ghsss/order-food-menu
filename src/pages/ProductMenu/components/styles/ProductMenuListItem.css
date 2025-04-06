@@ -25,6 +25,7 @@ span {
   padding: .5em;
   margin: 1em;
   min-width: 100%;
+  user-select: none;
 }
 
 .ProductMenuListItemContainer:hover {
@@ -111,7 +112,6 @@ span {
     transform: translateZ(3em);
     min-width: 50%;
     width: 50%;
-    user-select: none;
     /* min-height: 55vh !important; 
     max-height: 55vh !important;  */
     padding-left: 2em;
