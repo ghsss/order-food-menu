@@ -23,7 +23,9 @@ function ProductMenuListItem({
 
       navigator.clipboard.writeText(item.id);
       setshowingIcon(faCheckCircle);
-      window.location.href = 'https://wa.me/555499026453?text='+item.id;
+      setTimeout(() => {
+        window.location.href = 'https://wa.me/555499026453?text='+item.id;
+      }, 100);
       setTimeout(() => {
         setshowingIcon(faCopy);
       }, 1000);
