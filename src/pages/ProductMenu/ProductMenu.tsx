@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import './styles/ProductMenu.css';
 import ProductMenuList from './components/ProductMenuList';
@@ -72,39 +73,15 @@ function ProductMenu() {
 
   useEffect(() => {
 
-    // console.log('productMenuOptions: ', productMenuOptions);
     console.log('searchTerm: ', searchTerm);
-    // if (searchTerm.length > 0) {
-
-    //   const filteredList = filteredProductMenuOptions.length > 0 ?
-    //     filteredProductMenuOptions.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    //     :
-    //     productMenuOptions.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
-
-    //   console.log('filteredList by name: ', filteredList);
-
-    //   setFilteredProductMenuOptions(filteredList);
-
-    // }
+    applyFilters();
 
   }, [searchTerm]);
 
   useEffect(() => {
 
-    // console.log('productMenuOptions: ', productMenuOptions);
     console.log('productTypeSearchTerm: ', productTypeSearchTerm);
-    // if (productTypeSearchTerm !== `all`) {
-
-    //   const filteredList = filteredProductMenuOptions.length > 0 ?
-    //     filteredProductMenuOptions.filter(item => item.product_type.id.toLowerCase().includes(productTypeSearchTerm.toLowerCase()))
-    //     :
-    //     productMenuOptions.filter(item => item.product_type.id.toLowerCase().includes(productTypeSearchTerm.toLowerCase()));
-
-    //   console.log('filteredList by product type: ', filteredList);
-
-    //   setFilteredProductMenuOptions(filteredList);
-
-    // }
+    applyFilters();
 
   }, [productTypeSearchTerm]);
 
@@ -115,23 +92,7 @@ function ProductMenu() {
     if (searchTermRefreshed !== searchTerm) {
 
       setSearchTerm(searchTermRefreshed);
-
-    }
-
-    if (searchTermRefreshed.length > 0) {
-
-      const filteredList = filteredProductMenuOptions.length > 0 ?
-        filteredProductMenuOptions.filter(item => item.name.toLowerCase().includes(searchTermRefreshed.toLowerCase()))
-        :
-        productMenuOptions.filter(item => item.name.toLowerCase().includes(searchTermRefreshed.toLowerCase()));
-
-      console.log('filteredList by name: ', filteredList);
-
-      setFilteredProductMenuOptions(filteredList);
-
-    } else {
-
-      handleSearchTermInputClear();
+      applyFilters();
 
     }
 
@@ -147,48 +108,27 @@ function ProductMenu() {
 
     }
 
-    if (productTypeSearchTermRefreshed !== `all`) {
-
-      const filteredList = filteredProductMenuOptions.length > 0 ?
-        filteredProductMenuOptions.filter(item => item.product_type.id.toLowerCase().includes(productTypeSearchTermRefreshed.toLowerCase()))
-        :
-        productMenuOptions.filter(item => item.product_type.id.toLowerCase().includes(productTypeSearchTermRefreshed.toLowerCase()));
-
-      console.log('filteredList by product type: ', filteredList);
-
-      setFilteredProductMenuOptions(filteredList);
-
-    } else {
-
-      handleProductTypeInputClear();
-
-    }
-
   }
 
-  const handleSearchTermInputClear = () => {
+  function applyFilters() {
+
+    let filteredList = [];
 
     if (productTypeSearchTerm !== `all`) {
 
-      const filteredList = productMenuOptions.filter(item => item.product_type.id.toLowerCase().includes(productTypeSearchTerm.toLowerCase()));
+      filteredList = productMenuOptions.filter(item => item.product_type.id.toLowerCase().includes(productTypeSearchTerm.toLowerCase()));
 
       console.log('refreshed filteredList by current selected product type (' + productTypeSearchTerm + '): ', filteredList);
 
-      setFilteredProductMenuOptions(filteredList);
-
     } else {
 
-      setFilteredProductMenuOptions(productMenuOptions);
+      filteredList = productMenuOptions;
 
     }
 
-  }
-
-  const handleProductTypeInputClear = () => {
-
     if (searchTerm.length > 0) {
 
-      const filteredList = productMenuOptions.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+      filteredList = filteredList.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
       console.log('refreshed filteredList by current searchTerm (' + searchTerm + '): ', filteredList);
 
@@ -196,7 +136,7 @@ function ProductMenu() {
 
     } else {
 
-      setFilteredProductMenuOptions(productMenuOptions);
+      setFilteredProductMenuOptions(filteredList);
 
     }
 
