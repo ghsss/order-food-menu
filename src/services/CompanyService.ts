@@ -2,7 +2,7 @@ import CompanyModel from "../models/Company";
 import AccessCodeServiceInstance from "./AccessCodeService";
 
 const CompanyEndpoint =
-  process.env.REACT_APP_Company_ENDPOINT || "http://localhost:3000";
+  process.env.REACT_APP_PRODUCT_ENDPOINT || "http://localhost:3000";
 
 const accessCodeSHA512Hash =
   AccessCodeServiceInstance.getStoredAccessCode() || ``;
