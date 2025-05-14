@@ -1,0 +1,71 @@
+.UserPage {
+  /* padding-top: 2em; */
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  min-height: 100%;
+  user-select: none;
+  overflow-y: auto;
+
+  background-image: url('/public/chuva_de_hamburguer.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  /* padding-top: 5em; */
+}
+
+.UserPage .fieldContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #fff;
+  padding: 1em;
+  border: solid medium #000;
+  border-radius: 1em;
+  margin: 1em;
+}
+
+.UserPage label {
+  color: #000;
+  background-color: #fff;
+  border: solid thind #000;
+  border-radius: 1em;
+  margin-bottom: .25em;
+  width: 100%;
+  word-break: break-word;
+}
+
+.UserPage .itemImage {
+  width: 15em;
+  border: solid 5px #fff;
+  border-radius: 1em;
+  margin-bottom: 2em;
+}
+
+.UserPage #inputSuperAdmin {
+  transform: scale(2);
+}
+
+.UserPage .submitButton {
+  margin-bottom: 2em;
+}
+
+.UserPage button {
+  font-size: 1.5em;
+  border-radius: .5em;
+  padding: .5em;
+}
+
+.UserPage button:hover {
+  background: orange;
+  cursor: pointer;
+}
+
+.UserPage .filterByUserTypeContainer {
+  width: 100%;
+}
+
+.UserPage .filterByUserType {
+  margin-top: .5em;
+}

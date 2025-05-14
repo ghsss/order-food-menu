@@ -45,14 +45,14 @@ function ProductMenuListItem({
           icon={showingIcon}
         />
       </div>
-      <p id='item.name' className='scalingAnimation'>
+      <p id='itemName' className='itemName scalingAnimation'>
         <span>⭐ </span>
         {item.name}
       </p>
-      <p id='item.id'>
+      {/* <p id='item.id'>
         <span>Código do produto: </span>
         {item.id}
-      </p>
+      </p> */}
       <div className='row'>
         <div className='itemImageContainer'>
           {typeof item.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'}

@@ -17,7 +17,7 @@ span {
   user-select: none;
 }
 
-.ProductMenuListItemContainer {
+.UserMenuListItemContainer {
   /* background: transparent; */
   background: rgba(93, 0, 0, 0.248);
   border: solid thin #fff000;
@@ -28,24 +28,54 @@ span {
   user-select: none;
 }
 
-.ProductMenuListItemContainer:hover {
+.UserMenuListItemContainer:hover {
 
   background: rgb(182, 182, 182);
   cursor: pointer;
 
 }
 
-.ProductMenuListItemContainer #copyIcon {
+.UserMenuListItemContainer #copyIcon {
   position: absolute;
-  opacity: 0;
+  opacity: 1;
   color: #fff;
   z-index: 100;
   transform: scale(3) translateX(50%);
 }
 
-.ProductMenuListItemContainer:hover #copyIcon {
+.UserMenuListItemContainer:hover #copyIcon {
 
   opacity: 1;
+  transform: scale(3) translateX(50%) rotate(-20deg);
+
+}
+
+.UserMenuListItemContainer::selection #copyIcon {
+
+  opacity: 1;
+  transform: scale(3) translateX(50%);
+
+}
+
+#deleteIcon {
+  /* position: absolute; */
+  /* opacity: 0; */
+  opacity: 1;
+  color: #000;
+  z-index: 100;
+  transform: scale(3);
+}
+
+.UserMenuListItemContainer:hover #deleteIcon {
+
+  /* transform: scale(3.5) rotate(-10deg); */
+
+}
+
+#deleteIcon:hover {
+
+  color: red;
+  transform: scale(3.5) rotate(-10deg);
 
 }
 
@@ -118,7 +148,7 @@ span {
     font-size: 1.25em;
   }
 
-  .ProductMenuListItemContainer {
+  .UserMenuListItemContainer {
     transform-style: preserve-3d;
     transform: translateZ(3em);
     min-width: 50%;

@@ -1,0 +1,262 @@
+.ProductMenuContainer {
+  /* background-color: #fff000; */
+  /* background-color: rgba(255, 230, 0, 0.926); */
+  /* background-color: gold; */
+  background-image: url('/public/chuva_de_hamburguer.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+}
+
+body {
+  font-weight: bold;
+}
+
+h1 {
+  border: solid medium #000;
+  background: #fff;
+  border-radius: 1em;
+  padding: .25em;
+  width: 90%;
+  max-width: 90%;
+  word-wrap: break-word;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scalingAnimation {
+  animation: infinite 1s scalingAnimation ease-in;
+}
+
+.glow {
+  animation: infinite 1.5s glow ease-in;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff000;
+
+}
+
+.glowBox {
+  animation: infinite 1s glowBox ease-in;
+  box-shadow: 0 0 5px #fff, 0 0 10px #fff000;
+
+}
+
+.linksRow {
+  height: 100%;
+  margin-bottom: 1em;
+  width: 95%;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.linksRow a {
+  text-align: center;
+  margin: .5em;
+  max-width: 45%;
+  flex: 1 0 25%;
+}
+
+
+a {
+  user-select: none;
+  border: solid thin #000;
+  text-align: center;
+  background: #fff;
+  border-radius: 2em;
+  padding: .5em;
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  align-items: center;
+  white-space-collapse: preserve;
+
+}
+
+a:hover {
+
+  background: #a6d0db;
+
+}
+
+.linkUnavailable {
+
+  color: red;
+  pointer-events: none;
+  cursor: none;
+  user-select: none;
+
+}
+
+.goToWhatsAppLink {}
+
+.newProductButtonContainer {
+  font-size: 1.5em;
+  align-self: center;
+  justify-self: center;
+}
+
+.titles {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 1em;
+}
+
+.searchTermInput {
+  display: block;
+  justify-self: center;
+  width: 90%;
+  margin-bottom: .5em;
+}
+
+label {
+  color: #000;
+  font-size: 1.25em;
+  padding: .25em;
+}
+
+.filterByProductTypeContainer {
+  justify-self: center;
+  width: 93%;
+  font-size: 1.25em;
+}
+
+.filterByProductType {
+  padding: .25em;
+  border-radius: .25em;
+  margin-bottom: 2em;
+  font-size: 1.125em;
+  display: block;
+  width: 100%;
+}
+
+.filterInputsContainer {
+  user-select: none;
+}
+
+@media only screen and (min-width: 600px) {
+
+  .filterInputsContainer {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    padding: 2em;
+  }
+
+  label {
+    /* display: block; */
+  }
+
+  .searchTermInput {
+    display: block;
+    align-self: center;
+    max-width: 30%;
+    height: 2.5em;
+    margin-right: 5em;
+  }
+
+  .filterByProductTypeContainer {
+    display: block;
+    width: 30%;
+  }
+
+  /* 
+  .filterByProductType {
+    display: block;
+    width: 20%;
+  } */
+
+  .titles {
+    margin-left: 0;
+    flex-direction: row;
+  }
+
+  h1 {
+    min-width: 25%;
+    max-width: 45%;
+    margin: .5em;
+  }
+
+  .linksRow {
+    margin-bottom: 1em;
+    width: 55%;
+    /* flex: 1 0 25%; */
+  }
+
+  .linksRow a {
+    flex: 0 0 auto;
+  }
+
+}
+
+@keyframes moveCar {
+
+  from {
+    opacity: 1;
+    transform: scale(3) translateX(50%) rotate(-5deg);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(3) translateX(350%);
+  }
+
+}
+
+@keyframes rotateBig {
+
+  from {
+    transform: scale(3) translateX(50%) rotate(0deg);
+  }
+
+  to {
+    transform: scale(3) translateX(50%) rotate(360deg);
+  }
+
+}
+
+@keyframes rotate {
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+@keyframes scalingAnimation {
+
+  50% {
+    transform: scale(.95);
+  }
+
+}
+
+@keyframes glow {
+  50% {
+    text-shadow: 0 0 25px #fff, 0 0 50px #fff, 0 0 50px #fff000;
+    /* text-shadow: 0 0 20px #fff, 0 0 30px gold, 0 0 40px gold, 0 0 50px gold, 0 0 60px gold, 0 0 70px gold, 0 0 80px gold; */
+  }
+}
+
+@keyframes glowBox {
+  50% {
+    box-shadow: 0 0 25px #fff, 0 0 50px #fff, 0 0 50px #fff000;
+    /* text-shadow: 0 0 20px #fff, 0 0 30px gold, 0 0 40px gold, 0 0 50px gold, 0 0 60px gold, 0 0 70px gold, 0 0 80px gold; */
+  }
+}

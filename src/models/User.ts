@@ -4,12 +4,16 @@ type IdentificationModel = {
 }
 
 type UserModel = {
-    _id: string;
+    _id?: string;
     chatId: string;
     name?: string;
-    customerFormattedNumber: string;
+    phoneNumber: string;
+    customerFormattedNumber?: string;
+    isSuperAdmin: boolean;
+    isAdmin: boolean;
+    adminLevel: number;
     email?: string;
     identification?: IdentificationModel;
-}
+  };
 
 export default UserModel;

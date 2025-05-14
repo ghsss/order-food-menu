@@ -1,0 +1,353 @@
+p {
+  /* display: block; */
+  font-size: 1.5em;
+  /* border: solid thin #fff000; */
+  /* border-bottom: solid thin #fff000; */
+  text-align: center;
+  color: #fff000;
+  z-index: 10;
+  text-decoration: underline 1px #fff000;
+  word-wrap: break-word;
+  user-select: none;
+
+}
+
+span {
+  color: #fff;
+  user-select: none;
+}
+
+.OrderMenuListItemContainer .orderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1em;
+  font-size: .75em;
+}
+
+.OrderMenuListItemContainer .orderHeader p {
+  /* max-width: 45%; */
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  white-space-collapse: preserve;
+  text-align: center;
+  border: solid thin #fff;
+  border-radius: .5em;
+  background: #000;
+  margin: .25em;
+  padding: .25em;
+}
+
+.OrderMenuListItemContainer .orderItemsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: solid thin #fff;
+  border-radius: .5em;
+  background: #000;
+  width: 97%;
+  max-width: 100%;
+  overflow-x: hidden;
+  /* overflow: hidden; */
+}
+
+.OrderMenuListItemContainer .orderItemsContainerHeader {
+  border-bottom: solid thin #fff;
+  padding-bottom: 1em;
+  /* border-radius: .5em; */
+  background: #000;
+  color: #fff;
+  width: 97%;
+}
+
+.OrderMenuListItemContainer .orderItemsContainerHeader span {
+  color: #fff000;
+}
+
+.OrderMenuListItemContainer .orderItemContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border: solid thin #fff;
+  padding-bottom: 1em;
+  width: 90%;
+  /* border-radius: .5em; */
+  background: #000;
+  padding: .25em;
+  margin: .75em;
+  overflow-x: hidden;
+}
+
+.OrderMenuListItemContainer .orderItemContainer p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  border: solid thin #fff;
+  padding-bottom: 1em;
+  /* border-radius: .5em; */
+  background: #000;
+  height: 100%;
+  max-width: 50%;
+  width: min-content;
+  padding: 1em;
+}
+
+.OrderMenuListItemContainer .orderItemsTableContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.OrderMenuListItemContainer .orderItemsTable {
+  border: solid thin #fff;
+  width: 250%;
+  /* width: max-content; */
+  padding: 1em;
+  margin: 1em;
+  table-layout: fixed;
+}
+
+.OrderMenuListItemContainer .orderItemsTable th {
+  text-align: center;
+  align-items: center;
+  border: solid thin #fff;
+  justify-content: center;
+  /* width: 15%; */
+}
+
+.OrderMenuListItemContainer .orderItemsTable th td {
+  border: none;
+  color: #fff;
+}
+
+.OrderMenuListItemContainer .orderItemsTable td {
+  text-align: center;
+  align-items: center;
+  border: solid thin #fff;
+  justify-content: center;
+  max-width: 33%;
+  /* width: 33%; */
+  padding: .5em;
+  color: #fff000;
+  word-break: break-word;
+}
+
+.OrderMenuListItemContainer {
+  /* background: transparent; */
+  background: rgba(93, 0, 0, 0.248);
+  border: solid thin #fff000;
+  border-radius: 2em;
+  padding: .5em;
+  margin: 1em;
+  min-width: 100%;
+  user-select: none;
+  max-width: 100%;
+}
+
+.OrderMenuListItemContainer .rotateRefreshBig {
+
+  transform: scale(3) translateX(50%);
+  transition: all 1s ease;
+  animation: rotateBig 1s normal infinite;
+
+}
+
+.OrderMenuListItemContainer .rotateRefresh {
+
+  animation: rotate 1s normal infinite;
+
+}
+
+.OrderMenuListItemContainer:hover {
+
+  background: rgb(182, 182, 182);
+  cursor: pointer;
+
+}
+
+.OrderMenuListItemContainer .copyIcon {
+  position: absolute;
+  opacity: 1;
+  color: #fff;
+  z-index: 100;
+  transform: scale(3) translateX(50%);
+}
+
+.OrderMenuListItemContainer .moveCar {
+  position: absolute;
+  opacity: 1;
+  color: #fff;
+  z-index: 100;
+  transform: scale(3) translateX(50%);
+}
+
+.OrderMenuListItemContainer:hover .moveCar {
+
+  animation: 1s moveCar;
+
+}
+
+.OrderMenuListItemContainer::selection .moveCar {
+
+  animation: 1s moveCar;
+
+}
+
+#deleteIcon {
+  /* position: absolute; */
+  /* opacity: 0; */
+  opacity: 1;
+  color: #000;
+  z-index: 100;
+  transform: scale(3);
+}
+
+.OrderMenuListItemContainer:hover #deleteIcon {
+
+  /* transform: scale(3.5) rotate(-10deg); */
+
+}
+
+#deleteIcon:hover {
+
+  color: red;
+  transform: scale(3.5) rotate(-10deg);
+
+}
+
+.itemImageContainer {
+
+  font-size: .75em;
+  color: red;
+  font-weight: bold;
+  background: #fff000;
+  margin-right: .5em;
+  height: 100%;
+  max-width: 50%;
+  min-width: 50%;
+  border-radius: 2em;
+  border: solid thin #000;
+  overflow: hidden;
+
+}
+
+.OrderMenuListItemContainer .itemName {
+  font-size: 2em;
+  margin-top: 2em;
+}
+
+.itemImage {
+
+  /* height: 100%; */
+  object-fit: cover;
+  width: 100%;
+
+}
+
+.row {
+  justify-content: space-between;
+}
+
+.column {
+  word-wrap: break-word;
+  width: 100%;
+}
+
+.itemPrice {
+  font-size: 2em;
+  /* transform: scale(3); */
+}
+
+.itemDescription {
+  /* color: #fff; */
+  font-size: 1em;
+  width: 100%;
+  display: block;
+}
+
+.itemDescription span {
+  /* color: #000; */
+}
+
+@media (min-width: 600px) {
+
+  p {
+    font-size: 2em;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .OrderMenuListItemContainer .itemName {
+    /* height: 22.5%; */
+    height: auto;
+    /* margin-top: auto; */
+  }
+
+  .itemDescription {
+    font-size: 1.25em;
+  }
+
+  .OrderMenuListItemContainer {
+    transform-style: preserve-3d;
+    transform: translateZ(3em);
+    min-width: 85%;
+    width: 85%;
+    height: 100%;
+    padding-left: 2em;
+  }
+
+  .OrderMenuListItemContainer .orderHeader p {
+    max-width: 30%;
+    font-size: 1.75em;
+  }
+
+  .OrderMenuListItemContainer .orderItemsTable {
+    /* width: 100%; */
+  }
+
+  .OrderMenuListItemContainer .orderItemsTableContainer {
+    /* align-items: center;
+    justify-content: center; */
+  }
+
+  .itemImageContainer {
+    height: 25vh;
+    min-width: 25vw;
+  }
+
+}
+
+@media (min-width: 1200px) {
+
+  .OrderMenuListItemContainer {
+    transform-style: preserve-3d;
+    transform: translateZ(3em);
+    min-width: 50%;
+    width: 50%;
+    height: 100%;
+    padding-left: 2em;
+  }
+
+  .OrderMenuListItemContainer .orderItemsTable {
+    width: 100%;
+  }
+
+  .OrderMenuListItemContainer .orderItemsTableContainer {
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+}

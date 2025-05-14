@@ -5,7 +5,10 @@ import ProductMenuList from './components/ProductMenuList';
 import ProductModel from '../../models/Product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faFilter, faGlobe, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faFilter, faGlobe, faHeadphones, faSearch } from '@fortawesome/free-solid-svg-icons';
+import ProductServiceInstance from '../../services/ProductService';
+import ProductTypeModel from '../../models/ProductType';
+import ProductTypeServiceInstance from '../../services/ProductTypeService';
 
 const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedido.');
 
@@ -14,55 +17,75 @@ function ProductMenu() {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [productTypeSearchTerm, setProductTypeSearchTerm] = useState<string>('');
   const [filteredProductMenuOptions, setFilteredProductMenuOptions] = useState<ProductModel[]>([]);
-  const [productMenuOptions, setProductMenuOptions] = useState<ProductModel[]>([{
-    id: 'C1',
-    name: 'Cachorro Quente Grande 🌭😋',
-    price: 22.50,
-    image_url: `./hotdog2.jpg`,
-    description: 'Pão grande, molho de tomate, milho, ervilha, 2 salsicha, maionese, ketchup, mostarda e batata palha.',
-    product_type: {
-      id: 'CACHORRO QUENTE',
-      name: 'Cachorro Quente',
-      subtype: {
-        id: 'CACHORRO QUENTE GRANDE',
-        name: 'Cachorro Quente Grande',
-      }
+  // const [productMenuOptions, setProductMenuOptions] = useState<ProductModel[]>([{
+  //   id: 'C1',
+  //   name: 'Cachorro Quente Grande 🌭😋',
+  //   price: 22.50,
+  //   image_url: `./hotdog2.jpg`,
+  //   description: 'Pão grande, molho de tomate, milho, ervilha, 2 salsicha, maionese, ketchup, mostarda e batata palha.',
+  //   productType: {
+  //     id: 'CACHORRO QUENTE',
+  //     name: 'Cachorro Quente',
+  //   }
+  // }, {
+  //   id: 'C2',
+  //   name: 'Cachorro Quente Pequeno 🌭😋',
+  //   price: 18.50,
+  //   image_url: `./hotdog2.jpg`,
+  //   description: 'Pão pequeno, molho de tomate, milho, ervilha, 1 salsicha, maionese, ketchup, mostarda e batata palha.',
+  //   productType: {
+  //     id: 'CACHORRO QUENTE',
+  //     name: 'Cachorro Quente',
+  //   },
+  // }, {
+  //   id: 'H1',
+  //   name: 'Hamburguer Salada 🍔😋',
+  //   price: 20.00,
+  //   image_url: `./hamburguer.jpg`,
+  //   description: 'Pão de hamburguer, maionese, ketchup, mostarda, bife pequeno, queijo, alface e tomate.',
+  //   productType: {
+  //     id: 'HAMBURGUER',
+  //     name: 'Hamburguer',
+  //   },
+  // }, {
+  //   id: 'X1',
+  //   name: 'Xis Salada 🍔😋',
+  //   price: 24.00,
+  //   // image_url: `./hamburguer.jpg`,
+  //   description: 'Pão de xis, maionese, ketchup, mostarda, bife grande, queijo, alface e tomate.',
+  //   productType: {
+  //     id: 'XIS',
+  //     name: 'Xis',
+  //   },
+  // }]);
+  const [productMenuOptions, setProductMenuOptions] = useState<ProductModel[]>([]);
+  const [productTypeSelectOptions, setProductTypeSelectOptions] = useState<ProductTypeModel[]>([]);
+
+  useEffect(() => {
+
+    const getProducts = async () => {
+
+      const getProductTypesResponse = await ProductTypeServiceInstance.getProductTypes();
+      getProductTypesResponse.sort((a: ProductTypeModel, b: ProductTypeModel) => {
+        // s1.toLowerCase().localeCompare(s2.toLowerCase()));
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      });
+      console.log('getProductTypesResponse: ', getProductTypesResponse);
+      setProductTypeSelectOptions(getProductTypesResponse);
+      
+      const getProductsResponse = await ProductServiceInstance.getProducts();
+      getProductsResponse.sort((a: ProductTypeModel, b: ProductTypeModel) => {
+        // s1.toLowerCase().localeCompare(s2.toLowerCase()));
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      });
+      console.log('getProductsResponse: ', getProductsResponse);
+      setProductMenuOptions(getProductsResponse);
+
     }
-  }, {
-    id: 'C2',
-    name: 'Cachorro Quente Pequeno 🌭😋',
-    price: 18.50,
-    image_url: `./hotdog2.jpg`,
-    description: 'Pão pequeno, molho de tomate, milho, ervilha, 1 salsicha, maionese, ketchup, mostarda e batata palha.',
-    product_type: {
-      id: 'CACHORRO QUENTE',
-      name: 'Cachorro Quente',
-      subtype: {
-        id: 'CACHORRO QUENTE PEQUENO',
-        name: 'Cachorro Quente Pequeno',
-      }
-    },
-  }, {
-    id: 'H1',
-    name: 'Hamburguer Salada 🍔😋',
-    price: 20.00,
-    image_url: `./hamburguer.jpg`,
-    description: 'Pão de hamburguer, maionese, ketchup, mostarda, bife pequeno, queijo, alface e tomate.',
-    product_type: {
-      id: 'HAMBURGUER',
-      name: 'Hamburguer',
-    },
-  }, {
-    id: 'X1',
-    name: 'Xis Salada 🍔😋',
-    price: 24.00,
-    // image_url: `./hamburguer.jpg`,
-    description: 'Pão de xis, maionese, ketchup, mostarda, bife grande, queijo, alface e tomate.',
-    product_type: {
-      id: 'XIS',
-      name: 'Xis',
-    },
-  }]);
+
+    getProducts();
+
+  }, []);
 
   useEffect(() => {
 
@@ -116,7 +139,7 @@ function ProductMenu() {
 
     if (productTypeSearchTerm !== `all`) {
 
-      filteredList = productMenuOptions.filter(item => item.product_type.id.toLowerCase().includes(productTypeSearchTerm.toLowerCase()));
+      filteredList = productMenuOptions.filter(item => item.productType.id.toLowerCase().includes(productTypeSearchTerm.toLowerCase()));
 
       console.log('refreshed filteredList by current selected product type (' + productTypeSearchTerm + '): ', filteredList);
 
@@ -144,8 +167,14 @@ function ProductMenu() {
 
   return (
     <div className="ProductMenuContainer">
+      <div style={{ width: '100%', display: 'flex', marginBottom: '2em' }} className='titles'>
+        <a style={{ justifySelf: 'flex-end', alignSelf: 'flex-end', marginRight: '1em', marginTop: '1em' }} href='/admin?action=menu'>
+          {`Sou um administrador `}
+          <FontAwesomeIcon icon={faHeadphones} />
+        </a>
+      </div>
       <div className='titles'>
-        <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique em um item do cardápio para copiar o código do produto! ❤️‍🔥😍
+        <h1 id='instruction1' style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique em um item do cardápio para copiar o código do produto! ❤️‍🔥😍
         </h1>
         <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>
           <span style={{ color: 'green' }}>Redirecionamento automático <FontAwesomeIcon fontSize={`1.25em`} color='green' icon={faWhatsapp} /></span>
@@ -174,7 +203,11 @@ function ProductMenu() {
               onChange={e => handleSelect(e)}
             >
               <option value="all" defaultChecked={true} >Todos</option>
-              <option value="Cachorro Quente">Cachorro Quente</option>
+              {productTypeSelectOptions.map(productTypeSelectOption => {
+                return (
+                  <option key={productTypeSelectOption.id} value={productTypeSelectOption.id}>{productTypeSelectOption.name}</option>
+                );
+              })}
             </select>
           </div>
         </div>
