@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faCheckCircle, faCheckSquare, faMarker, faRefresh, faTrash, faTruck, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import OrderModel from '../../../models/Order';
 import OrderServiceInstance from '../../../services/OrderService';
+import CompanyServiceInstance from '../../../services/CompanyService';
 // import OrderServiceInstance from '../../../services/OrderService';
 
 interface AdminOrderMenuListItemProps {
@@ -52,41 +53,51 @@ function AdminOrderMenuListItem({
 
       // Receipt data (ESC/POS Commands)
       const encoder = new TextEncoder();
-      const txtData = `\x1B\x40Pedido:
-\x1B\x61\x01\x1B\x4D\x02${item.orderNumber}
-Total: \x1B\x61\x01R$ ${item.paymentAmount}
-\x1B\x40Items:
-${item.items.map((orderItem, orderItemIdx) => {
+      //       const txtData = `\x1B\x40Pedido:
+      // \x1B\x61\x01\x1B\x4D\x02${item.orderNumber}
+      // Total: \x1B\x61\x01R$ ${item.paymentAmount}
+      // \x1B\x40Items:
+      // ${item.items.map((orderItem, orderItemIdx) => {
 
-        const orderItemTxt = orderItemIdx === 0 ? `\x1B\x61\x01\x1B\x4D\x00-------------------------------
-\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
-          /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-          ''
-        )
-            .replace(/\s+/g, ' ')
-            .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')}(Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
-\x1B\x61\x01\x1B\x4D\x00-------------------------------`
-          :
-          `\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
-            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-            ''
-          )
-            .replace(/\s+/g, ' ')
-            .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
-\x1B\x61\x01\x1B\x4D\x00-------------------------------`
-        return orderItemTxt;
-      }).join('')
-        }
-\x1B\x61\x01${new Date().toLocaleString('pt-BR')}
-\x1B\x61\x01 - FIM -
-\n\x1B\x64\x02\x1D\x56\x41`;
+      //         const orderItemTxt = orderItemIdx === 0 ? `\x1B\x61\x01\x1B\x4D\x00-------------------------------
+      // \x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
+      //           /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+      //           ''
+      //         )
+      //             .replace(/\s+/g, ' ')
+      //             .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')}(Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
+      // \x1B\x61\x01\x1B\x4D\x00-------------------------------`
+      //           :
+      //           `\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
+      //             /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+      //             ''
+      //           )
+      //             .replace(/\s+/g, ' ')
+      //             .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
+      // \x1B\x61\x01\x1B\x4D\x00-------------------------------`
+      //         return orderItemTxt;
+      //       }).join('')
+      //         }
+      // \x1B\x61\x01${new Date().toLocaleString('pt-BR')}
+      // \x1B\x61\x01 - FIM -
+      // \n\x1B\x64\x02\x1D\x56\x41`;
 
       const printHeader = async () => {
 
-        const headerData = encoder.encode(`\x1B\x40Pedido:
+        function displayCNPJ(cnpj: string) {
+          return cnpj.substring(0, 2) + '.' + cnpj.substring(2, 5) + '.' + + cnpj.substring(5, 8) + '/' + cnpj.substring(8, 12) + '-' + cnpj.substring(12, 14);
+        }
+
+        const company = await CompanyServiceInstance.getCompany();
+
+        const headerData = encoder.encode(`\x1B\x61\x01 - INICIO -
+\x1B\x40${company?.name}
+${company?.cnpj ? `\x1B\x40${displayCNPJ(company?.cnpj)}` : '\r'}
+${company?.phoneNumber ? `\x1B\x40TELEFONE: ${company?.phoneNumber}` : '\r'}
+\x1B\x40PEDIDO:
 \x1B\x61\x01\x1B\x4D\x02${item.orderNumber}
-Total: \x1B\x61\x01R$ ${item.paymentAmount}
-\x1B\x40Items:`);
+TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
+\x1B\x40ITENS:`);
         await characteristic?.writeValue(headerData);
 
       }
