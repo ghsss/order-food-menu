@@ -80,11 +80,57 @@ ${item.items.map((orderItem, orderItemIdx) => {
 \x1B\x61\x01${new Date().toLocaleString('pt-BR')}
 \x1B\x61\x01 - FIM -
 \n\x1B\x64\x02\x1D\x56\x41`;
-      const receiptData = encoder.encode(txtData);
+
+      const printHeader = async () => {
+
+        const headerData = encoder.encode(`\x1B\x40Pedido:
+\x1B\x61\x01\x1B\x4D\x02${item.orderNumber}
+Total: \x1B\x61\x01R$ ${item.paymentAmount}
+\x1B\x40Items:`);
+        await characteristic?.writeValue(headerData);
+
+      }
+      const printBody = async () => {
+        item.items.forEach( async (orderItem, orderItemIdx) => {
+
+          const orderItemTxt = orderItemIdx === 0 ? `\x1B\x61\x01\x1B\x4D\x00-------------------------------
+\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
+            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+            ''
+          )
+              .replace(/\s+/g, ' ')
+              .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')}(Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
+\x1B\x61\x01\x1B\x4D\x00-------------------------------`
+            :
+            `\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
+              /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+              ''
+            )
+              .replace(/\s+/g, ' ')
+              .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
+\x1B\x61\x01\x1B\x4D\x00-------------------------------`
+          // return orderItemTxt;
+          const orderItemData = encoder.encode(orderItemTxt);
+          await characteristic?.writeValue(orderItemData);
+        })
+      }
+      const printFooter = async () => {
+
+        const footerData = encoder.encode(`\x1B\x61\x01${new Date().toLocaleString('pt-BR')}
+\x1B\x61\x01 - FIM -
+\n\x1B\x64\x02\x1D\x56\x41`);
+        await characteristic?.writeValue(footerData);
+
+      }
+
+      await printHeader();
+      await printBody();
+      await printFooter();
+
       // const receiptDate = encoder.encode("\x1B" + new Date().toLocaleString('pt-BR') + "\n\x1B\x64\x02\x1D\x56\x41");
 
       // Write Data to Printer
-      await characteristic?.writeValue(receiptData);
+      // await characteristic?.writeValue(receiptData);
       // await characteristic?.writeValue(receiptDate);
 
       alert('Receipt Printed Successfully!');
