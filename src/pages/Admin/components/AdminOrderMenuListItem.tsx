@@ -91,9 +91,11 @@ function AdminOrderMenuListItem({
         const company = await CompanyServiceInstance.getCompany();
 
         const headerData = encoder.encode(`\x1B\x61\x01 - INICIO -
+
 \x1B\x40${company?.name}
-${company?.cnpj ? `\x1B\x40${displayCNPJ(company?.cnpj)}` : '\r'}
+${company?.cnpj ? `\x1B\x40CNPJ: ${displayCNPJ(company?.cnpj)}` : '\r'}
 ${company?.phoneNumber ? `\x1B\x40TELEFONE: ${company?.phoneNumber}` : '\r'}
+
 \x1B\x40PEDIDO:
 \x1B\x61\x01\x1B\x4D\x02${item.orderNumber}
 TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
@@ -152,7 +154,7 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
 
         const footerData = encoder.encode(`
 \x1B\x61\x01${new Date().toLocaleString('pt-BR')}
-\x1B\x61\x01 - FIM -
+\n\x1B\x61\x01 - FIM -
 \n\x1B\x64\x02`);
         await characteristic?.writeValue(footerData);
 
