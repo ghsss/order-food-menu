@@ -93,7 +93,8 @@ Total: \x1B\x61\x01R$ ${item.paymentAmount}
       const printBody = async () => {
         for await (const orderItem of item.items) {
           const orderItemIdx = item.items.indexOf(orderItem);
-          const orderItemTxt = orderItemIdx === 0 ? `\x1B\x61\x01\x1B\x4D\x00-------------------------------
+          const orderItemTxt = orderItemIdx === 0 ? `
+\x1B\x61\x01\x1B\x4D\x00-------------------------------
 \x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
             /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
             ''
@@ -138,7 +139,8 @@ Total: \x1B\x61\x01R$ ${item.paymentAmount}
       }
       const printFooter = async () => {
 
-        const footerData = encoder.encode(`\x1B\x61\x01${new Date().toLocaleString('pt-BR')}
+        const footerData = encoder.encode(`
+\x1B\x61\x01${new Date().toLocaleString('pt-BR')}
 \x1B\x61\x01 - FIM -
 \n\x1B\x64\x02\x1D\x56\x41`);
         await characteristic?.writeValue(footerData);
