@@ -64,7 +64,7 @@ ${item.items.map((orderItem, orderItemIdx) => {
           ''
         )
             .replace(/\s+/g, ' ')
-            .trim()} | OBS: ${orderItem.obs} | R$ ${orderItem.price.toFixed(2).replace('.', ',')}(Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
+            .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')}(Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
 \x1B\x61\x01\x1B\x4D\x00-------------------------------`
           :
           `\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
@@ -72,7 +72,7 @@ ${item.items.map((orderItem, orderItemIdx) => {
             ''
           )
             .replace(/\s+/g, ' ')
-            .trim()} | OBS: ${orderItem.obs} | Preço: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
+            .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
 \x1B\x61\x01\x1B\x4D\x00-------------------------------`
         return orderItemTxt;
       }).join('')
