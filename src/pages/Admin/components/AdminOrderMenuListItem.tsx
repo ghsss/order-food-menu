@@ -153,7 +153,7 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
         const footerData = encoder.encode(`
 \x1B\x61\x01${new Date().toLocaleString('pt-BR')}
 \x1B\x61\x01 - FIM -
-\n\x1B\x64\x02\x1D\x56\x41`);
+\n\x1B\x64\x02`);
         await characteristic?.writeValue(footerData);
 
       }
