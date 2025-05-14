@@ -79,9 +79,7 @@ ${item.items.map((orderItem, orderItemIdx) => {
         }
 \x1B\x61\x01${new Date().toLocaleString('pt-BR')}
 \x1B\x61\x01 - FIM -
-
-
-\n\n\x1B\x64\x02`;
+\n\x1B\x64\x02\x1D\x56\x41`;
       const receiptData = encoder.encode(txtData);
       // const receiptDate = encoder.encode("\x1B" + new Date().toLocaleString('pt-BR') + "\n\x1B\x64\x02\x1D\x56\x41");
 
