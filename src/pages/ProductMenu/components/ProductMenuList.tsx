@@ -25,6 +25,8 @@ function ProductMenuList({ productMenuItems, children }: ProductMenuListProps) {
                   return (
                     <ProductMenuListItem key={productMenuItem.id} item={productMenuItem} />
                   )
+                } else {
+                  return <></>
                 }
               })
           }
