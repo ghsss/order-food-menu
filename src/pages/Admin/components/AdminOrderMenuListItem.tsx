@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './styles/AdminOrderMenuListItem.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { icon,  } from '@fortawesome/fontawesome-svg-core';
-import { faCheck, faCheckCircle, faCheckSquare, faMarker, faRefresh, faTrash, faTruck, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faCheckSquare, faPrint, faRefresh, faTruck, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import OrderModel from '../../../models/Order';
 import OrderServiceInstance from '../../../services/OrderService';
 import CompanyServiceInstance from '../../../services/CompanyService';
@@ -24,63 +24,56 @@ function AdminOrderMenuListItem({
 
     try { // Request Bluetooth Device 
 
-      const device = await navigator.bluetooth.requestDevice({ filters: [{ services: ['e7810a71-73ae-499d-8c15-faa9aef0c3f2'] }], optionalServices: ['e7810a71-73ae-499d-8c15-faa9aef0c3f2'] });
-
       const getAvailability = await navigator.bluetooth.getAvailability();
 
       console.log('getAvailability: ', getAvailability);
 
-      // const device = await navigator.bluetooth.requestDevice({ acceptAllDevices: true, optionalServices: [0x1000, 0x1101, 0x1122] });
+      if (!getAvailability) {
+        alert('Bluetooth indisponível, verifique se o bluetooth do dispositivo está ligado.');
+      }
 
-      const server = await device.gatt?.connect();
+      console.log('printerDevice?.gatt?.connected: ', printerDevice?.gatt?.connected);
 
-      const availableServices = await device.gatt?.getPrimaryServices();
+      if (!printerDevice?.gatt?.connected) {
 
-      availableServices?.forEach(service => {
-        console.log('service.uuid: ', service.uuid);
-      })
+        if (!printerDevice?.gatt) {
+
+          const device = await navigator.bluetooth.requestDevice({ filters: [{ services: ['e7810a71-73ae-499d-8c15-faa9aef0c3f2'] }], optionalServices: ['e7810a71-73ae-499d-8c15-faa9aef0c3f2'] });
+          setPrinterDevice(device);
+          const confirmed = window.confirm(`Confirma a impressão do pedido "${item.orderNumber}" ? `)
+
+          if (!confirmed) {
+            alert('Impressão cancelada.');
+            return;
+          }
+
+        }
+
+        await printerDevice?.gatt?.connect().catch(err => {
+          // alert();
+          setPrinterDevice(null);
+          throw Error(`Erro ao conectar a impressora.
+
+Por favor conecte novamente.`);
+        });
+
+      }
+
+      if (printerDevice === null || !printerDevice.gatt?.connected) {
+        throw Error(`Erro ao conectar a impressora.
+
+Por favor conecte novamente.`);
+      }
+
+      const server = printerDevice.gatt;
 
       // Connect to the device
       const service = await server?.getPrimaryService('e7810a71-73ae-499d-8c15-faa9aef0c3f2');
-
-      const serviceCharacteristics = await service?.getCharacteristics();
-
-      serviceCharacteristics?.forEach(serviceCharacteristic => {
-        console.log('serviceCharacteristic: ', serviceCharacteristic.uuid);
-      })
 
       const characteristic = await service?.getCharacteristic('bef8d6c9-9c21-4c9e-b632-bd58c1009f9f');
 
       // Receipt data (ESC/POS Commands)
       const encoder = new TextEncoder();
-      //       const txtData = `\x1B\x40Pedido:
-      // \x1B\x61\x01\x1B\x4D\x02${item.orderNumber}
-      // Total: \x1B\x61\x01R$ ${item.paymentAmount}
-      // \x1B\x40Items:
-      // ${item.items.map((orderItem, orderItemIdx) => {
-
-      //         const orderItemTxt = orderItemIdx === 0 ? `\x1B\x61\x01\x1B\x4D\x00-------------------------------
-      // \x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
-      //           /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-      //           ''
-      //         )
-      //             .replace(/\s+/g, ' ')
-      //             .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')}(Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
-      // \x1B\x61\x01\x1B\x4D\x00-------------------------------`
-      //           :
-      //           `\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
-      //             /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-      //             ''
-      //           )
-      //             .replace(/\s+/g, ' ')
-      //             .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
-      // \x1B\x61\x01\x1B\x4D\x00-------------------------------`
-      //         return orderItemTxt;
-      //       }).join('')
-      //         }
-      // \x1B\x61\x01${new Date().toLocaleString('pt-BR')}
-      // \x1B\x61\x01 - FIM -
-      // \n\x1B\x64\x02\x1D\x56\x41`;
 
       const printHeader = async () => {
 
@@ -113,7 +106,7 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
             ''
           )
               .replace(/\s+/g, ' ')
-              .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')}(Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
+              .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
 \x1B\x61\x01\x1B\x4D\x00-------------------------------`
             :
             `\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
@@ -127,28 +120,6 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
           const orderItemData = encoder.encode(orderItemTxt);
           await characteristic?.writeValue(orderItemData);
         }
-        //         item.items.forEach( async (orderItem, orderItemIdx) => {
-
-        //           const orderItemTxt = orderItemIdx === 0 ? `\x1B\x61\x01\x1B\x4D\x00-------------------------------
-        // \x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
-        //             /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-        //             ''
-        //           )
-        //               .replace(/\s+/g, ' ')
-        //               .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')}(Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
-        // \x1B\x61\x01\x1B\x4D\x00-------------------------------`
-        //             :
-        //             `\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
-        //               /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-        //               ''
-        //             )
-        //               .replace(/\s+/g, ' ')
-        //               .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
-        // \x1B\x61\x01\x1B\x4D\x00-------------------------------`
-        //           // return orderItemTxt;
-        //           const orderItemData = encoder.encode(orderItemTxt);
-        //           await characteristic?.writeValue(orderItemData);
-        //         })
       }
       const printFooter = async () => {
 
@@ -166,15 +137,12 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
 
       // const receiptDate = encoder.encode("\x1B" + new Date().toLocaleString('pt-BR') + "\n\x1B\x64\x02\x1D\x56\x41");
 
-      // Write Data to Printer
-      // await characteristic?.writeValue(receiptData);
-      // await characteristic?.writeValue(receiptDate);
-
-      alert('Receipt Printed Successfully!');
     } catch (error) {
       console.error('Error:', error);
-      if (error instanceof Error)
-        alert('Failed to print receipt: ' + error.message);
+      if (error instanceof Error) {
+        console.error('Failed to print receipt: ' + error.message);
+        throw Error(error.message);
+      }
     }
 
   }
@@ -184,6 +152,14 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
   }
 
   const [showingIcon, setshowingIcon] = useState<IconDefinition>(getIconByPaymentStatus(item.paymentStatus));
+  const [showingPrintIcon, setshowingPrintIcon] = useState<IconDefinition>(faPrint);
+  const [printerDevice, setPrinterDevice] = useState<BluetoothDevice | null>(null);
+
+  useEffect(() => {
+
+    console.log('Printer device: ', printerDevice);
+
+  }, [printerDevice]);
 
   useEffect(() => {
 
@@ -197,8 +173,6 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
     try {
 
       setTimeout(async () => {
-
-        await printOrderReceipt(item);
 
         if (item.paymentStatus !== 'approved') {
           window.alert('Só é possível finalizar pedidos em produção, onde o pagamento foi aprovado.');
@@ -249,76 +223,43 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
 
   }
 
-  // function handleCopyItemCode(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  async function handlePrintItem(item: OrderModel) {
 
-  //   // Copy the text inside the text field
-  //   try {
+    // Copy the text inside the text field
+    try {
 
-  //     if (item.orderNumber && item.paymentStatus === 'approved') {
+      setTimeout(async () => {
 
-  //       navigator.clipboard.writeText(item.orderNumber?.toString());
-  //       setshowingIcon(faCheckCircle);
-  //       // finishOrder
-  //       setTimeout(() => {
-  //         // window.location.href = 'https://wa.me/555499026453?text=' + item.orderNumber;
-  //       }, 100);
-  //       setTimeout(() => {
-  //         setshowingIcon(faTruck);
-  //       }, 1000);
+        const confirmed = window.confirm(`Confirma a impressão do pedido "${item.orderNumber}" ? `)
+        // setshowingIcon(faCheckCircle);
+        if (confirmed) {
 
-  //     } else {
-  //       window.alert('Só é possível finalizar pedidos onde o pagamento foi aprovado.');
-  //     }
+          await printOrderReceipt(item)
+            .then(() => {
 
-  //   } catch (error) {
+              setshowingPrintIcon(faCheckCircle);
+              setTimeout(() => {
+                // removeItemFromList(item);
+                window.alert('Impressão finalizada com sucesso.');
+                setshowingPrintIcon(showingPrintIcon);
+                // window.location.href = '/admin?action=list&collection=Order';
+              }, 50);
 
-  //     setshowingIcon(faX);
+            }).catch(err => {
+              alert('Erro ao imprimir pedido: ' + err.toString());
+            });
 
-  //   }
+        }
 
-  // }
+      }, 50);
 
-  // async function handleDeleteItemCode(item: OrderModel) {
+    } catch (error) {
 
-  //   // Copy the text inside the text field
-  //   try {
+      setshowingPrintIcon(faX);
 
-  //     setTimeout(async () => {
+    }
 
-  //       const confirmed = window.confirm(`Confirma a exclusão do pedido "${item.name}" ? `)
-  //       // setshowingIcon(faCheckCircle);
-  //       if (confirmed) {
-
-  //         const deleted = await OrderServiceInstance.deleteOrder(item);
-
-  //         if (deleted) {
-
-  //           setShowingDeleteIcon(faCheckCircle);
-  //           setTimeout(() => {
-  //             removeItemFromList(item);
-  //             window.alert('Registro deletado com sucesso.');
-  //             setShowingDeleteIcon(showingDeleteIcon);
-  //             // window.location.href = '/admin?action=list&collection=Order';
-  //           }, 50);
-  //           // REMOVE ITEM FROM LIST
-
-  //           // window.location.href = '/admin?action=list&collection=Order';
-  //         }
-  //         else {
-  //           // window.alert(`Erro ao excluir pedido.`);
-  //         }
-
-  //       }
-
-  //     }, 50);
-
-  //   } catch (error) {
-
-  //     setShowingDeleteIcon(faX);
-
-  //   }
-
-  // }
+  }
 
   function getPaymentStatusLabel(paymentStatus: string): string {
     const labels: { [index: string]: any } = { "pending": 'PAGAMENTO PENDENTE ❌', 'approved': 'PAGAMENTO APROVADO! ✅', 'finished': 'PAGAMENTO APROVADO! ✅ (PEDIDO FINALIZADO)', 'expired': 'PAGAMENTO EXPIROU ❌' };
@@ -348,20 +289,20 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
         />
       </div>
       {/* {children} */}
-      {/* <div id='deleteIcon' style={{
-        color: (showingDeleteIcon === faTrash ? `` : (showingDeleteIcon === faX ? `red` : `green`)),
-        justifySelf: `flex - end`, marginRight: `2em`, marginTop: `2em`,
+      <div id='printIcon' style={{
+        color: (showingPrintIcon === faPrint ? `${printerDevice?.gatt?.connected ? `blue` : `grey`}` : (showingPrintIcon === faX ? `red` : `grey`)),
+        justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em`,
         zIndex: `100`
       }}
         onClick={async e => {
           e.stopPropagation();
-          await handleDeleteItemCode(item);
+          await handlePrintItem(item);
         }}
       >
         <FontAwesomeIcon
-          icon={showingDeleteIcon}
+          icon={showingPrintIcon}
         />
-      </div> */}
+      </div>
       <p id='itemName' className='itemName scalingAnimation'>
         <span>⭐ Pedido N°: </span>
         {item.orderNumber}

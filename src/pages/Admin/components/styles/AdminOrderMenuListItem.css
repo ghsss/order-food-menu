@@ -205,25 +205,39 @@ span {
 
 }
 
-#deleteIcon {
+
+#printIcon {
+  
   /* position: absolute; */
   /* opacity: 0; */
   opacity: 1;
   color: #000;
   z-index: 100;
   transform: scale(3);
+
 }
 
-.OrderMenuListItemContainer:hover #deleteIcon {
+.OrderMenuListItemContainer #printIcon {
+  
+  /* position: absolute; */
+  /* opacity: 0; */
+  opacity: 1;
+  color: #000;
+  z-index: 100;
+  transform: scale(3);
+
+}
+
+.OrderMenuListItemContainer:hover #printIcon {
 
   /* transform: scale(3.5) rotate(-10deg); */
 
 }
 
-#deleteIcon:hover {
+#printIcon:hover {
 
-  color: red;
-  transform: scale(3.5) rotate(-10deg);
+  color: #fff;
+  transform: scale(3.5) rotate(-5deg);
 
 }
 
