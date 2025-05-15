@@ -54,7 +54,7 @@ function AdminOrderMenuListItem({
           setPrinterDevice(null);
           throw Error(`Erro ao conectar a impressora.
 
-Por favor conecte novamente.`);
+Por favor tente novamente.`);
         });
 
       }
@@ -62,7 +62,7 @@ Por favor conecte novamente.`);
       if (printerDevice === null || !printerDevice.gatt?.connected) {
         throw Error(`Erro ao conectar a impressora.
 
-Por favor conecte novamente.`);
+Por favor tente novamente.`);
       }
 
       const server = printerDevice.gatt;
