@@ -44,6 +44,15 @@ input[type=number]::-webkit-outer-spin-button {
   white-space-collapse: preserve;
 }
 
+.AcccessCodeContainer input {
+  /* display: block; */
+  padding: 1em;
+  max-width: 70%;
+  word-break: break-all;
+  border-radius: .25em;
+  font-size: 1.5em;
+}
+
 .AcccessCodeContainer .inputAccessCode {
   /* display: block; */
   padding: 1em;
