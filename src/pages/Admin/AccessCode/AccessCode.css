@@ -5,6 +5,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .AcccessCodeContainer {
+  position: fixed;
   width: 100%;
   height: 100%;
   max-height: 100%;
@@ -29,7 +30,7 @@ input[type=number]::-webkit-outer-spin-button {
   border: solid medium #000;
   border-radius: 1em;
   margin: 1em;
-  max-width: 80vw;
+  max-width: 70%;
 }
 
 .AcccessCodeContainer label {
@@ -74,6 +75,10 @@ input[type=number]::-webkit-outer-spin-button {
 .AcccessCodeContainer .goBackButton:hover {
   background: orange;
   cursor: pointer;
+}
+
+.AcccessCodeContainer button {
+  word-wrap: break-word;
 }
 
 .AcccessCodeContainer .submitButton {
