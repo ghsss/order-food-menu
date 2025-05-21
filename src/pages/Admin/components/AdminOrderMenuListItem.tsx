@@ -94,6 +94,11 @@ ${company?.phoneNumber ? `\x1B\x40TELEFONE: ${company?.phoneNumber}` : '\r'}
 \x1B\x40PEDIDO:
 \x1B\x61\x01\x1B\x4D\x02${item.orderNumber}
 TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
+\x1B\x40FORMA DE PAGAMENTO: ${item.paymentMethod.name}
+\x1B\x40PAGO: ${(item.paymentMethod.isOnlinePayment ? (item.paymentStatus === 'approved' || item.paymentStatus === 'finished')
+            :
+            item.receivedPaymentInLocal === true) === true? 'SIM' : 'NAO'
+}
 \x1B\x40ITENS:`);
         await characteristic?.writeValue(headerData);
 
