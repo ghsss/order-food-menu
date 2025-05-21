@@ -179,7 +179,7 @@ function AccessCodePage() {
         flexDirection: `column`,
         color: `#000`
       }}>
-        <h1>Digite o código de acesso recebido via WhatsApp 👇🏻</h1>
+        <h1>Cole o código de acesso recebido via WhatsApp 👇🏻</h1>
         <div className="fieldContainer">
           <label style={{ border: 'none' }}>{`Tempo limite para informar o código de acesso `}
             <span style={{ color: `red` }}>
