@@ -7,7 +7,7 @@ import AdminProductMenuList from './components/AdminProductMenuList';
 import ProductModel from '../../models/Product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faFilter, faGlobe, faPerson, faPlus, faPlusSquare, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faFilter, faGlobe, faPerson, faPlus, faPlusSquare, faSearch, faX } from '@fortawesome/free-solid-svg-icons';
 import ProductServiceInstance from '../../services/ProductService';
 import ProductTypeModel from '../../models/ProductType';
 import ProductTypeServiceInstance from '../../services/ProductTypeService';
@@ -22,9 +22,12 @@ import CompanyPage from './Company/Company';
 import OrderServiceInstance from '../../services/OrderService';
 import OrderModel from '../../models/Order';
 import AdminOrderMenuList from './components/AdminOrderMenuList';
+import * as QRCode from 'qrcode';
+import RobotModel from '../../models/Robot';
+import RobotServiceInstance from '../../services/RobotService';
 // import AccessCodeServiceInstance from '../../services/AccessCodeService';
 
-const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedido.');
+const whatsAppQueryParams = encodeURIComponent('Olá! Preciso de suporte para o robô/aplicativo de pedidos.');
 
 interface AdminMenuProps {
   isSuperAdmin: boolean,
@@ -40,47 +43,6 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [productTypeSearchTerm, setProductTypeSearchTerm] = useState<string>('');
   const [orderStatusSearchTerm, setOrderStatusSearchTerm] = useState<string>('all');
-  // const [productMenuOptions, setProductMenuOptions] = useState<ProductModel[]>([{
-  //   id: 'C1',
-  //   name: 'Cachorro Quente Grande 🌭😋',
-  //   price: 22.50,
-  //   image_url: `./hotdog2.jpg`,
-  //   description: 'Pão grande, molho de tomate, milho, ervilha, 2 salsicha, maionese, ketchup, mostarda e batata palha.',
-  //   productType: {
-  //     id: 'CACHORRO QUENTE',
-  //     name: 'Cachorro Quente',
-  //   }
-  // }, {
-  //   id: 'C2',
-  //   name: 'Cachorro Quente Pequeno 🌭😋',
-  //   price: 18.50,
-  //   image_url: `./hotdog2.jpg`,
-  //   description: 'Pão pequeno, molho de tomate, milho, ervilha, 1 salsicha, maionese, ketchup, mostarda e batata palha.',
-  //   productType: {
-  //     id: 'CACHORRO QUENTE',
-  //     name: 'Cachorro Quente',
-  //   },
-  // }, {
-  //   id: 'H1',
-  //   name: 'Hamburguer Salada 🍔😋',
-  //   price: 20.00,
-  //   image_url: `./hamburguer.jpg`,
-  //   description: 'Pão de hamburguer, maionese, ketchup, mostarda, bife pequeno, queijo, alface e tomate.',
-  //   productType: {
-  //     id: 'HAMBURGUER',
-  //     name: 'Hamburguer',
-  //   },
-  // }, {
-  //   id: 'X1',
-  //   name: 'Xis Salada 🍔😋',
-  //   price: 24.00,
-  //   // image_url: `./hamburguer.jpg`,
-  //   description: 'Pão de xis, maionese, ketchup, mostarda, bife grande, queijo, alface e tomate.',
-  //   productType: {
-  //     id: 'XIS',
-  //     name: 'Xis',
-  //   },
-  // }]);
   const [userMenuOptions, setUserMenuOptions] = useState<UserModel[]>([]);
   const [filteredUserMenuOptions, setFilteredUserMenuOptions] = useState<UserModel[]>([]);
 
@@ -106,6 +68,23 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
   const [orderSelectOptions, setOrderSelectOptions] = useState<OrderModel[]>([]);
   const [filteredOrderSelectOptions, setFilteredOrderSelectOptions] = useState<OrderModel[]>([]);
 
+  const [robot, setRobot] = useState<RobotModel | undefined>();
+  const [QRCodeBase64, setQRCodeBase64] = useState<string | undefined>();
+
+  async function stringToQRCBase64(qr: string) {
+    let QRbase64 = await new Promise((resolve, reject) => {
+      QRCode.toDataURL(qr, function (err, code) {
+        if (err) {
+          reject(reject);
+          setQRCodeBase64(undefined);
+          return;
+        }
+        setQRCodeBase64(code);
+        resolve(code);
+      });
+    });
+    console.log(QRbase64);
+  }
 
   useEffect(() => {
 
@@ -144,17 +123,7 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
       console.log('getProductsResponse: ', getProductsResponse);
       setProductMenuOptions(getProductsResponse);
 
-      // const getOrdersResponse = await OrderServiceInstance.getOrders();
-      // getOrdersResponse.sort((a: OrderModel, b: OrderModel) => {
-      //   if (a.orderNumber && b.orderNumber)
-      //     return a.orderNumber - b.orderNumber;
-      // });
-      // getOrdersResponse.sort((a: OrderModel, b: OrderModel) => {
-      //   const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'expired': 4 };
-      //   return statusOrderBy[a.paymentStatus] - statusOrderBy[b.paymentStatus];
-      // });
-      // console.log('getOrdersResponse: ', getOrdersResponse);
-      // setOrderSelectOptions(getOrdersResponse);
+      syncRobotState();
 
       syncOrders();
 
@@ -164,18 +133,84 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
 
   }, []);
 
-  async function syncOrders() {
-    const getOrdersResponse = filter === 'today' ? await OrderServiceInstance.getTodayOrders() : await OrderServiceInstance.getOrders();
-    getOrdersResponse.sort((a: OrderModel, b: OrderModel) => {
+  async function syncRobotState() {
+
+    const waitSeconds = (seconds: number) => {
+      return new Promise<void>((resolve, reject) => {
+        setTimeout(() => {
+          resolve();
+        }, seconds * 1000);
+      })
+    }
+
+    const robotRef = await RobotServiceInstance.getRobot();
+
+    if (robotRef) {
+      setRobot(robotRef);
+      if (robotRef.qr_code) {
+        stringToQRCBase64(robotRef.qr_code);
+      }
+      await waitSeconds(robotRef?.state !== 'CONNECTED' ? 15 : 60 * 2.5);
+      syncRobotState()
+    } else {
+      await waitSeconds(30);
+      syncRobotState()
+    }
+
+    return;
+
+  }
+
+  function sortOrders(ordersToSort: OrderModel[]) {
+    ordersToSort.sort((a: OrderModel, b: OrderModel) => {
       if (a.orderNumber && b.orderNumber)
         return a.orderNumber - b.orderNumber;
+      else
+        return 0;
     });
-    getOrdersResponse.sort((a: OrderModel, b: OrderModel) => {
-      const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'expired': 4 };
+    const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'expired': 4 };
+    ordersToSort.sort((a: OrderModel, b: OrderModel) => {
       return statusOrderBy[a.paymentStatus] - statusOrderBy[b.paymentStatus];
     });
-    console.log('getOrdersResponse: ', getOrdersResponse);
-    setOrderSelectOptions(getOrdersResponse);
+    ordersToSort.sort((a: OrderModel, b: OrderModel) => {
+      const descStatus = ['finished', 'expired'];
+      if (descStatus.includes(a.paymentStatus) && descStatus.includes(b.paymentStatus) && a.paymentStatus === b.paymentStatus) {
+        if (a.orderNumber && b.orderNumber)
+          return b.orderNumber - a.orderNumber;
+        else
+          return 0;
+      }
+      return 0;
+    });
+  }
+
+  async function syncOrders() {
+    const getOrdersResponse = filter === 'today' ? await OrderServiceInstance.getTodayOrders() : await OrderServiceInstance.getOrders();
+    if (getOrdersResponse) {
+      // getOrdersResponse.sort((a: OrderModel, b: OrderModel) => {
+      //   if (a.orderNumber && b.orderNumber)
+      //     return a.orderNumber - b.orderNumber;
+      //   else
+      //     return 0;
+      // });
+      // const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'expired': 4 };
+      // getOrdersResponse.sort((a: OrderModel, b: OrderModel) => {
+      //   return statusOrderBy[a.paymentStatus] - statusOrderBy[b.paymentStatus];
+      // });
+      // getOrdersResponse.sort((a: OrderModel, b: OrderModel) => {
+      //   const descStatus = ['finished', 'expired'];
+      //   if (descStatus.includes(a.paymentStatus) && descStatus.includes(b.paymentStatus) && a.paymentStatus === b.paymentStatus) {
+      //     if (a.orderNumber && b.orderNumber)
+      //       return b.orderNumber - a.orderNumber;
+      //     else
+      //       return 0;
+      //   }
+      //   return 0;
+      // });
+      sortOrders(getOrdersResponse);
+      console.log('getOrdersResponse: ', getOrdersResponse);
+      setOrderSelectOptions(getOrdersResponse);
+    }
     const wait30Seconds = () => {
       return new Promise<void>((resolve, reject) => {
         setTimeout(() => {
@@ -187,6 +222,13 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
     syncOrders();
     return;
   }
+
+  useEffect(() => {
+
+    console.log('robot: ', robot);
+    console.log('QRCodeBase64: ', QRCodeBase64);
+
+  }, [robot, QRCodeBase64]);
 
   useEffect(() => {
 
@@ -219,10 +261,11 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
 
   useEffect(() => {
 
+    console.log('orderSelectOptions: ', orderSelectOptions);
     console.log('orderStatusSearchTerm: ', orderStatusSearchTerm);
     applyOrderFilters();
 
-  }, [orderStatusSearchTerm]);
+  }, [orderSelectOptions, orderStatusSearchTerm]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -347,8 +390,21 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
 
     if (orderStatusSearchTerm !== `all`) {
 
+      const statusAbleToReceivePaymentInLocal = ['approved', 'finished'];
+
       filteredList = orderSelectOptions.filter(item =>
-        item.paymentStatus?.toString().includes(orderStatusSearchTerm.toLowerCase()));
+        item.paymentMethod.isOnlinePayment ?
+          item.paymentStatus?.toString().includes(orderStatusSearchTerm.toLowerCase())
+          :
+          (orderStatusSearchTerm === 'pending' ?
+            item.receivedPaymentInLocal === false
+            && statusAbleToReceivePaymentInLocal.includes(item.paymentStatus?.toString())
+            &&
+            item.paymentMethod.isOnlinePayment === false
+            :
+            item.paymentStatus?.toString().includes(orderStatusSearchTerm.toLowerCase())
+          )
+      );
       console.log('refreshed filteredList by current selected order status (' + orderStatusSearchTerm + '): ', filteredList);
 
     } else {
@@ -450,6 +506,90 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
 
   }
 
+  function updateOrderFinished(itemToUpdate: OrderModel): boolean {
+
+    if (itemToUpdate._id) {
+
+      const idxToUpdate = orderSelectOptions.findIndex(item =>
+        (itemToUpdate._id && item._id?.toLowerCase().includes(itemToUpdate._id.toLowerCase()))
+        || item?.orderNumber === itemToUpdate?.orderNumber
+      )
+
+      if (idxToUpdate > -1) {
+
+        orderSelectOptions[idxToUpdate].paymentStatus = 'finished';
+        orderSelectOptions[idxToUpdate].companyNotified = false;
+        orderSelectOptions[idxToUpdate].customerNotified = false;
+
+        console.log('Updated ' + idxToUpdate + ' from order list.');
+
+        sortOrders(orderSelectOptions);
+
+        setOrderSelectOptions(JSON.parse(JSON.stringify(orderSelectOptions)));
+
+        return true
+
+      }
+
+    }
+
+    return false
+
+  }
+
+  function updateOrderPaymentReceived(itemToUpdate: OrderModel): boolean {
+
+    if (itemToUpdate._id) {
+
+      const idxToUpdate = orderSelectOptions.findIndex(item =>
+        (itemToUpdate._id && item._id?.toLowerCase().includes(itemToUpdate._id.toLowerCase()))
+        || item?.orderNumber === itemToUpdate?.orderNumber
+      )
+
+      if (idxToUpdate > -1) {
+
+        orderSelectOptions[idxToUpdate].receivedPaymentInLocal = true;
+
+        console.log('Updated ' + idxToUpdate + ' receivedPaymentInLocal from order list.');
+
+        sortOrders(orderSelectOptions);
+
+        setOrderSelectOptions(JSON.parse(JSON.stringify(orderSelectOptions)));
+
+        // setFilteredProductMenuOptions(productMenuOptions);
+
+        return true
+
+      }
+
+    }
+
+    return false
+
+  }
+
+  const getRobotIsConnected: () => boolean = () => {
+    return robot?.state === 'CONNECTED';
+  }
+
+  const robotIsConnected = getRobotIsConnected();
+
+  const getRobotHTML = () => {
+    return robot?.state === 'UNPAIRED' && QRCodeBase64 ?
+      < div className='column modal'>
+        <h4 style={{ padding: '1em' }}>É necessário reconectar o WhatsApp Web ao robô. <br />Abra o WhatsApp do número de celular em que o robô deve funcionar e vá até a opção "Dispositivos conectados" para escanear o código QR abaixo<br />Último número conectado: {robot.phone || ''}</h4>
+        <img src={QRCodeBase64} alt="WhatsApp Web QRCode" />
+      </div>
+      :
+      <h1 style={{ fontSize: '1em', width: 'fit-content', marginLeft: '.75em', padding: '.5em' }} className={robotIsConnected === true ? 'scalingAnimation glowBox ' : ''}>
+        <span style={{ color: '#000' }} className={robotIsConnected === true ? 'scalingAnimation ' : ''} >
+          {robotIsConnected === true ? 'ROBÔ ONLINE ' : 'VERIFICAR STATUS DO ROBÔ MANUALMENTE'} <FontAwesomeIcon fontSize={`1.25em`} color={robotIsConnected === true ? 'green' : 'red'} icon={robotIsConnected === true ? faWhatsapp : faWhatsapp} />
+          <br />
+          {robotIsConnected === true ? robot?.phone : robot?.phone}
+        </span>
+      </h1>
+  }
+
   const getDefaultMenu = () => {
     console.log(`Default menu.`);
     return (
@@ -463,7 +603,7 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
         </div>
         <div className='row linksRow'>
           <a className='goToWhatsAppLink' rel='noreferrer' target='_blank' href={"https://wa.me/555499026453?text=" + whatsAppQueryParams}>
-            {'Pedir pelo WhatsApp '}
+            {'Falar com o suporte '}
             <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
           </a>
           <a href={"/#"} className='linkUnavailable'>
@@ -475,6 +615,7 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
             <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faPerson} />
           </a>
         </div>
+        {getRobotHTML()}
         <AdminProductMenuList isSuperAdmin={isSuperAdmin} removeItemFromList={removeProductItemFromList} productMenuItems={filteredProductMenuOptions.length > 0 || searchTerm.length > 0 ? filteredProductMenuOptions : productMenuOptions}
         >
           <div className='newProductButtonContainer'>
@@ -500,7 +641,7 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
             </div>
           </div>
         </AdminProductMenuList>
-      </div>
+      </div >
     );
   }
 
@@ -515,16 +656,7 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
           <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique no item para editar os tipos de produto do estabelecimento 👇🏻
           </h1>
         </div>
-        <div className='row linksRow'>
-          <a className='goToWhatsAppLink' rel='noreferrer' target='_blank' href={"https://wa.me/555499026453?text=" + whatsAppQueryParams}>
-            {'Pedir pelo WhatsApp '}
-            <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
-          </a>
-          <a href={"/#"} className='linkUnavailable'>
-            {'Pedir pelo site '}
-            <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
-          </a>
-        </div>
+        {getRobotHTML()}
         <AdminProductTypeMenuList removeItemFromList={removeProductTypeItemFromList} productTypeMenuItems={filteredProductTypeSelectOptions.length > 0 || searchTerm.length > 0 ? filteredProductTypeSelectOptions : productTypeSelectOptions}
         >
           <div className='newProductButtonContainer'>
@@ -550,17 +682,8 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
           <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique no item para finalizar o pedido, o cliente é avisado automaticamente 👇🏻
           </h1>
         </div>
-        <div className='row linksRow'>
-          <a className='goToWhatsAppLink' rel='noreferrer' target='_blank' href={"https://wa.me/555499026453?text=" + whatsAppQueryParams}>
-            {'Pedir pelo WhatsApp '}
-            <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
-          </a>
-          <a href={"/#"} className='linkUnavailable'>
-            {'Pedir pelo site '}
-            <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
-          </a>
-        </div>
-        <AdminOrderMenuList orderMenuItems={filteredOrderSelectOptions.length > 0 || searchTerm.length > 0 || orderStatusSearchTerm !== 'all' ? filteredOrderSelectOptions : orderSelectOptions}
+        {getRobotHTML()}
+        <AdminOrderMenuList updateOrderFinished={updateOrderFinished} updateOrderPaymentReceived={updateOrderPaymentReceived} orderMenuItems={filteredOrderSelectOptions.length > 0 || searchTerm.length > 0 || orderStatusSearchTerm !== 'all' ? filteredOrderSelectOptions : orderSelectOptions}
         >
           {/* <div className='newProductButtonContainer'>
             <a href='/admin?action=create&collection=productType' style={{ width: `fit-content`, color: '#000' }}>Novo pedido <FontAwesomeIcon color='rgb(231, 77, 0)' fontSize={`1.5em`} icon={faPlusSquare} /></a>
@@ -600,16 +723,7 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
           <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique no item para editar os usuários do estabelecimento 👇🏻
           </h1>
         </div>
-        <div className='row linksRow'>
-          <a className='goToWhatsAppLink' rel='noreferrer' target='_blank' href={"https://wa.me/555499026453?text=" + whatsAppQueryParams}>
-            {'Pedir pelo WhatsApp '}
-            <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
-          </a>
-          <a href={"/#"} className='linkUnavailable'>
-            {'Pedir pelo site '}
-            <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
-          </a>
-        </div>
+        {getRobotHTML()}
         <AdminUserMenuList removeItemFromList={removeUserFromList} userMenuItems={filteredUserMenuOptions.length > 0 || searchTerm.length > 0 ? filteredUserMenuOptions : userMenuOptions}
         >
           <div className='newProductButtonContainer'>

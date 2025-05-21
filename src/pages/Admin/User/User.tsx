@@ -82,6 +82,16 @@ function UserPage({ record }: UserPageProps) {
           }} />
       </div>
       <br />
+      <div className='fieldContainer'>
+        <label htmlFor="inputId">E-mail</label>
+        <input className='inputId' type="email" placeholder='exemplo@gmail.com'
+          value={recordRefresh?.email}
+          onChange={e => {
+            if (typeof recordRefresh === 'object')
+              setRecordRefresh({ ...recordRefresh, email: e.target.value });
+          }} />
+      </div>
+      <br />
       {
         recordRefresh?._id ?
           <div className='fieldContainer'>
@@ -103,9 +113,14 @@ function UserPage({ record }: UserPageProps) {
         if (typeof recordRefresh?._id !== 'undefined') {
           const updated = recordRefresh.isSuperAdmin ? await AccessCodeServiceInstance.grantSuperAdmin(recordRefresh.phoneNumber) : await AccessCodeServiceInstance.revokeSuperAdmin(recordRefresh.phoneNumber);
           if (updated === true) {
+            if (recordRefresh.email) {
+              const update2 = await AccessCodeServiceInstance.updateEmail(recordRefresh.phoneNumber, recordRefresh.email);
+              if (update2 === true) {
+                window.alert('Registro salvo com sucesso!');
+                // window.location.href = `/admin?action=list&collection=user#`;
+              }
+            }
             // setRecordRefresh({ ...recordRefresh, _id: upsertUserId });
-            window.alert('Registro salvo com sucesso!');
-            window.location.href = `/admin?action=list&collection=user#`;
           } else {
             window.alert('Erro ao salvar registro');
           }
@@ -113,7 +128,7 @@ function UserPage({ record }: UserPageProps) {
         } else {
           if (typeof recordRefresh === 'object'
             && recordRefresh?.phoneNumber.length > 11) {
-            const created = await AccessCodeServiceInstance.createAdmin(recordRefresh.phoneNumber);
+            const created = await AccessCodeServiceInstance.createAdmin(recordRefresh.phoneNumber, recordRefresh.email);
             if (created === true) {
               // setRecordRefresh({ ...recordRefresh, _id: upsertUserId });
               window.alert('Registro salvo com sucesso!');

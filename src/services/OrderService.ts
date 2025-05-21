@@ -8,7 +8,7 @@ const accessCodeSHA512Hash =
   AccessCodeServiceInstance.getStoredAccessCode() || ``;
 
 class OrderService {
-  async getTodayOrders() {
+  async getTodayOrders(): Promise<OrderModel[] | undefined> {
     try {
       const response = await fetch(productEndpoint + "/api/order/today", {
         method: `GET`,
@@ -29,7 +29,7 @@ class OrderService {
       window.alert("Erro de conexão ao servidor.");
     }
   }
-  async getOrders() {
+  async getOrders(): Promise<OrderModel[] | undefined> {
     try {
       const response = await fetch(productEndpoint + "/api/order", {
         method: `GET`,
@@ -53,6 +53,28 @@ class OrderService {
   async finishOrder(orderId: string) {
     try {
       const response = await fetch(productEndpoint + "/api/order/finish", {
+        method: `PATCH`,
+        headers: {
+          "Content-Type": "application/json",
+          accessCodeSHA512Hash: accessCodeSHA512Hash,
+          orderId: orderId,
+          'ngrok-skip-browser-warning': 'true'
+        },
+      });
+      if (response.status === 200) {
+        const txtResponse = await response.text();
+        console.log("finishOrder.txtResponse: ", txtResponse);
+        return txtResponse;
+      } else {
+        window.alert("Erro de conexão ao servidor.");
+      }
+    } catch (error) {
+      window.alert("Erro de conexão ao servidor.");
+    }
+  }
+  async confirmPayment(orderId: string) {
+    try {
+      const response = await fetch(productEndpoint + "/api/order/confirmPayment", {
         method: `PATCH`,
         headers: {
           "Content-Type": "application/json",

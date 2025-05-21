@@ -9,12 +9,14 @@ import CompanyServiceInstance from '../../../services/CompanyService';
 // import OrderServiceInstance from '../../../services/OrderService';
 
 interface AdminOrderMenuListItemProps {
-  // removeItemFromList: (item: OrderModel) => boolean,
+  updateOrderFinished: (item: OrderModel) => boolean,
+  updateOrderPaymentReceived: (item: OrderModel) => boolean,
   item: OrderModel;
   children?: React.ReactNode;
 }
 
 function AdminOrderMenuListItem({
+  updateOrderFinished, updateOrderPaymentReceived,
   item,
   children
 }: AdminOrderMenuListItemProps) {
@@ -167,7 +169,7 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
 
   }, [item.paymentStatus, item.customerNotified]);
 
-  async function handleCopyItemCode(item: OrderModel) {
+  async function handleCopyItemCode(event: React.MouseEvent<HTMLDivElement, MouseEvent>, item: OrderModel) {
 
     // Copy the text inside the text field
     try {
@@ -186,6 +188,8 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
           const finishedOrderId = await OrderServiceInstance.finishOrder(item._id);
 
           if (finishedOrderId === item._id) {
+
+            updateOrderFinished(item);
 
             setshowingIcon(faCheckCircle);
             setTimeout(() => {
@@ -210,6 +214,62 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
         } else {
           if (confirmed) {
             window.alert('Só é possível finalizar pedidos em produção, onde o pagamento foi aprovado.');
+          }
+        }
+
+      }, 50);
+
+    } catch (error) {
+
+      setshowingIcon(faX);
+
+    }
+
+  }
+
+  async function handleReceivedOrderPayment(event: React.MouseEvent<HTMLDivElement, MouseEvent>, item: OrderModel) {
+
+    // Copy the text inside the text field
+    try {
+      setTimeout(async () => {
+
+        if (item.paymentMethod.isOnlinePayment === true) {
+          window.alert('Só é possível confirmar pagamentos de pedidos com a forma de pagamento na retirada.');
+          return;
+        }
+
+        const confirmed = window.confirm(`Confirma ter recebido o pagamento do pedido N°: "${item.orderNumber}" ? `)
+        // setshowingIcon(faCheckCircle);
+        if (confirmed && item.orderNumber && item._id && item.receivedPaymentInLocal === false) {
+
+          const confirmedOrderPaymentId = await OrderServiceInstance.confirmPayment(item._id);
+
+          if (confirmedOrderPaymentId === item._id) {
+
+            updateOrderPaymentReceived(item);
+
+            setshowingIcon(faCheckCircle);
+            setTimeout(() => {
+
+              window.alert('Pagamento do pedido atualizado com sucesso.');
+
+              // item.customerNotified = false;
+              // item.companyNotified = false;
+
+              setshowingIcon(getIconByPaymentStatus(item.paymentStatus));
+              // window.location.href = '/admin?action=list&collection=productType';
+            }, 50);
+            // REMOVE ITEM FROM LIST
+
+            // window.location.href = '/admin?action=list&collection=productType';
+          }
+          else {
+            // window.alert(`Erro ao excluir tipo de produto.`);
+          }
+
+        } else {
+          if (confirmed) {
+            window.alert('Pagamento do pedido já foi confirmado.');
           }
         }
 
@@ -282,7 +342,9 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
   }
 
   return (
-    <div className="OrderMenuListItemContainer glowBox" onClick={event => handleCopyItemCode(item)}>
+    <div id={'OrderMenuListItemContainer'} className="OrderMenuListItemContainer glowBox" onClick={async event => {
+      await handleCopyItemCode(event, item)
+    }}>
       <div className={showingIcon === faTruck ? 'moveCar copyIcon' : showingIcon === faRefresh ? `rotateRefreshBig copyIcon` : 'copyIcon'} style={{ color: (showingIcon === faTruck || showingIcon === faRefresh ? `inherit` : (showingIcon === faX ? `red` : `green`)), justifySelf: `flex - end`, marginRight: `2em`, marginTop: `2em` }} >
         <FontAwesomeIcon
           icon={showingIcon}
@@ -335,7 +397,23 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
               {getPaymentStatusLabel(item.paymentStatus)}
             </p>
             :
-            <></>
+            <p style={{ zIndex: 100 }} id='itemReceivedPaymentInLocal' className='itemReceivedPaymentInLocal' onClick={async e => {
+              e.stopPropagation();
+              if (!item.receivedPaymentInLocal) {
+                console.log('itemReceivedPaymentInLocal click');
+                await handleReceivedOrderPayment(e, item);
+              } else {
+                window.alert('Pagamento do pedido já foi confirmado.');
+              }
+            }}>
+              <span>{item.receivedPaymentInLocal ? `Status do pagamento: ` : `Recebeu o pagamento? Clique aqui 👇🏻`}</span>
+              {item.receivedPaymentInLocal ? 'PAGO' : 'AGUARDANDO PAGAMENTO ...'}
+              {item.receivedPaymentInLocal ?
+                <FontAwesomeIcon color='green' icon={faCheckCircle} />
+                :
+                <FontAwesomeIcon className='rotateRefresh' color='rgb(182, 182, 182)' icon={faRefresh} />
+              }
+            </p>
         }
         {
           item.paymentStatus === 'finished' || item.paymentStatus === 'approved' || item.paymentStatus === 'expired' ?

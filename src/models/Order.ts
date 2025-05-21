@@ -35,6 +35,7 @@ type OrderModel = {
   _id?: string;
   paymentId: string;
   paymentStatus: string;
+  receivedPaymentInLocal: boolean;
   paymentGateway: string;
   paymentMethod: PaymentMethodModel;
   chatId: string;

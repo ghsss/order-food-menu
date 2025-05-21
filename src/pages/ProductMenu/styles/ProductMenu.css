@@ -21,6 +21,10 @@ body {
   font-weight: bold;
 }
 
+.companyInfoDropdown {
+  transition: all 2s;
+}
+
 h1 {
   border: solid medium #000;
   background: #fff;

@@ -42,7 +42,7 @@ class AccessCodeService {
         method: "GET",
         headers: {
           accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -75,8 +75,49 @@ class AccessCodeService {
         method: "GET",
         headers: {
           accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          "ngrok-skip-browser-warning": "true",
         },
+      });
+      if (response.status === 200) {
+        const boolResponse = await response.text();
+        console.log("grantSuperAdmin.boolResponse: ", boolResponse);
+        return boolResponse === `true`;
+      } else {
+        if (response.status === 401 || response.status === 403) {
+          // window.alert("Você não é um super-administrador.");
+          return false;
+        }
+        window.alert("Erro de conexão ao servidor.");
+        return false;
+      }
+    } catch (error) {
+      window.alert("Erro de conexão ao servidor.");
+      return false;
+    }
+  }
+  async createAdmin(
+    phone: string,
+    email: string | undefined
+  ): Promise<boolean> {
+    try {
+      const accessCode = this.getStoredAccessCode();
+      if (typeof accessCode === `undefined`) {
+        window.location.href = `/`;
+        return false;
+      }
+      const accessCodeSHA512Hash =
+        accessCode.length > 100 ? accessCode : await sha512(accessCode);
+      const headers: any = {
+        phoneNumber: phone,
+        accessCodeSHA512Hash: accessCodeSHA512Hash,
+        "ngrok-skip-browser-warning": "true",
+      };
+      if (email) {
+        headers.email = email;
+      }
+      const response = await fetch(productEndpoint + "/api/createAdmin", {
+        method: "GET",
+        headers,
       });
       if (response.status === 200) {
         const boolResponse = await response.text();
@@ -95,7 +136,7 @@ class AccessCodeService {
       return false;
     }
   }
-  async createAdmin(phone: string): Promise<boolean> {
+  async updateEmail(phone: string, email: string): Promise<boolean> {
     try {
       const accessCode = this.getStoredAccessCode();
       if (typeof accessCode === `undefined`) {
@@ -104,12 +145,13 @@ class AccessCodeService {
       }
       const accessCodeSHA512Hash =
         accessCode.length > 100 ? accessCode : await sha512(accessCode);
-      const response = await fetch(productEndpoint + "/api/createAdmin", {
-        method: "GET",
+      const response = await fetch(productEndpoint + "/api/updateEmail", {
+        method: "PATCH",
         headers: {
           phoneNumber: phone,
+          email: email,
           accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -143,7 +185,7 @@ class AccessCodeService {
         headers: {
           phoneNumber: phone,
           accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -177,7 +219,7 @@ class AccessCodeService {
         headers: {
           phoneNumber: phone,
           accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -211,7 +253,7 @@ class AccessCodeService {
         headers: {
           phoneNumber: phone,
           accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -236,8 +278,8 @@ class AccessCodeService {
       const response = await fetch(productEndpoint + "/api/requestAccessCode", {
         method: "GET",
         headers: {
-          phoneNumber: phone,
-          'ngrok-skip-browser-warning': 'true'
+          [isNaN(parseInt(phone)) ? `email` : `phoneNumber`]: phone,
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -268,7 +310,7 @@ class AccessCodeService {
         method: "GET",
         headers: {
           accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {

@@ -173,6 +173,20 @@ function CompanyPage(
             if (typeof recordRefresh === 'object')
               setRecordRefresh({ ...recordRefresh, haveDelivery: e.target.checked });
           }} />
+        {
+          recordRefresh?.haveDelivery === true ?
+            <div className='fieldContainer'>
+              <label htmlFor="inputDeliveryCost">Preço da entrega 💲</label>
+              <input className='inputDeliveryCost' type="number" step={'0.01'} placeholder='10,00'
+                value={recordRefresh?.deliveryCost || 0}
+                onChange={e => {
+                  if (typeof recordRefresh === 'object')
+                    setRecordRefresh({ ...recordRefresh, deliveryCost: parseFloat(parseFloat(e.target.value).toFixed(2)) || 0 });
+                }} />
+            </div>
+            :
+            <></>
+        }
       </div>
       <br />
       <div className='fieldContainer'>

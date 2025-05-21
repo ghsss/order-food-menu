@@ -98,6 +98,16 @@ a:hover {
 
 }
 
+.modal {
+  position: fixed;
+  background: #fff;
+  z-index: 1000;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  padding: 1em;
+}
+
 .goToWhatsAppLink {}
 
 .newProductButtonContainer {

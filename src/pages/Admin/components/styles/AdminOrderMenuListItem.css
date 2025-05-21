@@ -18,16 +18,18 @@ span {
 }
 
 .OrderMenuListItemContainer .orderHeader {
+  position: relative;
+  z-index: 101;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   padding: 1em;
   font-size: .75em;
+  pointer-events: all;
 }
 
 .OrderMenuListItemContainer .orderHeader p {
-  /* max-width: 45%; */
   align-self: stretch;
   display: flex;
   align-items: center;
@@ -40,6 +42,8 @@ span {
   background: #000;
   margin: .25em;
   padding: .25em;
+  cursor: pointer;
+  pointer-events: all;
 }
 
 .OrderMenuListItemContainer .orderItemsContainer {
@@ -53,6 +57,7 @@ span {
   width: 97%;
   max-width: 100%;
   overflow-x: hidden;
+  pointer-events: all;
   /* overflow: hidden; */
 }
 
@@ -207,7 +212,7 @@ span {
 
 
 #printIcon {
-  
+
   /* position: absolute; */
   /* opacity: 0; */
   opacity: 1;
@@ -218,7 +223,7 @@ span {
 }
 
 .OrderMenuListItemContainer #printIcon {
-  
+
   /* position: absolute; */
   /* opacity: 0; */
   opacity: 1;
@@ -231,6 +236,32 @@ span {
 .OrderMenuListItemContainer:hover #printIcon {
 
   /* transform: scale(3.5) rotate(-10deg); */
+
+}
+
+.itemReceivedPaymentInLocal {
+  z-index: 100;
+}
+
+.OrderMenuListItemContainer .itemReceivedPaymentInLocal {
+
+  z-index: 100;
+  /* transform: scale(3.5) rotate(-10deg); */
+
+
+}
+
+.OrderMenuListItemContainer:hover .itemReceivedPaymentInLocal {
+
+  /* transform: scale(3.5) rotate(-10deg); */
+
+
+}
+
+.itemReceivedPaymentInLocal:hover {
+
+  background-color: #fff;
+  ;
 
 }
 

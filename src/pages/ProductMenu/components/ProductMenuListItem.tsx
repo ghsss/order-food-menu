@@ -4,14 +4,17 @@ import ProductModel from '../../../models/Product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { icon,  } from '@fortawesome/fontawesome-svg-core';
 import { faCheckCircle, faCopy, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import RobotModel from '../../../models/Robot';
 
 interface ProductMenuListItemProps {
-  item: ProductModel
+  item: ProductModel;
+  robot: RobotModel;
   children?: React.ReactNode;
 }
 
 function ProductMenuListItem({
   item,
+  robot,
 }: ProductMenuListItemProps) {
 
   const [showingIcon, setshowingIcon] = useState<IconDefinition>(faCopy);
@@ -24,7 +27,7 @@ function ProductMenuListItem({
       navigator.clipboard.writeText(item.id);
       setshowingIcon(faCheckCircle);
       setTimeout(() => {
-        window.location.href = 'https://wa.me/555499026453?text=' + item.id;
+        window.location.href = `https://wa.me/${robot.phone}?text=${item.id}`;
       }, 100);
       setTimeout(() => {
         setshowingIcon(faCopy);
@@ -63,7 +66,7 @@ function ProductMenuListItem({
             <p id='itemPrice' className='itemPrice'>
               {/* <span>Promoção por tempo limitado!</span>
               <br/> */}
-              {` R$ `+item.price.toFixed(2).replace('.', ',')}
+              {` R$ ` + item.price.toFixed(2).replace('.', ',')}
             </p>
           </div>
         </div>

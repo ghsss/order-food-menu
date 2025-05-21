@@ -14,6 +14,7 @@ type CompanyModel = {
   chatId: string;
   phoneNumber: string;
   haveDelivery: boolean;
+  deliveryCost?: number;
   site: string;
   workingToday: boolean;
   workingDays: WorkingDay[];

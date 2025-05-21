@@ -23,8 +23,10 @@ function AccessCodePage() {
   // const [accessCodeExpired, setAccessCodeExpired] = useState<boolean>(false);
   const [now, setNow] = useState<number>(new Date().getTime());
   const [phone, setPhone] = useState<string>(``);
+  const [email, setEmail] = useState<string>(``);
   const [accessCode, setAccessCode] = useState<string>(``);
   const [syncIntervalId, setSyncIntervalId] = useState<NodeJS.Timer>();
+  const [receiveThrough, setReceiveThrough] = useState<string>('whatsapp');
 
   const syncCurrentTime = async () => {
 
@@ -115,25 +117,48 @@ function AccessCodePage() {
           <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
         </button>
         <h1>Solicite seu código de acesso a área de administradores 👇🏻</h1>
-        <input className='inputAccessCode' type="number" placeholder='Digite seu número do WhatsApp'
-          value={phone}
+        <input className='inputAccessCode'
+          type={receiveThrough === 'whatsapp' ? "number" : "email"}
+          placeholder={receiveThrough === 'whatsapp' ? '555499991111' : 'exemplo@gmail.com'}
+          value={receiveThrough === 'whatsapp' ? phone : email}
           onChange={e => {
-            setPhone(e.target.value)
+            if (receiveThrough === 'whatsapp') {
+              setPhone(e.target.value);
+            } else {
+              setEmail(e.target.value);
+            }
           }} />
         <br />
         <button className='submitButton' type="submit" onClick={async e => {
-          if (phone.length > 11) {
-            const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone);
+          if (receiveThrough === 'whatsapp') {
+            if (phone.length > 11) {
+              const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone);
+              if (requestedSuccessfully) {
+                setLastAccessCodeRequestTimestamp(new Date().getTime());
+                setCanRequestNewAccesCode(false);
+
+              }
+            } else {
+              window.alert(`Número inválido.`);
+            }
+          } else {
+            const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(email);
             if (requestedSuccessfully) {
               setLastAccessCodeRequestTimestamp(new Date().getTime());
               setCanRequestNewAccesCode(false);
 
             }
-          } else {
-            window.alert(`Número inválido.`);
           }
         }}>
           {'Solicitar código de acesso'}
+        </button>
+        <button style={{ transform: 'scale(0.5)' }} className='submitButton' type="submit" onClick={async e => {
+          e.stopPropagation();
+          setReceiveThrough(receiveThrough === 'whatsapp' ? 'email' : 'whatsapp');
+          setPhone('');
+          setEmail('');
+        }}>
+          {receiveThrough === 'whatsapp' ? 'Receber código por e-mail' : 'Receber código por WhatsApp'}
         </button>
       </div>
     );
@@ -149,15 +174,17 @@ function AccessCodePage() {
         color: `#000`
       }}>
         <h1>Digite o código de acesso recebido via WhatsApp 👇🏻</h1>
-        <label>{`Tempo limite para informar o código de acesso `}
-          <span style={{ color: `red` }}>
-            {`(${((accesCodeTimeoutInMs / 1000) - (now - lastAccessCodeRequestTimestamp) / 1000).toFixed(0).replace(`-`, ``)})`}
-          </span>
-        </label>
-        <input className='inputAccessCode' type="text" placeholder='Digite o código de acesso recebido'
-          value={accessCode}
-          onChange={e => setAccessCode(e.target.value)}
-        />
+        <div className="fieldContainer">
+          <label style={{ border: 'none' }}>{`Tempo limite para informar o código de acesso `}
+            <span style={{ color: `red` }}>
+              {`(${((accesCodeTimeoutInMs / 1000) - (now - lastAccessCodeRequestTimestamp) / 1000).toFixed(0).replace(`-`, ``)})`}
+            </span>
+          </label>
+          <input className='inputAccessCode' type="text" placeholder='Digite o código de acesso recebido'
+            value={accessCode}
+            onChange={e => setAccessCode(e.target.value)}
+          />
+        </div>
         <button className='submitButton' disabled={!canRequestNewAccesCode} type="submit"
           onClick={async e => {
             if (phone.length > 11) {

@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft, faCartShopping, faKey, faPhone } from '@fortawesome/free-solid-svg-icons';
 
 interface AdminOrderMenuListProps {
-  // removeItemFromList: (item: OrderModel) => boolean,
+  updateOrderFinished: (item: OrderModel) => boolean,
+  updateOrderPaymentReceived: (item: OrderModel) => boolean,
   orderMenuItems: OrderModel[],
   children?: React.ReactNode;
 }
@@ -31,7 +32,7 @@ interface AdminOrderMenuListProps {
 // })
 // .catch(error => { console.error(error); });
 
-function AdminOrderMenuList({ orderMenuItems, children }: AdminOrderMenuListProps) {
+function AdminOrderMenuList({ updateOrderFinished, updateOrderPaymentReceived, orderMenuItems, children }: AdminOrderMenuListProps) {
 
   return (
     <div className='OrderMenuListContainer'>
@@ -48,7 +49,7 @@ function AdminOrderMenuList({ orderMenuItems, children }: AdminOrderMenuListProp
               :
               orderMenuItems.map(orderMenuItem => {
                 return (
-                  <AdminOrderMenuListItem key={orderMenuItem._id} item={orderMenuItem} />
+                  <AdminOrderMenuListItem key={orderMenuItem._id} updateOrderFinished={updateOrderFinished} updateOrderPaymentReceived={updateOrderPaymentReceived} item={orderMenuItem} />
                 )
               })
           }
