@@ -186,7 +186,7 @@ function AccessCodePage() {
               {`(${((accesCodeTimeoutInMs / 1000) - (now - lastAccessCodeRequestTimestamp) / 1000).toFixed(0).replace(`-`, ``)})`}
             </span>
           </label>
-          <input className='inputAccessCode' type="text" placeholder='Digite o código de acesso recebido'
+          <input className='inputAccessCode' type="text" placeholder='Cole o código de acesso recebido'
             value={accessCode}
             onChange={e => setAccessCode(e.target.value)}
           />
@@ -215,7 +215,7 @@ function AccessCodePage() {
               <FontAwesomeIcon color='green' icon={faCheck} />
           }
         </button>
-        <input style={{ color: `green` }} className='submitButton' type="submit" value={'Confirmar código de acesso'}
+        <input style={{ color: `green` }} className='submitButton' type="submit" value={'Confirmar código'}
           onClick={async (e) => {
 
             const accessCodeIsValid = await AccessCodeServiceInstance.accessCodeIsValid(accessCode);
