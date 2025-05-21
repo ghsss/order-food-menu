@@ -103,7 +103,7 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
           const orderItemIdx = item.items.indexOf(orderItem);
           const orderItemTxt = orderItemIdx === 0 ? `
 \x1B\x61\x01\x1B\x4D\x00-------------------------------
-\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
+\x1B\x40\x1B\x4D\x00${orderItem.qty}x ${orderItem.name.replace(
             /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
             ''
           )
@@ -111,7 +111,7 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
               .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
 \x1B\x61\x01\x1B\x4D\x00-------------------------------`
             :
-            `\x1B\x40\x1B\x4D\x01${orderItem.qty}x ${orderItem.name.replace(
+            `\x1B\x40\x1B\x4D\x00${orderItem.qty}x ${orderItem.name.replace(
               /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
               ''
             )
