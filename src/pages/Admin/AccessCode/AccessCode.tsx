@@ -124,7 +124,7 @@ function AccessCodePage() {
         </button>
         <h1>Solicite seu código de acesso a área de administradores 👇🏻</h1>
         <input className='inputAccessCode'
-          type={receiveThrough === 'whatsapp' ? "number" : "email"}
+          type={receiveThrough === 'whatsapp' ? "tel" : "email"}
           placeholder={receiveThrough === 'whatsapp' ? '555499991111' : 'exemplo@gmail.com'}
           value={receiveThrough === 'whatsapp' ? phone : email}
           onChange={e => {
