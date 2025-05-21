@@ -113,7 +113,13 @@ function AccessCodePage() {
         color: `#000`
       }}>
         <button className='goBackButton' style={{ justifySelf: `flex-start`, alignSelf: `flex-start`, marginLeft: `1em`, marginBottom: '1em', marginTop: '1em' }}
-          onClick={e => window.history.back()}>
+          onClick={async e => {
+            if (await AccessCodeServiceInstance.accessCodeIsValid(AccessCodeServiceInstance.getStoredAccessCode() || ''))
+              window.history.back()
+            else
+              window.location.href = '/';
+          }
+          }>
           <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
         </button>
         <h1>Solicite seu código de acesso a área de administradores 👇🏻</h1>
