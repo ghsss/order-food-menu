@@ -146,7 +146,7 @@ function CompanyPage(
           value={recordRefresh?.email}
           onChange={e => {
             if (typeof recordRefresh === 'object')
-              setRecordRefresh({ ...recordRefresh, cnpj: e.target.value });
+              setRecordRefresh({ ...recordRefresh, email: e.target.value });
           }} />
       </div>
       <br />
@@ -199,7 +199,7 @@ function CompanyPage(
           }} />
       </div>
       <br />
-      <div className='fieldContainer'>
+      {/* <div className='fieldContainer'>
         <label htmlFor="inputWorkingToday">Trabalhando hoje?</label>
         <input id='inputWorkingToday' className='inputWorkingToday' type="checkbox"
           defaultChecked={recordRefresh?.workingToday || false}
@@ -209,7 +209,7 @@ function CompanyPage(
               setRecordRefresh({ ...recordRefresh, workingToday: e.target.checked });
           }} />
       </div>
-      <br />
+      <br /> */}
       <div className='fieldContainer'>
         <h3 style={{ transform: 'scale(1.25)' }}>Dias de trabalho</h3>
         {/* TODO: CREATE CONTAINERS WITH DAYS OF WEEK OPTIONS, CHECKED ACCORDANLY TO THE RECORD WORKING DAYS */}
