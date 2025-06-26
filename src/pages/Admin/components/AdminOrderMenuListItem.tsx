@@ -97,15 +97,32 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
 \x1B\x40FORMA DE PAGAMENTO: ${item.paymentMethod.name}
 \x1B\x40PAGO: ${(item.paymentMethod.isOnlinePayment ? (item.paymentStatus === 'approved' || item.paymentStatus === 'finished')
             :
-            item.receivedPaymentInLocal === true) === true? 'SIM' : 'NAO'
-}
+            item.receivedPaymentInLocal === true) === true ? 'SIM' : 'NAO'
+          }
 \x1B\x40ITENS:`);
         await characteristic?.writeValue(headerData);
 
       }
+
       const printBody = async () => {
+
         for await (const orderItem of item.items) {
+
           const orderItemIdx = item.items.indexOf(orderItem);
+
+          let additionalProductsTotal = 0;
+
+          const additionalProductsSubtotals = (Array.isArray(orderItem?.additionalProducts) ?
+            orderItem?.additionalProducts : []).map(additionalProduct => {
+              return additionalProduct.price * additionalProduct.qty;
+            });
+
+          for (const subtotal of additionalProductsSubtotals) {
+
+            additionalProductsTotal += subtotal;
+
+          }
+
           const orderItemTxt = orderItemIdx === 0 ? `
 \x1B\x61\x01\x1B\x4D\x00-------------------------------
 \x1B\x40\x1B\x4D\x00${orderItem.qty}x ${orderItem.name.replace(
@@ -113,7 +130,9 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
             ''
           )
               .replace(/\s+/g, ' ')
-              .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
+              .trim()} | OBS: ${orderItem.obs} | Adicionais: ${orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
+                return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
+              }).join(`, `)} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${((orderItem.qty * orderItem.price) + additionalProductsTotal).toFixed(2).replace('.', ',')}
 \x1B\x61\x01\x1B\x4D\x00-------------------------------`
             :
             `\x1B\x40\x1B\x4D\x00${orderItem.qty}x ${orderItem.name.replace(
@@ -121,7 +140,9 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
               ''
             )
               .replace(/\s+/g, ' ')
-              .trim()} | OBS: ${orderItem.obs} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}
+              .trim()} | OBS: ${orderItem.obs} | Adicionais: ${orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
+                return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
+              }).join(`, `)} | Valor: R$ ${orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ ${((orderItem.qty * orderItem.price) + additionalProductsTotal).toFixed(2).replace('.', ',')}
 \x1B\x61\x01\x1B\x4D\x00-------------------------------`
           // return orderItemTxt;
           const orderItemData = encoder.encode(orderItemTxt);
@@ -445,6 +466,9 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
                 <th colSpan={2}>
                   Observação
                 </th>
+                <th colSpan={2}>
+                  Adicionais
+                </th>
                 <th colSpan={1}>
                   Preço unitário
                 </th>
@@ -456,6 +480,20 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
             <tbody>
               {
                 item.items.map((orderItem, orderItemIdx) => {
+
+                  let additionalProductsTotal = 0;
+
+                  const additionalProductsSubtotals = (Array.isArray(orderItem?.additionalProducts) ?
+                    orderItem?.additionalProducts : []).map(additionalProduct => {
+                      return additionalProduct.price * additionalProduct.qty;
+                    });
+
+                  for (const subtotal of additionalProductsSubtotals) {
+
+                    additionalProductsTotal += subtotal;
+
+                  }
+
                   return (
                     // <div className="orderItemContainer">
                     //   <p style={{width: 'min-content'}}>{orderItem.qty} unidades</p>
@@ -466,8 +504,11 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
                       <td colSpan={1}>{orderItem.qty}</td>
                       <td colSpan={3}>{orderItem.name}</td>
                       <td colSpan={2}>{orderItem.obs}</td>
+                      <td colSpan={2}>{orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
+                        return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
+                      }).join(`, `)}</td>
                       <td colSpan={1}>R$ {orderItem.price.toFixed(2).replace('.', ',')}</td>
-                      <td colSpan={1}>R$ {(orderItem.qty * orderItem.price).toFixed(2).replace('.', ',')}</td>
+                      <td colSpan={1}>R$ {((orderItem.qty * orderItem.price) + additionalProductsTotal).toFixed(2).replace('.', ',')}</td>
                     </tr>
                   );
                 })

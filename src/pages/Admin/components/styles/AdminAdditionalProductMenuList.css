@@ -1,0 +1,171 @@
+.AdditionalProductMenuListContainer {
+  background-color: rgb(231, 77, 0);
+  border: solid .25em #fff;
+  border-radius: .5em;
+  padding: 1.5em;
+  height: 100%;
+  min-width: 20%;
+  max-width: 80%;
+  color: white;
+  margin-bottom: 1em;
+  flex-wrap: wrap;
+}
+
+.AdditionalProductMenuList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageTabs {
+  background: #fff;
+  width: 90%;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
+.pageTabs a {
+  background: rgb(231, 77, 0);
+  border-radius: .25em;
+  color: #fff;
+  margin: .5em;
+  margin-right: 1em;
+  /* min-width: 10%; */
+  flex: 1 0 10%;
+}
+
+.pageTabs a:hover {
+  /* background: rgb(231, 77, 0); */
+  background: #fff;
+  border-radius: .25em;
+  /* color: rgb(231, 77, 0); */
+  color: #000;
+
+}
+
+h2 {
+  color: #fff000;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.listTitle {
+  background: #fff;
+  border: solid thin #000;
+  border-radius: 1em;
+  padding: .25em;
+  width: fit-content;
+  align-self: center;
+  justify-self: center;
+  color: #000;
+  font-weight: bold;
+  font-size: 2em;
+  text-decoration: 'underline';
+  text-decoration-color: gold;
+}
+
+.AdditionalProductMenuListContainerScroll {
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+input {
+
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 1.25em;
+  padding: .25em;
+  border-radius: .25em;
+
+}
+
+@media only screen and (min-width: 600px) {
+
+  .pageTabs {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .pageTabs a {
+    flex-direction: row;
+    max-width: 20%;
+  }
+
+  .AdditionalProductMenuListContainer {
+    border-left: none;
+    /* border-right: none; */
+    border-right-width: 1em;
+    max-width: 100%;
+    min-width: 100%;
+    flex: 0 0 100%;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  .AdditionalProductMenuListContainerScroll {
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+    transform: rotateX(180deg);
+    overflow-x: auto;
+    padding-top: 3em;
+    padding-right: 5em;
+    padding-left: 5em;
+    padding-bottom: 3em;
+    flex: 0 0 100%;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  .AdditionalProductMenuList {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    transform: rotateX(180deg) translateX(-5%);
+    max-width: 100%;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+    overflow-x: visible;
+    flex: 0 0 100%;
+    flex-shrink: 0;
+    /* margin-right: 10em; */
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* width */
+  .AdditionalProductMenuListContainerScroll::-webkit-scrollbar {
+    height: 25px;
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track:hover {
+    cursor: pointer;
+  }
+
+  ::-webkit-scrollbar-track {
+    /* background: #f1f1f1; */
+    background: gold;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #555;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(182, 182, 182);
+    cursor: pointer;
+  }
+
+}

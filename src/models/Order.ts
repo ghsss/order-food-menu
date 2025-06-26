@@ -1,10 +1,16 @@
-
 type OrderItemModel = {
   _id?: string;
   id: string;
   name: string;
   qty: number;
   price: number;
+  additionalProducts?: {
+    _id?: string;
+    id: string;
+    name: string;
+    qty: number;
+    price: number;
+  }[];
   obs: string;
 };
 

@@ -25,6 +25,10 @@ import AdminOrderMenuList from './components/AdminOrderMenuList';
 import * as QRCode from 'qrcode';
 import RobotModel from '../../models/Robot';
 import RobotServiceInstance from '../../services/RobotService';
+import AdminAdditionalProductMenuList from './components/AdminAdditionalProductMenuList';
+import AdditionalProductModel from '../../models/AdditionalProduct';
+import AdditionalProductPage from './AdditionalProduct/AdditionalProduct';
+import AdditionalProductServiceInstance from '../../services/AdditionalProductService';
 // import AccessCodeServiceInstance from '../../services/AccessCodeService';
 
 const whatsAppQueryParams = encodeURIComponent('Olá! Preciso de suporte para o robô/aplicativo de pedidos.');
@@ -48,6 +52,9 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
 
   const [productMenuOptions, setProductMenuOptions] = useState<ProductModel[]>([]);
   const [filteredProductMenuOptions, setFilteredProductMenuOptions] = useState<ProductModel[]>([]);
+
+  const [additionalProductMenuOptions, setAdditionalProductMenuOptions] = useState<AdditionalProductModel[]>([]);
+  const [filteredAdditionalProductMenuOptions, setFilteredAdditionalProductMenuOptions] = useState<AdditionalProductModel[]>([]);
 
   const [productTypeSelectOptions, setProductTypeSelectOptions] = useState<ProductTypeModel[]>([]);
   const [filteredProductTypeSelectOptions, setFilteredProductTypeSelectOptions] = useState<ProductTypeModel[]>([]);
@@ -122,6 +129,14 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
       });
       console.log('getProductsResponse: ', getProductsResponse);
       setProductMenuOptions(getProductsResponse);
+
+      const getAdditionalProductsResponse = await AdditionalProductServiceInstance.getAdditionalProducts();
+      getAdditionalProductsResponse.sort((a: ProductModel, b: ProductModel) => {
+        // s1.toLowerCase().localeCompare(s2.toLowerCase()));
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      });
+      console.log('getAdditionalProductsResponse: ', getAdditionalProductsResponse);
+      setAdditionalProductMenuOptions(getAdditionalProductsResponse);
 
       syncRobotState();
 
@@ -248,14 +263,22 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
       applyOrderFilters();
       return;
     }
-    applyFilters();
+    if (collection === `additionalProduct`) {
+      applyAdditionalProductsFilters();
+    } else {
+      applyFilters();
+    }
 
   }, [searchTerm]);
 
   useEffect(() => {
 
     console.log('productTypeSearchTerm: ', productTypeSearchTerm);
-    applyFilters();
+    if (collection === `additionalProduct`) {
+      applyAdditionalProductsFilters();
+    } else {
+      applyFilters();
+    }
 
   }, [productTypeSearchTerm]);
 
@@ -274,7 +297,16 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
     if (searchTermRefreshed !== searchTerm) {
 
       setSearchTerm(searchTermRefreshed);
-      applyFilters();
+
+      if (collection === `additionalProduct`) {
+
+        applyAdditionalProductsFilters();
+
+      } else {
+
+        applyFilters();
+
+      }
 
     }
 
@@ -307,6 +339,18 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
   }
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+
+    const productTypeSearchTermRefreshed = e.target.value;
+
+    if (productTypeSearchTermRefreshed !== productTypeSearchTerm) {
+
+      setProductTypeSearchTerm(productTypeSearchTermRefreshed);
+
+    }
+
+  }
+
+  const handleAdditionalProductSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
     const productTypeSearchTermRefreshed = e.target.value;
 
@@ -357,6 +401,38 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
     } else {
 
       setFilteredProductMenuOptions(filteredList);
+
+    }
+
+  }
+
+  function applyAdditionalProductsFilters() {
+
+    let filteredList = [];
+
+    if (productTypeSearchTerm !== `all`) {
+
+      filteredList = additionalProductMenuOptions.filter(item => item.availableProductType.some(it => it.id.toLowerCase().includes(productTypeSearchTerm.toLowerCase())));
+
+      console.log('refreshed filteredList by current selected product type (' + productTypeSearchTerm + '): ', filteredList);
+
+    } else {
+
+      filteredList = additionalProductMenuOptions;
+
+    }
+
+    if (searchTerm.length > 0) {
+
+      filteredList = filteredList.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+      console.log('refreshed filteredList by current searchTerm (' + searchTerm + '): ', filteredList);
+
+      setFilteredAdditionalProductMenuOptions(filteredList);
+
+    } else {
+
+      setFilteredAdditionalProductMenuOptions(filteredList);
 
     }
 
@@ -482,7 +558,7 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
 
   }
 
-  function removeProductItemFromList(itemToDelete: ProductTypeModel): boolean {
+  function removeProductItemFromList(itemToDelete: ProductModel): boolean {
 
     const idxToDelete = productMenuOptions.findIndex(item =>
       item.id.toLowerCase().includes(itemToDelete.id.toLowerCase())
@@ -497,6 +573,30 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
 
       setProductMenuOptions(productMenuOptions);
       setFilteredProductMenuOptions(productMenuOptions);
+
+      return true
+
+    }
+
+    return false
+
+  }
+
+  function removeAdditionalProductItemFromList(itemToDelete: AdditionalProductModel): boolean {
+
+    const idxToDelete = additionalProductMenuOptions.findIndex(item =>
+      item.id.toLowerCase().includes(itemToDelete.id.toLowerCase())
+      || item?._id === itemToDelete?._id
+    )
+
+    if (idxToDelete > -1) {
+
+      additionalProductMenuOptions.splice(idxToDelete, 1);
+
+      console.log('Removed ' + idxToDelete + ' from product type list.');
+
+      setAdditionalProductMenuOptions(additionalProductMenuOptions);
+      setFilteredAdditionalProductMenuOptions(additionalProductMenuOptions);
 
       return true
 
@@ -645,6 +745,61 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
     );
   }
 
+  const getAdditionalProductsMenu = () => {
+    console.log(`Additional products menu.`);
+    return (
+      <div className="ProductMenuContainer">
+        <div className='titles'>
+          <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>
+            <span style={{ color: 'green' }}>Painel de administração de adicionais</span>
+          </h1>
+          <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique no item para editar os adicionais do estabelecimento 👇🏻
+          </h1>
+        </div>
+        <div className='row linksRow'>
+          <a className='goToWhatsAppLink' rel='noreferrer' target='_blank' href={"https://wa.me/555499026453?text=" + whatsAppQueryParams}>
+            {'Falar com o suporte '}
+            <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
+          </a>
+          <a href={"/#"} className='linkUnavailable'>
+            {'Pedir pelo site '}
+            <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
+          </a>
+          <a href={"/#"} className=''>
+            {'Ir para visão do cliente '}
+            <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faPerson} />
+          </a>
+        </div>
+        {getRobotHTML()}
+        <AdminAdditionalProductMenuList isSuperAdmin={isSuperAdmin} removeItemFromList={removeAdditionalProductItemFromList} additionalProductMenuItems={filteredAdditionalProductMenuOptions.length > 0 || searchTerm.length > 0 ? filteredAdditionalProductMenuOptions : additionalProductMenuOptions}
+        >
+          <div className='newProductButtonContainer'>
+            <a href='/admin?action=create&collection=additionalProduct' style={{ width: `fit-content`, color: '#000' }}>Novo adicional <FontAwesomeIcon color='rgb(231, 77, 0)' fontSize={`1.5em`} icon={faPlusSquare} /></a>
+          </div>
+          <div className='filterInputsContainer'>
+            <label htmlFor="searchTermInput"><FontAwesomeIcon icon={faSearch} /></label>
+            <input id='searchTermInput' className='searchTermInput' type="text" value={searchTerm} placeholder='Pesquisar adicional' onChange={e => handleSearch(e)} />
+            <div className='filterByAdditionalProductTypeContainer'>
+              <label style={{ color: `#000` }} htmlFor="filterByProductType">{`Filtrar por tipo `}
+                <FontAwesomeIcon icon={faFilter} />
+              </label>
+              <select className='filterByProductType' name="filterByProductType" id="filterByProductType"
+                onChange={e => handleAdditionalProductSelect(e)}
+              >
+                <option value="all" defaultChecked={true} >Todos</option>
+                {productTypeSelectOptions.map(productTypeSelectOption => {
+                  return (
+                    <option key={productTypeSelectOption.id} value={productTypeSelectOption.id}>{productTypeSelectOption.name}</option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+        </AdminAdditionalProductMenuList>
+      </div >
+    );
+  }
+
   const getProductTypesMenu = () => {
     console.log(`Product types menu.`);
     return (
@@ -746,6 +901,10 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
       return (
         getUsersMenu()
       );
+    } else if (collection === `additionalProduct`) {
+      return (
+        getAdditionalProductsMenu()
+      );
     } else if (collection === `productType`) {
       return (
         // <div>
@@ -773,6 +932,13 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
         <ProductPage productTypeSelectOptions={productTypeSelectOptions} />
       );
 
+    } else if (collection === `additionalProduct`) {
+      return (
+        // <div>
+        //   Create new product type page
+        // </div>
+        <AdditionalProductPage productTypeSelectOptions={productTypeSelectOptions} />
+      );
     } else if (collection === `productType`) {
       return (
         // <div>
@@ -803,6 +969,16 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
         // </div>
         <ProductPage record={selectedProduct} productTypeSelectOptions={productTypeSelectOptions} />
 
+      );
+
+    } else if (collection === `additionalProduct`) {
+
+
+      const selectedAdditionalProduct = additionalProductMenuOptions.find(item => item.id === id || item._id === id);
+      console.log(`selectedAdditionalProduct: `, selectedAdditionalProduct);
+
+      return (
+        <AdditionalProductPage record={selectedAdditionalProduct} productTypeSelectOptions={productTypeSelectOptions} />
       );
 
     } else if (collection === `productType`) {

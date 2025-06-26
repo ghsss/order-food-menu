@@ -1,0 +1,165 @@
+p {
+  /* display: block; */
+  font-size: 1.5em;
+  /* border: solid thin #fff000; */
+  /* border-bottom: solid thin #fff000; */
+  text-align: center;
+  color: #fff000;
+  z-index: 10;
+  text-decoration: underline 1px #fff000;
+  word-wrap: break-word;
+  user-select: none;
+  
+}
+
+span {
+  color: #fff;
+  user-select: none;
+}
+
+.AdminAdditionalProductMenuListItemContainer {
+  /* background: transparent; */
+  background: rgba(93, 0, 0, 0.248);
+  border: solid thin #fff000;
+  border-radius: 2em;
+  padding: .5em;
+  margin: 1em;
+  min-width: 100%;
+  user-select: none;
+}
+
+.AdminAdditionalProductMenuListItemContainer:hover {
+
+  background: rgb(182, 182, 182);
+  cursor: pointer;
+
+}
+
+.AdminAdditionalProductMenuListItemContainer #copyIcon {
+  position: absolute;
+  opacity: 1;
+  color: #fff;
+  z-index: 100;
+  transform: scale(3) translateX(50%);
+}
+
+.AdminAdditionalProductMenuListItemContainer:hover #copyIcon {
+
+  opacity: 1;
+  transform: scale(3) translateX(50%) rotate(-20deg);
+
+}
+
+.AdminAdditionalProductMenuListItemContainer::selection #copyIcon {
+
+  opacity: 1;
+  transform: scale(3) translateX(50%);
+
+}
+
+#deleteIcon {
+  /* position: absolute; */
+  /* opacity: 0; */
+  opacity: 1;
+  color: #000;
+  z-index: 100;
+  transform: scale(3);
+}
+
+.AdminAdditionalProductMenuListItemContainer:hover #deleteIcon {
+
+  /* transform: scale(3.5) rotate(-10deg); */
+
+}
+
+#deleteIcon:hover {
+
+  color: red;
+  transform: scale(3.5) rotate(-10deg);
+
+}
+
+.itemImageContainer {
+
+  font-size: .75em;
+  color: red;
+  font-weight: bold;
+  background: #fff000;
+  margin-right: .5em;
+  height: 100%;
+  max-width: 50%;
+  min-width: 50%;
+  border-radius: 2em;
+  border: solid thin #000;
+  overflow: hidden;
+
+}
+
+.itemName {
+  font-size: 2em;
+}
+
+.itemImage {
+
+  /* height: 100%; */
+  object-fit: cover;
+  width: 100%;
+
+}
+
+.row {
+  justify-content: space-between;
+}
+
+.column {
+  word-wrap: break-word;
+  width: 100%;
+}
+
+.itemPrice {
+  font-size: 2em;
+  /* transform: scale(3); */
+}
+
+.itemDescription {
+  /* color: #fff; */
+  font-size: 1em;
+  width: 100%;
+  display: block;
+}
+
+.itemDescription span {
+  /* color: #000; */
+}
+
+@media (min-width: 600px) {
+
+  p {
+    font-size: 2em;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .itemName {
+    height: 22.5%;
+  }
+  
+  .itemDescription {
+    font-size: 1.25em;
+  }
+
+  .AdminAdditionalProductMenuListItemContainer {
+    transform-style: preserve-3d;
+    transform: translateZ(3em);
+    min-width: 50%;
+    width: 50%;
+    height: 100%;
+    padding-left: 2em;
+  }
+
+  .itemImageContainer {
+    height: 25vh;
+    min-width: 25vw;
+  }
+
+}
