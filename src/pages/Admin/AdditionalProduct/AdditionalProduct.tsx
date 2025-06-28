@@ -264,7 +264,7 @@ function AdditionalProductPage({ record, productTypeSelectOptions }: AdditionalP
 
                 return (
                   <option style={{ zIndex: '100' }}
-                    onClick={e => handleProductTypeSelect(e)}
+                    // onClick={e => handleProductTypeSelect(e)}
                     aria-checked={Array.isArray(record?.availableProductType) &&
                       record?.availableProductType.some(it => it.id === ProductTypeSelectOption.id) ?
                       true : false} key={ProductTypeSelectOption.id} value={ProductTypeSelectOption.id}>{ProductTypeSelectOption.name}</option>
@@ -274,7 +274,7 @@ function AdditionalProductPage({ record, productTypeSelectOptions }: AdditionalP
 
                 return (
                   <option style={{ zIndex: '100' }}
-                    onClick={e => handleProductTypeSelect(e)}
+                    // onClick={e => handleProductTypeSelect(e)}
                     aria-checked={Array.isArray(record?.availableProductType) &&
                       record?.availableProductType.some(it => it.id === ProductTypeSelectOption.id) ?
                       true : false} key={ProductTypeSelectOption.id} value={ProductTypeSelectOption.id}>{ProductTypeSelectOption.name}</option>
