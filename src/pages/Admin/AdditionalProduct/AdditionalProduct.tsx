@@ -97,43 +97,68 @@ function AdditionalProductPage({ record, productTypeSelectOptions }: AdditionalP
 
   }, [selectedProductTypeIds]);
 
-  const handleProductTypeSelect = (e: React.MouseEvent<HTMLOptionElement, MouseEvent>) => {
+  const handleProductTypeSelect = (e: React.MouseEvent<HTMLOptionElement | HTMLSelectElement, MouseEvent>) => {
 
     // e.stopPropagation();
 
-    const currentTarget = e.target;
+    // const currentTarget = e.target;
 
-    console.log('currentTarget? ', currentTarget);
+    // console.log('currentTarget? ', currentTarget);
 
-    // const selectedOptions = e.currentTarget;
+    const currentTarget = e.currentTarget;
 
-    // console.log('selectedOptions? ', selectedOptions);
+    const selectedOptions = currentTarget instanceof HTMLSelectElement ? currentTarget.selectedOptions : [];
 
-    const selectedProductTypeIdRefresh = e.currentTarget.value || '';
+    console.log('selectedOptions? ', selectedOptions);
+
+    const selectedProductTypeIdRefresh = currentTarget instanceof HTMLOptionElement ?
+      currentTarget.value : selectedOptions;
 
     console.log('Clicked product type value: ', selectedProductTypeIdRefresh);
 
-    // if (selectedProductTypeIdRefresh !== selectedProductTypeId) {
-    if (selectedProductTypeIds.includes(selectedProductTypeIdRefresh)) {
+    if (currentTarget instanceof HTMLOptionElement && typeof selectedProductTypeIdRefresh === 'string') {
 
-      const idxToDelete = selectedProductTypeIds.indexOf(selectedProductTypeIdRefresh);
+      // if (selectedProductTypeIdRefresh !== selectedProductTypeId) {
+      if (selectedProductTypeIds.includes(selectedProductTypeIdRefresh)) {
 
-      console.log('Removing Clicked product type value: ', idxToDelete);
+        const idxToDelete = selectedProductTypeIds.indexOf(selectedProductTypeIdRefresh);
 
-      if (idxToDelete > -1) {
+        console.log('Removing Clicked product type value: ', idxToDelete);
 
-        selectedProductTypeIds.splice(idxToDelete, 1);
+        if (idxToDelete > -1) {
+
+          selectedProductTypeIds.splice(idxToDelete, 1);
+          setSelectedProductTypeIds(JSON.parse(JSON.stringify(selectedProductTypeIds)));
+
+        }
+
+      } else {
+
+        console.log('Adding Clicked product type value: ', selectedProductTypeIdRefresh);
+        // if (currentTarget instanceof HTMLSelectElement && Array.isArray(selectedProductTypeIdRefresh)) {
+        //   selectedProductTypeIds.push(...selectedProductTypeIdRefresh);
+        // } else {
+        selectedProductTypeIds.push(selectedProductTypeIdRefresh);
+        // }
+        // setSelectedProductTypeIds(selectedProductTypeIds);
         setSelectedProductTypeIds(JSON.parse(JSON.stringify(selectedProductTypeIds)));
+
 
       }
 
     } else {
 
-      console.log('Adding Clicked product type value: ', selectedProductTypeIdRefresh);
-      selectedProductTypeIds.push(selectedProductTypeIdRefresh);
-      // setSelectedProductTypeIds(selectedProductTypeIds);
-      setSelectedProductTypeIds(JSON.parse(JSON.stringify(selectedProductTypeIds)));
+      const newSelectedProductTypeIds = [];
 
+      for (let index = 0; index < selectedOptions.length; index++) {
+
+        const selectedOption = selectedOptions[index];
+        newSelectedProductTypeIds.push(selectedOption.value);
+        console.log('Updating New Refs of Clicked product type values: ', selectedOption);
+
+      }
+
+      setSelectedProductTypeIds(JSON.parse(JSON.stringify(newSelectedProductTypeIds)));
 
     }
 
@@ -230,6 +255,7 @@ function AdditionalProductPage({ record, productTypeSelectOptions }: AdditionalP
           </label>
           <select className='filterByProductType' name="filterByProductType" id="filterByProductType"
             value={selectedProductTypeIds}
+            onClick={e => handleProductTypeSelect(e)}
             multiple={true}
           >
             {productTypeSelectOptions.map((ProductTypeSelectOption, ProductTypeSelectOptionIdx) => {
