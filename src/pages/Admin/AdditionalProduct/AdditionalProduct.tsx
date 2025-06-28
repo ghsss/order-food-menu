@@ -99,7 +99,8 @@ function AdditionalProductPage({ record, productTypeSelectOptions }: AdditionalP
 
   const handleProductTypeSelect = (e: React.MouseEvent<HTMLOptionElement | HTMLSelectElement, MouseEvent>) => {
 
-    // e.stopPropagation();
+    e.stopPropagation();
+    e.preventDefault();
 
     // const currentTarget = e.target;
 
