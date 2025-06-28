@@ -97,7 +97,7 @@ function AdditionalProductPage({ record, productTypeSelectOptions }: AdditionalP
 
   }, [selectedProductTypeIds]);
 
-  const handleProductTypeSelect = (e: React.MouseEvent<HTMLOptionElement | HTMLSelectElement, MouseEvent>) => {
+  const handleProductTypeSelect = (e: React.MouseEvent<HTMLOptionElement, MouseEvent> | React.ChangeEvent<HTMLSelectElement>) => {
 
     e.stopPropagation();
     e.preventDefault();
@@ -256,7 +256,7 @@ function AdditionalProductPage({ record, productTypeSelectOptions }: AdditionalP
           </label>
           <select className='filterByProductType' name="filterByProductType" id="filterByProductType"
             value={selectedProductTypeIds}
-            onClick={e => handleProductTypeSelect(e)}
+            onChange={e => handleProductTypeSelect(e)}
             multiple={true}
           >
             {productTypeSelectOptions.map((ProductTypeSelectOption, ProductTypeSelectOptionIdx) => {
