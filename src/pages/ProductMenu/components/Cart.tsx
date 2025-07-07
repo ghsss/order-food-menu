@@ -299,7 +299,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                                 color: (`red`),
                                                 float: 'right',
                                                 justifySelf: 'flex-end',
-                                                transform: `scale(2) translateX(9.75em) translateY(-50%)`,
+                                                transform: `scale(2) translateX(10em) translateY(-50%)`,
                                                 // marginLeft: `50%`,  
                                                 width: 'auto',
                                                 height: 'auto',
