@@ -256,7 +256,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
     return (
         <div className='cartModal'>
             <div className="cartModalScroll">
-                <button className='goBackButton' style={{ borderWidth: `medium`, fontSize: '1.125em', justifySelf: `flex-start`, alignSelf: `flex-start`, marginLeft: `1em`, marginBottom: '1em', marginTop: '1em' }}
+                <button className='goBackButton' style={{ borderWidth: `medium`, fontWeight: 'bold', fontSize: '1.125em', justifySelf: `flex-start`, alignSelf: `flex-start`, marginLeft: `1em`, marginBottom: '1em', marginTop: '1em' }}
                     onClick={e => { setShowCartPage(false); setSelectedItem(null); setCartSelectedItemIdx(-1) }}>
                     <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Adicionar mais produtos`}
                 </button>
