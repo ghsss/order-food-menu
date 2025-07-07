@@ -706,10 +706,6 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
             {'Falar com o suporte '}
             <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
           </a>
-          <a href={"/#"} className='linkUnavailable'>
-            {'Pedir pelo site '}
-            <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
-          </a>
           <a href={"/#"} className=''>
             {'Ir para visão do cliente '}
             <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faPerson} />
@@ -757,18 +753,7 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
           </h1>
         </div>
         <div className='row linksRow'>
-          <a className='goToWhatsAppLink' rel='noreferrer' target='_blank' href={"https://wa.me/555499026453?text=" + whatsAppQueryParams}>
-            {'Falar com o suporte '}
-            <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
-          </a>
-          <a href={"/#"} className='linkUnavailable'>
-            {'Pedir pelo site '}
-            <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
-          </a>
-          <a href={"/#"} className=''>
-            {'Ir para visão do cliente '}
-            <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faPerson} />
-          </a>
+          
         </div>
         {getRobotHTML()}
         <AdminAdditionalProductMenuList isSuperAdmin={isSuperAdmin} removeItemFromList={removeAdditionalProductItemFromList} additionalProductMenuItems={filteredAdditionalProductMenuOptions.length > 0 || searchTerm.length > 0 ? filteredAdditionalProductMenuOptions : additionalProductMenuOptions}

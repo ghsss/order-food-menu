@@ -676,7 +676,7 @@ function ProductMenu() {
         <div className='row linksRow' style={{ zIndex: '100' }}>
           {/* {orderChannel === `WhatsApp` ? */}
           <button
-            style={{ borderWidth: `medium`, fontWeight: `bold`, zIndex: '101', cursor: 'pointer', background: orderChannel === `WebSite` ? '#fff' : 'grey' }}
+            style={{ fontWeight: `bold`, zIndex: '101', cursor: 'pointer', background: orderChannel === `WebSite` ? '#fff' : 'grey' }}
             // href={"/#"} 
             className={!companyIsOpenNow() ? 'linkUnavailable' : orderChannel === `WebSite` ? 'glowBox' : ''}
             onClick={e => {
@@ -689,7 +689,7 @@ function ProductMenu() {
           </button>
           {/* : */}
           <button
-            style={{ borderWidth: `medium`, fontWeight: `bold`, zIndex: '101', cursor: 'pointer', background: orderChannel === `WhatsApp` ? '#fff' : 'grey' }}
+            style={{ fontWeight: `bold`, zIndex: '101', cursor: 'pointer', background: orderChannel === `WhatsApp` ? '#fff' : 'grey' }}
             onClick={e => { setOrderChannel('WhatsApp') }}
             className={!companyIsOpenNow() ? 'linkUnavailable' : robot?.phone ? orderChannel === `WhatsApp` ? 'goToWhatsAppLink glowBox' : 'goToWhatsAppLink' : 'linkUnavailable'} rel='noreferrer'
           // target='_blank' href={`https://wa.me/${robot?.phone}?text=${whatsAppQueryParams}`}
