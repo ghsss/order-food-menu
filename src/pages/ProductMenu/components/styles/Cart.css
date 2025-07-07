@@ -1,0 +1,17 @@
+.cartContainer {
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    flex-direction: column;
+    background: #000;
+    border: solid thin #fff;
+    border-radius: 1em;
+    margin-bottom: 6em;
+}
+
+#deleteIcon:hover {
+
+    color: red;
+    transform: scale(3.5) rotate(-10deg);
+
+}

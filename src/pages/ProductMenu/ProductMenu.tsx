@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { JSX, useEffect, useState } from 'react';
 import './styles/ProductMenu.css';
 import ProductMenuList from './components/ProductMenuList';
 import ProductModel from '../../models/Product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faCheck, faClock, faFilter, faGlobe, faHeadphones, faMinusCircle, faPlusCircle, faSearch, faX } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft, faCartPlus, faCartShopping, faCheck, faCheckCircle, faClock, faCopy, faFilter, faGlobe, faHeadphones, faMinusCircle, faPlusCircle, faSearch, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import ProductServiceInstance from '../../services/ProductService';
 import ProductTypeModel from '../../models/ProductType';
 import ProductTypeServiceInstance from '../../services/ProductTypeService';
@@ -13,10 +13,25 @@ import RobotServiceInstance from '../../services/RobotService';
 import RobotModel from '../../models/Robot';
 import CompanyModel from '../../models/Company';
 import CompanyServiceInstance from '../../services/CompanyService';
+import OrderModel, { OrderItemModel } from '../../models/Order';
+import CartServiceInstance from '../../services/CartService';
+import AdditionalProductServiceInstance from '../../services/AdditionalProductService';
+import AdditionalProductModel from '../../models/AdditionalProduct';
+import CartPage from './components/Cart';
 
 const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedido.');
 
 function ProductMenu() {
+
+  const [showCartPage, setShowCartPage] = useState<boolean>(false);
+  const [cart, setCart] = useState<OrderModel>();
+  const [selectedItem, setSelectedItem] = useState<OrderItemModel | null>(null);
+  const [additionalProductMenuOptions, setAdditionalProductMenuOptions] = useState<AdditionalProductModel[]>();
+  const [cartSelectedItemIdx, setCartSelectedItemIdx] = useState<number>(-1);
+
+  const [customerPhone, setCustomerPhone] = useState<string | null>(null);
+
+  const [orderChannel, setOrderChannel] = useState<string>('WhatsApp');
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [productTypeSearchTerm, setProductTypeSearchTerm] = useState<string>('');
@@ -98,6 +113,20 @@ function ProductMenu() {
 
       setCompany(companyRef);
 
+      const storedCartRef = CartServiceInstance.getStoredCart();
+
+      setCart(storedCartRef);
+
+      console.log(`storedCartRef: ${JSON.stringify(storedCartRef)}`);
+
+      const getAdditionalProductsResponse = await AdditionalProductServiceInstance.getAdditionalProducts();
+      getAdditionalProductsResponse.sort((a: ProductModel, b: ProductModel) => {
+        // s1.toLowerCase().localeCompare(s2.toLowerCase()));
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      });
+      console.log('getAdditionalProductsResponse: ', getAdditionalProductsResponse);
+      setAdditionalProductMenuOptions(getAdditionalProductsResponse);
+
     }
 
     getProducts();
@@ -108,8 +137,32 @@ function ProductMenu() {
 
     console.log('company: ', company);
     console.log('robot: ', robot);
+    console.log('orderChannel: ', orderChannel);
+    console.log('selectedItem: ', selectedItem);
+    console.log('cartSelectedItemIdx: ', cartSelectedItemIdx);
 
-  }, [company, robot]);
+  }, [company, robot, orderChannel, selectedItem, cartSelectedItemIdx]);
+
+  useEffect(() => {
+
+    console.log('showCartPage: ', showCartPage);
+
+  }, [showCartPage]);
+
+  useEffect(() => {
+
+    console.log('orderChannel: ', orderChannel);
+
+  }, [orderChannel]);
+
+  useEffect(() => {
+
+    console.log('cart: ', cart);
+    if (cart) {
+      CartServiceInstance.updateStoredCart(cart);
+    }
+
+  }, [cart]);
 
   useEffect(() => {
 
@@ -259,98 +312,436 @@ function ProductMenu() {
     return false;
   }
 
-  return (
-    <div className="ProductMenuContainer">
-      <div style={{ width: '100%', display: 'flex', marginBottom: '2em' }} className='titles'>
-        <a style={{ justifySelf: 'flex-end', alignSelf: 'flex-end', marginRight: '1em', marginTop: '1em' }} href='/admin?action=menu'>
-          {`Sou um administrador `}
-          <FontAwesomeIcon icon={faHeadphones} />
-        </a>
-      </div>
-      <div className='titles'>
-        {/* <h1 id='instruction1' style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique em um item do cardápio para copiar o código do produto! ❤️‍🔥😍
+  function handleItemClick(item: ProductModel, setshowingIcon: React.Dispatch<React.SetStateAction<IconDefinition>>) {
+
+    // Copy the text inside the text field
+    try {
+
+      if (orderChannel === 'WhatsApp' && robot && robot.phone) {
+
+        navigator.clipboard.writeText(item.id);
+        setshowingIcon(faCheckCircle);
+        setTimeout(() => {
+          window.location.href = `https://wa.me/${robot.phone}?text=${item.id}`;
+        }, 100);
+        setTimeout(() => {
+          setshowingIcon(faCopy);
+        }, 1000);
+
+      } else {
+
+        if (orderChannel === 'WebSite' && robot && robot.phone) {
+
+          if (typeof cart === `object`) {
+            // setCart({  });
+          }
+
+          setSelectedItem({ ...item, qty: 1, obs: '.', additionalProducts: [] });
+          setCartSelectedItemIdx(-1);
+
+          // navigator.clipboard.writeText(item.id);
+          // setshowingIcon(faCheckCircle);
+          // setTimeout(() => {
+          //   window.location.href = `https://wa.me/${robot.phone}?text=${item.id}`;
+          // }, 100);
+          // setTimeout(() => {
+          //   setshowingIcon(faCopy);
+          // }, 1000);
+
+        }
+
+      }
+
+    } catch (error) {
+
+      setshowingIcon(faX);
+
+    }
+
+  }
+
+  function handleCartItemChange(item: OrderItemModel, cartSelectedItemIdx: number) {
+
+    try {
+
+      if (item.qty < 1) {
+
+        window.alert('Quantidade do produto precisa ser maior que 0 para adicionar no carrinho.');
+        return;
+
+      }
+
+      if (orderChannel === 'WebSite' && robot && robot.phone) {
+
+        if (cartSelectedItemIdx === -1) {
+          cart?.items.push(item);
+        } else {
+          cart?.items.splice(cartSelectedItemIdx, 1, item);
+        }
+
+        if (cart) {
+          setCart(JSON.parse(JSON.stringify(cart)));
+        }
+
+        goToCartPage()
+
+      }
+
+      //   }
+
+    } catch (error) {
+
+      // setshowingIcon(faX);
+
+    }
+
+  }
+
+  function showSelectedProductDetails(): JSX.Element {
+    if (selectedItem) {
+
+      const selectedItemProduct = productMenuOptions.find(item => item.id === selectedItem.id);
+
+      if (selectedItemProduct) {
+
+
+        return (
+          <div className='cartModal'>
+            <div className="cartModalScroll">
+
+              <button className='goBackButton' style={{ fontSize: '1.25em', justifySelf: `flex-start`, alignSelf: `flex-start`, marginLeft: `1em`, marginBottom: '1em', marginTop: '1em' }}
+                onClick={e => setSelectedItem(null)}>
+                <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
+              </button>
+              <div className="CartProductMenuListItemContainer glowBox"
+              // onClick={event => handleCartItemChange(selectedItem)}
+              >
+                <div id='cartIcon' style={{ color: `#000`, justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em` }} >
+                  <FontAwesomeIcon
+                    icon={faCartShopping}
+                  />
+                </div>
+                <br /><br />
+                <p id='cartItemName' className='cartItemName scalingAnimation'
+                  style={{ marginTop: '2em' }}>
+                  <span>⭐ </span>
+                  {selectedItem.name}
+                </p>
+                <div className='cartItemImageContainer'>
+                  {typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'}
+                  <img draggable={false} className='cartItemImage' src={selectedItemProduct.image_url || './no-image.png'} about={typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} title={typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} alt={typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} />
+                </div>
+                <div className='row'>
+                  <div className='column'>
+                    <div>
+                      <p id='itemPrice' className=''>
+                        {/* <span>Promoção por tempo limitado!</span>
+                        <br/> */}
+                        {` R$ ` + selectedItem.price.toFixed(2).replace('.', ',')}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className='row' style={{ width: `100%`, transform: 'scale(0.95)' }}>
+                  <div>
+                    <p id='itemDescription' className='itemDescription'>
+                      <span>Descrição: </span>
+                      {selectedItemProduct.description}
+                    </p>
+                  </div>
+                </div>
+                <div className='row' style={{ width: `100%`, padding: '1em' }}>
+                  <div>
+                    <span>Observação (Ex: "sem milho e ervilha"): </span>
+                    <textarea id='itemDescription' className='itemDescription' value={selectedItem.obs}
+                      onChange={e => { setSelectedItem({ ...selectedItem, obs: e.target.value }) }} />
+                    {/* {selectedItem.obs} */}
+                  </div>
+                </div>
+                <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', background: 'goldenrod', border: 'solid thin #fff' }}>
+                  <div>
+                    <span>Adicionais: </span>
+                    {additionalProductMenuOptions?.map(additionalProductMenuOption => {
+
+                      const replaceEmojis = (str: string) => {
+                        return str.replace(
+                          /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+                          ''
+                        )
+                      }
+
+                      if (Array.isArray(selectedItem.additionalProducts) && additionalProductMenuOption.availableProductType.some(availableProductType => availableProductType.id === selectedItemProduct.productType.id)) {
+                        const selectedAdditionalProductIdx = selectedItem.additionalProducts?.findIndex(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id));
+                        const selectedAdditionalProductQty = selectedItem.additionalProducts?.find(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id))?.qty || 0;
+                        return (
+                          <div className='row' style={{ width: `100%`, marginTop: '1em', border: 'solid thin #fff', background: 'darkslategrey', borderRadius: '.5em', padding: '.25em' }}>
+                            <div className='column' style={{background: 'darkslategrey'}}>
+                              <span>{additionalProductMenuOption.name} (R$ {parseFloat(additionalProductMenuOption.price.toFixed(2)).toFixed(2).replace('.', ',')}/Uni): {selectedAdditionalProductQty}</span>
+                              <div className="row">
+                                <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`1.5em`}
+                                  style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    if (selectedAdditionalProductQty > 0 && Array.isArray(selectedItem.additionalProducts)) {
+                                      // if ( selectedAdditionalProductIdx === -1 ) {
+                                      //   selectedItem.additionalProducts?.push({...additionalProductMenuOption, qty: selectedAdditionalProductQty });
+                                      // }
+                                      selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = selectedAdditionalProductQty - 1;
+                                      // setSelectedItem({ ...selectedItem, qty: selectedAdditionalProductQty - 1 })
+
+                                      if (selectedItem.additionalProducts[selectedAdditionalProductIdx].qty === 0) {
+                                        selectedItem.additionalProducts.splice(selectedAdditionalProductIdx, 1);
+                                      }
+
+                                      setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
+
+                                    }
+                                  }}
+                                />
+                                <input type="number" step={1} id='itemDescription' className='itemDescription' value={selectedAdditionalProductQty}
+                                  onChange={e => {
+                                    // e.stopPropagation();
+                                    // e.preventDefault();
+                                    console.log(`Qty input change.`)
+                                    if (selectedAdditionalProductQty > 0 && Array.isArray(selectedItem.additionalProducts)) {
+
+                                      // selectedAdditionalProductQty
+                                      if (selectedAdditionalProductIdx === -1) {
+
+                                        selectedItem.additionalProducts.push({ ...additionalProductMenuOption, qty: Number(e.target.value) });
+
+                                      } else {
+
+                                        selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = Number(e.target.value);
+
+                                        if (selectedItem.additionalProducts[selectedAdditionalProductIdx].qty === 0) {
+                                          selectedItem.additionalProducts.splice(selectedAdditionalProductIdx, 1);
+                                        }
+
+                                      }
+
+                                      setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
+
+                                      // setSelectedItem({ ...selectedItem, qty: Number(e.target.value) })
+                                    }
+                                  }
+                                  } />
+                                {/* {selectedItem.obs} */}
+                                <FontAwesomeIcon icon={faPlusCircle} color='green' fontSize={`1.5em`}
+                                  style={{ zIndex: `101`, marginLeft: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    console.log(`Qty increase click.`)
+                                    if (Array.isArray(selectedItem.additionalProducts)) {
+
+                                      if (selectedAdditionalProductIdx === -1) {
+
+                                        selectedItem.additionalProducts.push({ ...additionalProductMenuOption, qty: selectedAdditionalProductQty + 1 });
+
+                                      } else {
+
+                                        selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = selectedAdditionalProductQty + 1;
+
+                                      }
+
+                                      setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
+
+                                    }
+                                  }
+                                  } />
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
+                  </div>
+                </div>
+                <div className='row' style={{ width: `100%`, justifyContent: 'center', paddingTop: '1em', paddingBottom: '1em' }}>
+                  <div>
+                    <span>Quantidade: {selectedItem.qty}</span>
+                    <div className="row">
+                      <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`2.5em`}
+                        style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                        onClick={e => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          if (selectedItem.qty > 1) {
+                            setSelectedItem({ ...selectedItem, qty: selectedItem.qty -= 1 })
+                          }
+                        }}
+                      />
+                      <input type="number" step={1} id='itemDescription' className='itemDescription' value={selectedItem.qty}
+                        onChange={e => {
+                          // e.stopPropagation();
+                          // e.preventDefault();
+                          console.log(`Qty decrease click.`)
+                          if (selectedItem.qty > 0) {
+                            setSelectedItem({ ...selectedItem, qty: Number(e.target.value) })
+                          }
+                        }} />
+                      {/* {selectedItem.obs} */}
+                      <FontAwesomeIcon icon={faPlusCircle} color='green' fontSize={`2.5em`}
+                        style={{ zIndex: `101`, marginLeft: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                        onClick={e => {
+                          // e.stopPropagation();
+                          // e.preventDefault();
+                          console.log(`Qty increase click.`)
+                          setSelectedItem({
+                            ...selectedItem, qty: selectedItem.qty += 1
+
+                          })
+                        }} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="fixedAddToCartContainer"
+                onClick={e => handleCartItemChange(selectedItem, cartSelectedItemIdx)}
+              >
+                <p><FontAwesomeIcon icon={faCartPlus} /> {cartSelectedItemIdx === -1 ? `Adicionar no carrinho` : `Atualizar item do carrinho`}</p>
+              </div>
+
+            </div>
+          </div>
+        )
+      }
+    }
+    return (<></>)
+  }
+
+  function goToCartPage() {
+    setShowCartPage(true);
+  }
+
+  if (selectedItem === null && !showCartPage) {
+    return (
+      <div className="ProductMenuContainer">
+        <div style={{ width: '100%', display: 'flex', marginBottom: '2em' }} className='titles'>
+          <a style={{ justifySelf: 'flex-end', alignSelf: 'flex-end', marginRight: '1em', marginTop: '1em' }} href='/admin?action=menu'>
+            {`Sou um administrador `}
+            <FontAwesomeIcon icon={faHeadphones} />
+          </a>
+        </div>
+        <div className='titles'>
+          {/* <h1 id='instruction1' style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique em um item do cardápio para copiar o código do produto! ❤️‍🔥😍
         </h1> */}
-        {/* <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>
+          {/* <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>
           <span style={{ color: 'green' }}>Redirecionamento automático <FontAwesomeIcon fontSize={`1.25em`} color='green' icon={faWhatsapp} /></span>
         </h1> */}
-      </div>
-      <div style={{ fontSize: '.75em',maxWidth: '60%'}} className='column'>
-        <h1 style={{ color: '#000', cursor: `pointer` }} onClick={e => {
-          setCompanyInfoDropdownOpen(!companyInfoDropdownOpen);
-        }}>
-          <div className='column'>
-            <span style={{ color: '#000', padding: '.25em' }}><FontAwesomeIcon fontSize={`1.25em`} color='rgb(231, 77, 0)' icon={companyInfoDropdownOpen === true ? faMinusCircle : faPlusCircle} /> Horários de atendimento</span>
-            <p style={{
-              fontSize: '1em', color: '#000', background: '#fff', overflowY: 'hidden', height: companyInfoDropdownOpen ? 'auto' : '0', display: companyInfoDropdownOpen ? 'flex' : 'none',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textDecoration: 'none'
-            }}>
-              {company?.workingDays.map((workingDay, workingDayIdx) => {
-                return <>
-                  {
-                    workingDayIdx !== 0 ?
-                      <>
-                        <br key={`workingDayIdx${workingDayIdx}br`} />
-                        <br key={`workingDayIdx${workingDayIdx}br2`} />
-                      </>
-                      :
-                      <></>
-                  }
-                  <span key={`workingDayIdx${workingDayIdx}`} style={{ fontSize: '.75em', display: 'block', padding: '.5em', margin: '.5em', color: '#000', border: 'solid thin #000', borderRadius: '1em' }}>
-                    <span style={{ color: 'rgb(231, 77, 0)' }}>
-                      {<FontAwesomeIcon color='#000' icon={faClock} />} {workingDay.dayLabel}
+        </div>
+        <div style={{ fontSize: '.75em', maxWidth: '60%' }} className='column'>
+          <h1 style={{ color: '#000', cursor: `pointer` }} onClick={e => {
+            setCompanyInfoDropdownOpen(!companyInfoDropdownOpen);
+          }}>
+            <div className='column'>
+              <span style={{ color: '#000', padding: '.25em' }}><FontAwesomeIcon fontSize={`1.25em`} color='rgb(231, 77, 0)' icon={companyInfoDropdownOpen === true ? faMinusCircle : faPlusCircle} /> Horários de atendimento</span>
+              <p style={{
+                fontSize: '1em', color: '#000', background: '#fff', overflowY: 'hidden', height: companyInfoDropdownOpen ? 'auto' : '0', display: companyInfoDropdownOpen ? 'flex' : 'none',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textDecoration: 'none'
+              }}>
+                {company?.workingDays.map((workingDay, workingDayIdx) => {
+                  return <>
+                    {
+                      workingDayIdx !== 0 ?
+                        <>
+                          <br key={`workingDayIdx${workingDayIdx}br`} />
+                          <br key={`workingDayIdx${workingDayIdx}br2`} />
+                        </>
+                        :
+                        <></>
+                    }
+                    <span key={`workingDayIdx${workingDayIdx}`} style={{ fontSize: '.75em', display: 'block', padding: '.5em', margin: '.5em', color: '#000', border: 'solid thin #000', borderRadius: '1em' }}>
+                      <span style={{ color: 'rgb(231, 77, 0)' }}>
+                        {<FontAwesomeIcon color='#000' icon={faClock} />} {workingDay.dayLabel}
+                      </span>
+                      <br />
+                      {workingDay.alwaysOpen ? `Aberto 24h` : `${workingDay.startHour} até ${workingDay.endHour}.`}
                     </span>
-                    <br />
-                    {workingDay.alwaysOpen ? `Aberto 24h` : `${workingDay.startHour} até ${workingDay.endHour}.`}
-                  </span>
-                </>
-              })}
-            </p>
+                  </>
+                })}
+              </p>
 
-          </div>
-        </h1>
-      </div >
-      <div className='row linksRow'>
-        <a className={robot?.phone ? 'goToWhatsAppLink' : 'linkUnavailable'} rel='noreferrer' target='_blank' href={`https://wa.me/${robot?.phone}?text=${whatsAppQueryParams}`}>
-          {'Pedir pelo WhatsApp '}
-          <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
-        </a>
-        <a href={"/#"} className='linkUnavailable'>
-          {'Pedir pelo site '}
-          <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
-        </a>
-      </div>
-      {
-        robot ?
-          <ProductMenuList companyIsOpenNow={companyIsOpenNow()} robot={robot} productMenuItems={filteredProductMenuOptions.length > 0 || searchTerm.length > 0 ? filteredProductMenuOptions : productMenuOptions}
-          >
-            <div className='filterInputsContainer'>
-              <label htmlFor="searchTermInput"><FontAwesomeIcon icon={faSearch} /></label>
-              <input id='searchTermInput' className='searchTermInput' type="text" value={searchTerm} placeholder='Pesquisar produto/sabor' onChange={e => handleSearch(e)} />
-              <div className='filterByProductTypeContainer'>
-                <label style={{ color: `#000` }} htmlFor="filterByProductType">{`Filtrar por tipo `}
-                  <FontAwesomeIcon icon={faFilter} />
-                </label>
-                <select className='filterByProductType' name="filterByProductType" id="filterByProductType"
-                  onChange={e => handleSelect(e)}
-                >
-                  <option value="all" defaultChecked={true} >Todos</option>
-                  {productTypeSelectOptions.map(productTypeSelectOption => {
-                    return (
-                      <option key={productTypeSelectOption.id} value={productTypeSelectOption.id}>{productTypeSelectOption.name}</option>
-                    );
-                  })}
-                </select>
-              </div>
             </div>
-          </ProductMenuList>
-          :
-          <></>
-      }
-    </div >
-  );
+          </h1>
+        </div >
+        <div className='row linksRow' style={{ zIndex: '100' }}>
+          {orderChannel === `WhatsApp` ?
+            <button
+              style={{ zIndex: '101' }}
+              // href={"/#"} 
+              onClick={e => {
+                console.log(`clicked`);
+                setOrderChannel('WebSite');
+              }} className=''>
+              {'Pedir pelo site '}
+              <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
+            </button>
+            :
+            <button onClick={e => { setOrderChannel('WhatsApp') }} className={robot?.phone ? 'goToWhatsAppLink' : 'linkUnavailable'} rel='noreferrer'
+            // target='_blank' href={`https://wa.me/${robot?.phone}?text=${whatsAppQueryParams}`}
+            >
+              {'Pedir pelo WhatsApp '}
+              <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
+            </button>
+          }
+        </div>
+        {
+          robot ?
+            <ProductMenuList handleItemClick={handleItemClick} companyIsOpenNow={companyIsOpenNow()} robot={robot} productMenuItems={filteredProductMenuOptions.length > 0 || searchTerm.length > 0 ? filteredProductMenuOptions : productMenuOptions}
+            >
+              <div className='filterInputsContainer'>
+                <label htmlFor="searchTermInput"><FontAwesomeIcon icon={faSearch} /></label>
+                <input id='searchTermInput' className='searchTermInput' type="text" value={searchTerm} placeholder='Pesquisar produto/sabor' onChange={e => handleSearch(e)} />
+                <div className='filterByProductTypeContainer'>
+                  <label style={{ color: `#000` }} htmlFor="filterByProductType">{`Filtrar por tipo `}
+                    <FontAwesomeIcon icon={faFilter} />
+                  </label>
+                  <select className='filterByProductType' name="filterByProductType" id="filterByProductType"
+                    onChange={e => handleSelect(e)}
+                  >
+                    <option value="all" defaultChecked={true} >Todos</option>
+                    {productTypeSelectOptions.map(productTypeSelectOption => {
+                      return (
+                        <option key={productTypeSelectOption.id} value={productTypeSelectOption.id}>{productTypeSelectOption.name}</option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+            </ProductMenuList>
+            :
+            <></>
+        }
+        {
+          orderChannel === 'WebSite' ?
+            <div className="fixedAddToCartContainer"
+              onClick={e => goToCartPage()}
+            >
+              <p>({cart?.items.length || 0}) <FontAwesomeIcon icon={faCartPlus} /> Carrinho</p>
+            </div>
+            :
+            <></>
+        }
+      </div >
+    );
+  } else if (showCartPage === true && typeof cart === 'object') {
+
+    return (
+      <CartPage cart={cart} setCart={setCart} setShowCartPage={setShowCartPage}
+        setSelectedItem={setSelectedItem}
+        setCartSelectedItemIdx={setCartSelectedItemIdx}
+      />
+    );
+  } else {
+    return showSelectedProductDetails();
+  }
 }
 
 export default ProductMenu;

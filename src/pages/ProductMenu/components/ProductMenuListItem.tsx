@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import './styles/ProductMenuListItem.css';
 import ProductModel from '../../../models/Product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,12 +7,14 @@ import { faCheckCircle, faCopy, faX, IconDefinition } from '@fortawesome/free-so
 import RobotModel from '../../../models/Robot';
 
 interface ProductMenuListItemProps {
+  handleItemClick: (item: ProductModel, setshowingIcon: Dispatch<SetStateAction<IconDefinition>>) => void,
   item: ProductModel;
   robot: RobotModel;
   children?: React.ReactNode;
 }
 
 function ProductMenuListItem({
+  handleItemClick,
   item,
   robot,
 }: ProductMenuListItemProps) {
@@ -42,7 +44,7 @@ function ProductMenuListItem({
   }
 
   return (
-    <div className="ProductMenuListItemContainer glowBox" onClick={event => handleCopyItemCode()}>
+    <div className="ProductMenuListItemContainer glowBox" onClick={event => handleItemClick(item, setshowingIcon)}>
       <div id='copyIcon' style={{ color: (showingIcon === faCopy ? `inherit` : (showingIcon === faX ? `red` : `green`)), justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em` }} >
         <FontAwesomeIcon
           icon={showingIcon}

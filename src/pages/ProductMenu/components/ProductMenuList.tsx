@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import './styles/ProductMenuList.css';
 import ProductModel from '../../../models/Product';
 import ProductMenuListItem from './ProductMenuListItem';
 import RobotModel from '../../../models/Robot';
-import { faCheck, faCheckCircle, faX } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCheckCircle, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface ProductMenuListProps {
+  handleItemClick: (item: ProductModel, setshowingIcon: Dispatch<SetStateAction<IconDefinition>>) => void,
   companyIsOpenNow: boolean,
   productMenuItems: ProductModel[],
   robot: RobotModel,
   children?: React.ReactNode;
 }
 
-function ProductMenuList({ companyIsOpenNow, productMenuItems, robot, children }: ProductMenuListProps) {
+function ProductMenuList({ handleItemClick, companyIsOpenNow, productMenuItems, robot, children }: ProductMenuListProps) {
 
   return (
     <div className='ProductMenuListContainer'>
@@ -35,7 +36,7 @@ function ProductMenuList({ companyIsOpenNow, productMenuItems, robot, children }
               productMenuItems.map((productMenuItem) => {
                 if (productMenuItem.stock > 0) {
                   return (
-                    <ProductMenuListItem key={productMenuItem.id} robot={robot} item={productMenuItem} />
+                    <ProductMenuListItem key={productMenuItem.id} handleItemClick={handleItemClick} robot={robot} item={productMenuItem} />
                   )
                 } else {
                   return <></>

@@ -1,4 +1,4 @@
-type OrderItemModel = {
+export type OrderItemModel = {
   _id?: string;
   id: string;
   name: string;
@@ -36,6 +36,15 @@ type PayerModel = {
   identification: IdentificationModel;
 };
 
+type PixRequestModel = {
+  _id?: string;
+  transaction_amount: number;
+  description: string;
+  payment_method_id: string;
+  date_of_expiration: string;
+  payer: PayerModel;
+}
+
 type OrderModel = {
   orderNumber?: number;
   _id?: string;
@@ -48,7 +57,7 @@ type OrderModel = {
   customerFormattedNumber: string;
   paymentAmount: number;
   items: OrderItemModel[];
-  payer: PayerModel;
+  pixRequest: PixRequestModel;
   companyNotified: boolean;
   customerNotified: boolean;
   createdAt: Date;

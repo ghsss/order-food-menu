@@ -21,11 +21,13 @@ class AccessCodeService {
   getStoredAccessCode(): string | undefined {
     if (document.cookie) {
       console.log("document.cookie", document.cookie);
-      const accessCode = document?.cookie
-        ?.split(`accessCodeSHA512Hash=`)[1]
-        .split(`;`)[0];
-      console.log("document.cookie accessCode", accessCode);
-      return accessCode;
+      if (document.cookie.includes("accessCodeSHA512Hash=")) {
+        const accessCode = document?.cookie
+          ?.split(`accessCodeSHA512Hash=`)[1]
+          .split(`;`)[0];
+        console.log("document.cookie accessCode", accessCode);
+        return accessCode;
+      }
     }
   }
 
@@ -317,7 +319,7 @@ class AccessCodeService {
         const txtResponse = await response.text();
         console.log("accessCodeIsValid.txtResponse: ", txtResponse);
         if (txtResponse.length > 11) {
-          document.cookie = "accessCodeSHA512Hash=;expires=;path=/admin;";
+          // document.cookie = "accessCodeSHA512Hash=;expires=;path=/admin;";
           const now = new Date();
           now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
           document.cookie =
