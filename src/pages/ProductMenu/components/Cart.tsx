@@ -286,7 +286,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                     }
 
                                     return (
-                                        <div className="row" style={{ display: 'block', border: 'solid thin #fff', width: `100%`,  padding: '1.5em', paddingTop: `.75em` }}
+                                        <div className="row" style={{ display: 'block', border: 'solid thin #fff', width: `100%`, paddingBottom: '1em' }}
                                             onClick={e => { setShowCartPage(false); setCartSelectedItemIdx(orderItemIdx); setSelectedItem(orderItem) }}
                                         >
                                             {/* <div className="row"
@@ -303,7 +303,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                                 // marginLeft: `50%`,  
                                                 width: 'auto',
                                                 height: 'auto',
-                                                marginTop: `0`,
+                                                margin: `1em`,
                                                 marginLeft: `1em`,
                                                 zIndex: `100`
                                             }}
@@ -325,7 +325,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                                 justifySelf: 'flex-end',
                                                 transform: `scale(2) `,
                                                 // marginLeft: `50%`,
-                                                marginRight: `1em`,
+                                                margin: `1em`,
                                                 marginBottom: `.5em`,
                                                 width: 'auto',
                                                 height: 'auto',
