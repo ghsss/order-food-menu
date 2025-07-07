@@ -604,7 +604,7 @@ function ProductMenu() {
               <div className="fixedAddToCartContainer"
                 onClick={e => handleCartItemChange(selectedItem, cartSelectedItemIdx)}
               >
-                <p><FontAwesomeIcon icon={faCartPlus} /> {cartSelectedItemIdx === -1 ? `Adicionar no carrinho` : `Atualizar item do carrinho`}</p>
+                <p><FontAwesomeIcon icon={faCartPlus} /> {cartSelectedItemIdx === -1 ? `Adicionar no carrinho` : `Voltar para o carrinho`}</p>
               </div>
 
             </div>
