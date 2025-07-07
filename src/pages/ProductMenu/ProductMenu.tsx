@@ -475,7 +475,7 @@ function ProductMenu() {
                         const selectedAdditionalProductQty = selectedItem.additionalProducts?.find(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id))?.qty || 0;
                         return (
                           <div className='row' style={{ width: `100%`, marginTop: '1em', border: 'solid thin #fff', background: 'darkslategrey', borderRadius: '.5em', padding: '.25em' }}>
-                            <div className='column' style={{background: 'darkslategrey'}}>
+                            <div className='column' style={{ background: 'darkslategrey' }}>
                               <span>{additionalProductMenuOption.name} (R$ {parseFloat(additionalProductMenuOption.price.toFixed(2)).toFixed(2).replace('.', ',')}/Uni): {selectedAdditionalProductQty}</span>
                               <div className="row">
                                 <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`1.5em`}
@@ -555,6 +555,8 @@ function ProductMenu() {
                             </div>
                           </div>
                         );
+                      } else {
+                        return (<></>);
                       }
                     })}
                   </div>
