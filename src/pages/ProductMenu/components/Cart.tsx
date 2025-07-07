@@ -43,6 +43,10 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
 
     async function handleOrderSubmit() {
 
+        if(cart.items.length === 0) {
+            window.alert('É necessário ao menos um item para finalizar o pedido.')
+        }
+
         const expiresAt = new Date();
         expiresAt.setMinutes(expiresAt.getMinutes() + 30);
         expiresAt.setSeconds(expiresAt.getSeconds() + 1);
