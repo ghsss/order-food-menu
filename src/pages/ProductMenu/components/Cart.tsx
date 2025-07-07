@@ -286,7 +286,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                     }
 
                                     return (
-                                        <div className="row" style={{ display: 'flex', border: 'solid thin #fff', padding: '1em' }}
+                                        <div className="row" style={{ display: 'block', border: 'solid thin #fff', padding: '1em' }}
                                             onClick={e => { setShowCartPage(false); setCartSelectedItemIdx(orderItemIdx); setSelectedItem(orderItem) }}
                                         >
                                             {/* <div className="row"
@@ -298,8 +298,8 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                                 position: `absolute`,
                                                 color: (`grey`),
                                                 float: 'right',
-                                                justifySelf: 'flex-end',
-                                                transform: `scale(2) translateY(-50%)`,
+                                                justifySelf: 'flex-start',
+                                                transform: `scale(2)`,
                                                 // marginLeft: `50%`,  
                                                 width: 'auto',
                                                 height: 'auto',
@@ -318,15 +318,14 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                                 />
                                             </div>
                                             <div id='deleteIcon' style={{
-                                                position: `absolute`,
+                                                // position: `absolute`,
                                                 color: (`red`),
-                                                float: 'right',
+                                                // float: 'right',
                                                 justifySelf: 'flex-end',
-                                                transform: `scale(2) translateX(10em) translateY(-50%)`,
+                                                transform: `scale(2) `,
                                                 // marginLeft: `50%`,  
                                                 width: 'auto',
                                                 height: 'auto',
-                                                marginTop: `0`,
                                                 zIndex: `100`
                                             }}
                                                 onClick={async e => {
@@ -341,7 +340,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                                 />
                                             </div>
                                             {/* </div> */}
-                                            <span style={{ padding: '.5em', marginRight: '1em' }}>
+                                            <span style={{ padding: '1.5em' }}>
                                                 ({orderItem.qty}x) {orderItem.name} {orderItem.obs.length > 0 ? `| OBS: ${orderItem.obs}` : ''}{Array.isArray(orderItem?.additionalProducts) && orderItem?.additionalProducts?.length > 0 ?
                                                     ` | Adicionais: ${orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
                                                         return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
