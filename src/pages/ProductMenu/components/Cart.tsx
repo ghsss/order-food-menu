@@ -286,7 +286,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                     }
 
                                     return (
-                                        <div className="row" style={{ display: 'block', border: 'solid thin #fff', padding: '1em' }}
+                                        <div className="row" style={{ display: 'block', border: 'solid thin #fff', width: `100%`,  padding: '1.5em', paddingTop: `.75em` }}
                                             onClick={e => { setShowCartPage(false); setCartSelectedItemIdx(orderItemIdx); setSelectedItem(orderItem) }}
                                         >
                                             {/* <div className="row"
@@ -304,6 +304,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                                 width: 'auto',
                                                 height: 'auto',
                                                 marginTop: `0`,
+                                                marginLeft: `1em`,
                                                 zIndex: `100`
                                             }}
                                                 onClick={async e => {
@@ -323,7 +324,9 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                                 // float: 'right',
                                                 justifySelf: 'flex-end',
                                                 transform: `scale(2) `,
-                                                // marginLeft: `50%`,  
+                                                // marginLeft: `50%`,
+                                                marginRight: `1em`,
+                                                marginBottom: `.5em`,
                                                 width: 'auto',
                                                 height: 'auto',
                                                 zIndex: `100`
