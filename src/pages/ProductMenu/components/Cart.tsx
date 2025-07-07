@@ -301,7 +301,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                             justifySelf: `flex-end`,
                                         }}
                                     > */}
-                                            <div style={{ paddingBottom: '1.25em', background: '#fff', border: 'solid thin #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
+                                            <div style={{ paddingBottom: '1.25em', background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
                                                 <div id='copyIcon' style={{
                                                     position: `absolute`,
                                                     color: (`#000`),
