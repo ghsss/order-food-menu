@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { paymentMethods } from "../../../consts/PaymentMethods";
 import OrderModel, { OrderItemModel } from "../../../models/Order";
-import { faArrowCircleLeft, faArrowRight, faCopy, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowCircleLeft, faArrowRight, faCopy, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import * as QRCode from 'qrcode';
 
 import './styles/Cart.css'
@@ -223,7 +223,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                         <span>Caso o pagamento não seja realizado dentro do prazo abaixo o pedido será cancelado automaticamente.</span>
                         <br />
                         <span>Prazo para realizar o pagamento: </span>
-                        <p style={{ fontSize: '1.125em' }}>30 minutos <br />({date_of_expirationFormatted.substring(0, date_of_expirationFormatted.length-3).replace(`,`, ``)})</p>
+                        <p style={{ fontSize: '1.125em' }}>30 minutos <br />({date_of_expirationFormatted.substring(0, date_of_expirationFormatted.length - 3).replace(`,`, ``)})</p>
                         <img src={qrCodeBase64DataURL} alt="Pix QRCode" style={{
                             maxWidth: '50vw',
                             alignSelf: 'center',
@@ -294,8 +294,31 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
                                             justifySelf: `flex-end`,
                                         }}
                                     > */}
+                                            <div id='copyIcon' style={{
+                                                position: `absolute`,
+                                                color: (`grey`),
+                                                float: 'right',
+                                                justifySelf: 'flex-end',
+                                                transform: `scale(2) translateY(-50%)`,
+                                                // marginLeft: `50%`,  
+                                                width: 'auto',
+                                                height: 'auto',
+                                                marginTop: `0`,
+                                                zIndex: `100`
+                                            }}
+                                                onClick={async e => {
+                                                    e.stopPropagation();
+                                                    cart.items.splice(orderItemIdx, 1);
+                                                    setCart({ ...cart })
+                                                    // await handleDeleteItemCode(item);
+                                                }}
+                                            >
+                                                <FontAwesomeIcon
+                                                    icon={faPencil}
+                                                />
+                                            </div>
                                             <div id='deleteIcon' style={{
-                                                // position: `absolute`,
+                                                position: `absolute`,
                                                 color: (`red`),
                                                 float: 'right',
                                                 justifySelf: 'flex-end',
