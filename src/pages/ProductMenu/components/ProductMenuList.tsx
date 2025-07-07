@@ -25,7 +25,7 @@ function ProductMenuList({ handleItemClick, companyIsOpenNow, productMenuItems, 
         </span>
       </h1>
       {/* </div> */}
-      <h2 id='listTitle' className='listTitle linkUnavailable'>🔥 Cardápio 🔥</h2>
+      <h2 id='listTitle' style={{borderWidth: 'medium'}} className='listTitle linkUnavailable'>🔥 Cardápio 🔥</h2>
       {children}
       <div id='listScroll' className='ProductMenuListContainerScroll'>
         <div className="ProductMenuList">

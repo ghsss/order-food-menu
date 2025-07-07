@@ -458,7 +458,7 @@ function ProductMenu() {
                     {/* {selectedItem.obs} */}
                   </div>
                 </div>
-                <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', background: 'goldenrod', border: 'solid thin #fff' }}>
+                <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', background: 'rgba(93, 0, 0, 0.248)', border: 'solid thin #fff' }}>
                   <div>
                     <span>Adicionais: </span>
                     {additionalProductMenuOptions?.map(additionalProductMenuOption => {
@@ -676,9 +676,9 @@ function ProductMenu() {
         <div className='row linksRow' style={{ zIndex: '100' }}>
           {/* {orderChannel === `WhatsApp` ? */}
           <button
-            style={{ zIndex: '101', cursor: 'pointer', background: orderChannel === `WebSite` ? '#fff' : 'grey' }}
+            style={{ borderWidth: `medium`, fontWeight: `bold`, zIndex: '101', cursor: 'pointer', background: orderChannel === `WebSite` ? '#fff' : 'grey' }}
             // href={"/#"} 
-            className={orderChannel === `WebSite` ? 'glowBox' : ''}
+            className={!companyIsOpenNow() ? 'linkUnavailable' : orderChannel === `WebSite` ? 'glowBox' : ''}
             onClick={e => {
               console.log(`clicked`);
               setOrderChannel('WebSite');
@@ -689,9 +689,9 @@ function ProductMenu() {
           </button>
           {/* : */}
           <button
-            style={{ zIndex: '101', cursor: 'pointer', background: orderChannel === `WhatsApp` ? '#fff' : 'grey' }}
+            style={{ borderWidth: `medium`, fontWeight: `bold`, zIndex: '101', cursor: 'pointer', background: orderChannel === `WhatsApp` ? '#fff' : 'grey' }}
             onClick={e => { setOrderChannel('WhatsApp') }}
-            className={robot?.phone ? orderChannel === `WhatsApp` ? 'goToWhatsAppLink glowBox' : 'goToWhatsAppLink' : 'linkUnavailable'} rel='noreferrer'
+            className={!companyIsOpenNow() ? 'linkUnavailable' : robot?.phone ? orderChannel === `WhatsApp` ? 'goToWhatsAppLink glowBox' : 'goToWhatsAppLink' : 'linkUnavailable'} rel='noreferrer'
           // target='_blank' href={`https://wa.me/${robot?.phone}?text=${whatsAppQueryParams}`}
           >
             {'Pedir pelo WhatsApp '}

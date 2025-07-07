@@ -125,10 +125,28 @@ h1 {
   color: #fff;
   height: 5em;
   width: 100vw;
-  background: #000;
-  border: solid thin #fff;
+  background: rgb(231, 77, 0);
+  border: solid medium #000;
   border-top-left-radius: 1em;
   border-top-right-radius: 1em;
+}
+
+.fixedAddToCartContainer p {
+  color: #fff;
+  /* background: #fff; */
+  border-radius: 1em;
+  padding: .125em;
+  text-decoration: none;
+}
+
+.fixedAddToCartContainer::after {
+  position: absolute;
+  content: '';
+  height: 100%;
+  width: 100%;
+  background: rgba(93, 0, 0, 0.248);
+  border-top-right-radius: 1em;
+  border-top-left-radius: 1em;
 }
 
 .CartProductMenuListItemContainer #cartIcon {
