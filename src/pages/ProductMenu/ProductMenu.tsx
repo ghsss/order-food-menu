@@ -674,25 +674,30 @@ function ProductMenu() {
           </h1>
         </div >
         <div className='row linksRow' style={{ zIndex: '100' }}>
-          {orderChannel === `WhatsApp` ?
-            <button
-              style={{ zIndex: '101' }}
-              // href={"/#"} 
-              onClick={e => {
-                console.log(`clicked`);
-                setOrderChannel('WebSite');
-              }} className=''>
-              {'Pedir pelo site '}
-              <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
-            </button>
-            :
-            <button onClick={e => { setOrderChannel('WhatsApp') }} className={robot?.phone ? 'goToWhatsAppLink' : 'linkUnavailable'} rel='noreferrer'
-            // target='_blank' href={`https://wa.me/${robot?.phone}?text=${whatsAppQueryParams}`}
-            >
-              {'Pedir pelo WhatsApp '}
-              <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
-            </button>
-          }
+          {/* {orderChannel === `WhatsApp` ? */}
+          <button
+            style={{ zIndex: '101', cursor: 'pointer', background: orderChannel === `WebSite` ? '#fff' : 'grey' }}
+            // href={"/#"} 
+            className={orderChannel === `WebSite` ? 'glowBox' : ''}
+            onClick={e => {
+              console.log(`clicked`);
+              setOrderChannel('WebSite');
+            }}
+          >
+            {'Pedir pelo site '}
+            <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
+          </button>
+          {/* : */}
+          <button
+            style={{ zIndex: '101', cursor: 'pointer', background: orderChannel === `WhatsApp` ? '#fff' : 'grey' }}
+            onClick={e => { setOrderChannel('WhatsApp') }}
+            className={robot?.phone ? orderChannel === `WhatsApp` ? 'goToWhatsAppLink glowBox' : 'goToWhatsAppLink' : 'linkUnavailable'} rel='noreferrer'
+          // target='_blank' href={`https://wa.me/${robot?.phone}?text=${whatsAppQueryParams}`}
+          >
+            {'Pedir pelo WhatsApp '}
+            <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
+          </button>
+          {/* } */}
         </div>
         {
           robot ?
