@@ -84,7 +84,7 @@ function AdminProductTypeMenuListItem({
 
   return (
     <div className="ProductTypeMenuListItemContainer glowBox" onClick={event => handleCopyItemCode(event)}>
-      <div id={'copyIcon'} style={{ color: (showingIcon === faPencil ? `inherit` : (showingIcon === faX ? `red` : `green`)), justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em` }} >
+      <div id={'copyIcon'} style={{ color: (showingIcon === faPencil ? `inherit` : (showingIcon === faX ? `red` : `green`)), marginRight: `2em`, marginTop: `2em` }} >
         <FontAwesomeIcon
           icon={showingIcon}
         />
