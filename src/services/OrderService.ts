@@ -4,18 +4,19 @@ import AccessCodeServiceInstance from "./AccessCodeService";
 const productEndpoint =
   process.env.REACT_APP_PRODUCT_ENDPOINT || "http://localhost:3000";
 
-const accessCodeSHA512Hash =
-  AccessCodeServiceInstance.getStoredAccessCode() || ``;
-
 class OrderService {
+  
+  static accessCodeSHA512Hash =
+    AccessCodeServiceInstance.getStoredAccessCode() || ``;
+
   async getTodayOrders(): Promise<OrderModel[] | undefined> {
     try {
       const response = await fetch(productEndpoint + "/api/order/today", {
         method: `GET`,
         headers: {
           "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          accessCodeSHA512Hash: OrderService.accessCodeSHA512Hash,
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -35,8 +36,8 @@ class OrderService {
         method: `GET`,
         headers: {
           "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          accessCodeSHA512Hash: OrderService.accessCodeSHA512Hash,
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -56,8 +57,8 @@ class OrderService {
         method: `GET`,
         headers: {
           "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          accessCodeSHA512Hash: OrderService.accessCodeSHA512Hash,
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -77,9 +78,9 @@ class OrderService {
         method: `GET`,
         headers: {
           "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
+          accessCodeSHA512Hash: OrderService.accessCodeSHA512Hash,
           orderId: orderId,
-          'ngrok-skip-browser-warning': 'true'
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -99,9 +100,9 @@ class OrderService {
         method: `PATCH`,
         headers: {
           "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
+          accessCodeSHA512Hash: OrderService.accessCodeSHA512Hash,
           orderId: orderId,
-          'ngrok-skip-browser-warning': 'true'
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -117,15 +118,18 @@ class OrderService {
   }
   async confirmPayment(orderId: string) {
     try {
-      const response = await fetch(productEndpoint + "/api/order/confirmPayment", {
-        method: `PATCH`,
-        headers: {
-          "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          orderId: orderId,
-          'ngrok-skip-browser-warning': 'true'
-        },
-      });
+      const response = await fetch(
+        productEndpoint + "/api/order/confirmPayment",
+        {
+          method: `PATCH`,
+          headers: {
+            "Content-Type": "application/json",
+            accessCodeSHA512Hash: OrderService.accessCodeSHA512Hash,
+            orderId: orderId,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
       if (response.status === 200) {
         const txtResponse = await response.text();
         console.log("finishOrder.txtResponse: ", txtResponse);
@@ -140,8 +144,8 @@ class OrderService {
   async newOrder(order: OrderModel) {
     try {
       for (const orderItem of order.items) {
-        if(orderItem.obs.length === 0) {
-          orderItem.obs = `COMPLETO`
+        if (orderItem.obs.length === 0) {
+          orderItem.obs = `COMPLETO`;
         }
       }
       const response = await fetch(productEndpoint + "/api/order", {
@@ -149,8 +153,8 @@ class OrderService {
         body: JSON.stringify(order),
         headers: {
           "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          accessCodeSHA512Hash: OrderService.accessCodeSHA512Hash,
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 201) {

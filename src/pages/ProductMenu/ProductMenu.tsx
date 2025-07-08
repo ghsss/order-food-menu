@@ -21,11 +21,14 @@ import CartPage from './components/Cart';
 import MyOrdersPage from './components/MyOrders';
 import AccessCodeServiceInstance from '../../services/AccessCodeService';
 import CustomerAccessCodePage from '../Admin/CustomerAccessCode/CustomerAccessCode';
+import LoadingPage from '../Loading';
 
 const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedido.');
 
 function ProductMenu() {
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [accessCodeIsSet, setAccessCodeIsSet] = useState<boolean>(false);
   const [showOrdersPage, setShowOrdersPage] = useState<boolean>(false);
   const [showCartPage, setShowCartPage] = useState<boolean>(false);
   const [cart, setCart] = useState<OrderModel>();
@@ -131,15 +134,37 @@ function ProductMenu() {
       console.log('getAdditionalProductsResponse: ', getAdditionalProductsResponse);
       setAdditionalProductMenuOptions(getAdditionalProductsResponse);
 
-      // if (typeof AccessCodeServiceInstance.getStoredAccessCode() === 'undefined') {
+      waitSeconds(5)
+        .then(() => { setLoading(false); });
 
-      // }
+      syncAccessToken()
 
     }
 
     getProducts();
 
   }, []);
+
+  function waitSeconds(seconds: number) {
+    return new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, seconds * 1000);
+    })
+  }
+
+  async function syncAccessToken() {
+
+
+    const isSet = typeof AccessCodeServiceInstance.getStoredAccessCode() !== 'undefined';
+
+    setAccessCodeIsSet(isSet);
+
+    await waitSeconds(3);
+
+    syncAccessToken();
+
+  }
 
   useEffect(() => {
 
@@ -171,6 +196,20 @@ function ProductMenu() {
     }
 
   }, [cart]);
+
+  useEffect(() => {
+
+    console.log('showOrdersPage: ', showOrdersPage);
+    console.log('showCartPage: ', showCartPage);
+    if (showCartPage) {
+      setShowOrdersPage(false);
+    } else {
+      if (showOrdersPage) {
+        setShowCartPage(false);
+      }
+    }
+
+  }, [showCartPage, showOrdersPage]);
 
   useEffect(() => {
 
@@ -631,8 +670,10 @@ function ProductMenu() {
     setShowOrdersPage(true);
   }
 
-  if (typeof AccessCodeServiceInstance.getStoredAccessCode() === 'undefined') {
-    return <CustomerAccessCodePage />;
+  if (loading) {
+
+    return (<LoadingPage />)
+
   }
 
   if (selectedItem === null && !showCartPage && !showOrdersPage) {
@@ -767,6 +808,10 @@ function ProductMenu() {
     );
   } else if (showCartPage === true && typeof cart === 'object') {
 
+    if (!accessCodeIsSet) {
+      return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
+    }
+
     return (
       <CartPage cart={cart} setCart={setCart} setShowCartPage={setShowCartPage}
         setSelectedItem={setSelectedItem}
@@ -774,6 +819,10 @@ function ProductMenu() {
       />
     );
   } else if (showOrdersPage === true && typeof cart === 'object') {
+
+    if (!accessCodeIsSet) {
+      return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
+    }
 
     return (
       <MyOrdersPage

@@ -184,6 +184,8 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                     if (newCart) {
                         setCart(newCart);
                     }
+                    await waitSeconds(.1);
+                    window.location.href = '/';
 
                 } else {
 
@@ -275,6 +277,14 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
         return QRbase64;
     }
 
+    function waitSeconds(seconds: number) {
+        return new Promise<void>((resolve, reject) => {
+            setTimeout(() => {
+                resolve();
+            }, seconds * 1000);
+        })
+    }
+
     async function syncNewOrderWithOnlinePayment(_id: string) {
 
         set_IdsInSync(_id);
@@ -283,13 +293,6 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
 
             const orderRecord = await OrderServiceInstance.getOrderBy_Id(_id);
 
-            const waitSeconds = (seconds: number) => {
-                return new Promise<void>((resolve, reject) => {
-                    setTimeout(() => {
-                        resolve();
-                    }, seconds * 1000);
-                })
-            }
 
             if (orderRecord.paymentStatus === `pending`) {
 

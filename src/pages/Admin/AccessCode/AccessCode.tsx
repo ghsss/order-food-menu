@@ -141,7 +141,7 @@ function AccessCodePage() {
         <button className='submitButton' type="submit" onClick={async e => {
           if (receiveThrough === 'whatsapp') {
             if (phone.length > 11) {
-              const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone);
+              const requestedSuccessfully = await AccessCodeServiceInstance.requestAdminAccessCode(phone);
               if (requestedSuccessfully) {
                 setLastAccessCodeRequestTimestamp(new Date().getTime());
                 setCanRequestNewAccesCode(false);
@@ -151,7 +151,7 @@ function AccessCodePage() {
               window.alert(`Número inválido.`);
             }
           } else {
-            const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(email);
+            const requestedSuccessfully = await AccessCodeServiceInstance.requestAdminAccessCode(email);
             if (requestedSuccessfully) {
               setLastAccessCodeRequestTimestamp(new Date().getTime());
               setCanRequestNewAccesCode(false);
@@ -199,7 +199,7 @@ function AccessCodePage() {
             if (phone.length > 11) {
               setRequestedAccessCodeCount(requestedAccessCodeCount + 1);
               setLastAccessCodeRequestTimestamp(new Date().getTime());
-              const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone);
+              const requestedSuccessfully = await AccessCodeServiceInstance.requestAdminAccessCode(phone);
               if (requestedSuccessfully) {
                 setLastAccessCodeRequestTimestamp(new Date().getTime());
                 setCanRequestNewAccesCode(false);

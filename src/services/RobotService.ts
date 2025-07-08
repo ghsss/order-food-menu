@@ -6,15 +6,14 @@ import AccessCodeServiceInstance from "./AccessCodeService";
 const productEndpoint =
   process.env.REACT_APP_PRODUCT_ENDPOINT || "http://localhost:3000";
 
-const accessCodeSHA512Hash =
-  AccessCodeServiceInstance.getStoredAccessCode() || ``;
-
 class RobotService {
+  static accessCodeSHA512Hash =
+    AccessCodeServiceInstance.getStoredAccessCode() || ``;
   async getRobot(): Promise<RobotModel | undefined> {
     try {
       const response = await fetch(productEndpoint + "/api/robot", {
         headers: {
-          accessCodeSHA512Hash,
+          accessCodeSHA512Hash: RobotService.accessCodeSHA512Hash,
           "ngrok-skip-browser-warning": "true",
         },
       });

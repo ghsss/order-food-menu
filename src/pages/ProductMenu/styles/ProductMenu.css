@@ -149,6 +149,14 @@ h1 {
   border-top-left-radius: 1em;
 }
 
+.rotateAnimation {
+  animation: rotateAnimation 10s infinite ease-in-out;
+}
+
+.spinAnimationY {
+  animation: spinAnimationY 10s infinite ease-in-out;
+}
+
 .CartProductMenuListItemContainer #cartIcon {
   position: absolute;
   opacity: 1;
@@ -325,6 +333,28 @@ label {
   .linksRow {
     margin-bottom: 1em;
     width: 55%;
+  }
+
+}
+
+@keyframes spinAnimationY {
+
+  50% {
+    transform: rotateY(360deg);
+  }
+
+}
+
+@keyframes rotateAnimation {
+
+  10% {
+    transform: rotate(90deg) translateZ(-1em) scale(.1);
+  }
+  50% {
+    transform: rotate(360deg) translateZ(1em) scale(.75);
+  }
+  100% {
+    transform: rotate(720deg) translateZ(3em) scale(1);
   }
 
 }

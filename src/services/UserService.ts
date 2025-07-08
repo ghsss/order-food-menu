@@ -4,10 +4,11 @@ import AccessCodeServiceInstance from "./AccessCodeService";
 const productEndpoint =
   process.env.REACT_APP_PRODUCT_ENDPOINT || "http://localhost:3000";
 
-const accessCodeSHA512Hash =
-  AccessCodeServiceInstance.getStoredAccessCode() || ``;
-
 class UserService {
+  
+  static accessCodeSHA512Hash =
+    AccessCodeServiceInstance.getStoredAccessCode() || ``;
+
   async getUsers() {
     try {
       const response = await fetch(productEndpoint + "/api/user", {
@@ -35,8 +36,8 @@ class UserService {
         method: `PUT`,
         headers: {
           "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          accessCodeSHA512Hash: UserService.accessCodeSHA512Hash,
+          "ngrok-skip-browser-warning": "true",
         },
         body: JSON.stringify(user),
       });
@@ -64,8 +65,8 @@ class UserService {
         headers: {
           "Content-Type": "application/json",
           userId: retries === 0 ? user.phoneNumber : user._id || ``,
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          accessCodeSHA512Hash: UserService.accessCodeSHA512Hash,
+          "ngrok-skip-browser-warning": "true",
         },
         body: JSON.stringify(user),
       }).catch((err) => {

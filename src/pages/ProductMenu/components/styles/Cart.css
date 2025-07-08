@@ -1,12 +1,12 @@
 .cartContainer {
-    display: flex;
-    align-self: center;
-    justify-self: center;
-    flex-direction: column;
-    background: rgb(231, 77, 0);
-    border: solid thin #000;
-    border-radius: 1em;
-    margin-bottom: 6em;
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  flex-direction: column;
+  background: rgb(231, 77, 0);
+  border: solid thin #000;
+  border-radius: 1em;
+  margin-bottom: 6em;
 }
 
 /* .cartContainer::after {
@@ -14,13 +14,15 @@
   content: '';
   height: 100%;
   width: 100%;
-  background: rgba(93, 0, 0, 0.248);
+  backface-visibility: hidden;
+  transition: preserve-3d;
+  transform: translateZ(-1em) translateY(-1em);
   border-radius: 1em;
 } */
 
 #deleteIcon:hover {
 
-    color: red;
-    transform: scale(3.5) rotate(-10deg);
+  color: red;
+  transform: scale(3.5) rotate(-10deg);
 
 }

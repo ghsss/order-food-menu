@@ -4,10 +4,10 @@ import AccessCodeServiceInstance from "./AccessCodeService";
 const productEndpoint =
   process.env.REACT_APP_PRODUCT_ENDPOINT || "http://localhost:3000";
 
-const accessCodeSHA512Hash =
-  AccessCodeServiceInstance.getStoredAccessCode() || ``;
-
-class ProductService {
+  
+  class ProductService {
+  static accessCodeSHA512Hash =
+    AccessCodeServiceInstance.getStoredAccessCode() || ``;
   async getProducts() {
     try {
       const response = await fetch(productEndpoint + "/api/product", {
@@ -35,7 +35,7 @@ class ProductService {
         method: `PUT`,
         headers: {
           "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
+          accessCodeSHA512Hash: ProductService.accessCodeSHA512Hash,
           'ngrok-skip-browser-warning': 'true'
         },
         body: JSON.stringify(product),
@@ -78,7 +78,7 @@ class ProductService {
         headers: {
           "Content-Type": "application/json",
           productId: retries === 0 ? product.id : product._id || ``,
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
+          accessCodeSHA512Hash: ProductService.accessCodeSHA512Hash,
           'ngrok-skip-browser-warning': 'true'
         },
         body: JSON.stringify(product),

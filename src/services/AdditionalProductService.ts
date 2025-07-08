@@ -4,17 +4,19 @@ import AccessCodeServiceInstance from "./AccessCodeService";
 const AdditionalProductEndpoint =
   process.env.REACT_APP_PRODUCT_ENDPOINT || "http://localhost:3000";
 
-const accessCodeSHA512Hash =
-  AccessCodeServiceInstance.getStoredAccessCode() || ``;
-
 class AdditionalProductService {
+  static accessCodeSHA512Hash =
+    AccessCodeServiceInstance.getStoredAccessCode() || ``;
   async getAdditionalProducts() {
     try {
-      const response = await fetch(AdditionalProductEndpoint + "/api/additionalProduct", {
-        headers: {
-          'ngrok-skip-browser-warning': 'true'
+      const response = await fetch(
+        AdditionalProductEndpoint + "/api/additionalProduct",
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+          },
         }
-      });
+      );
       if (response.status === 200) {
         const jsonResponse = await response.json();
         console.log("getAdditionalProducts.jsonResponse: ", jsonResponse);
@@ -31,18 +33,24 @@ class AdditionalProductService {
 
   async upsertAdditionalProduct(additionalProduct: AdditionalProductModel) {
     try {
-      const response = await fetch(AdditionalProductEndpoint + "/api/additionalProduct", {
-        method: `PUT`,
-        headers: {
-          "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
-        },
-        body: JSON.stringify(additionalProduct),
-      });
+      const response = await fetch(
+        AdditionalProductEndpoint + "/api/additionalProduct",
+        {
+          method: `PUT`,
+          headers: {
+            "Content-Type": "application/json",
+            accessCodeSHA512Hash: AdditionalProductService.accessCodeSHA512Hash,
+            "ngrok-skip-browser-warning": "true",
+          },
+          body: JSON.stringify(additionalProduct),
+        }
+      );
       if (response.status === 200) {
         const additionalProduct_Id = await response.text();
-        console.log("upsertAdditionalProduct.additionalProduct_Id: ", additionalProduct_Id);
+        console.log(
+          "upsertAdditionalProduct.additionalProduct_Id: ",
+          additionalProduct_Id
+        );
         return additionalProduct_Id;
       } else {
         if (response.status === 400) {
@@ -73,16 +81,22 @@ class AdditionalProductService {
       retries = 0;
     }
     try {
-      const response = await fetch(AdditionalProductEndpoint + "/api/additionalProduct", {
-        method: `DELETE`,
-        headers: {
-          "Content-Type": "application/json",
-          additionalProductId: retries === 0 ? additionalProduct.id : additionalProduct._id || ``,
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
-        },
-        body: JSON.stringify(additionalProduct),
-      }).catch((err) => {
+      const response = await fetch(
+        AdditionalProductEndpoint + "/api/additionalProduct",
+        {
+          method: `DELETE`,
+          headers: {
+            "Content-Type": "application/json",
+            additionalProductId:
+              retries === 0
+                ? additionalProduct.id
+                : additionalProduct._id || ``,
+            accessCodeSHA512Hash: AdditionalProductService.accessCodeSHA512Hash,
+            "ngrok-skip-browser-warning": "true",
+          },
+          body: JSON.stringify(additionalProduct),
+        }
+      ).catch((err) => {
         return err.response;
       });
       console.log("response.status: ", response.status);

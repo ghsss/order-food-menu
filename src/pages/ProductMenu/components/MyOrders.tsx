@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import OrderModel, { OrderItemModel } from "../../../models/Order";
 import OrderServiceInstance from "../../../services/OrderService";
 import AccessCodeServiceInstance from "../../../services/AccessCodeService";
-import CustomerAccessCodePage from "../../Admin/CustomerAccessCode/CustomerAccessCode";
 import * as QRCode from 'qrcode';
 
 interface MyOrdersPageProps {
@@ -59,10 +58,6 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
 
         await syncMyOrders();
 
-    }
-
-    if (typeof AccessCodeServiceInstance.getStoredAccessCode() === 'undefined') {
-        return <CustomerAccessCodePage />;
     }
 
     function getOrderStatusLabel(paymentStatus: string): string {

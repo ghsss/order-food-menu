@@ -4,18 +4,17 @@ import AccessCodeServiceInstance from "./AccessCodeService";
 const CompanyEndpoint =
   process.env.REACT_APP_PRODUCT_ENDPOINT || "http://localhost:3000";
 
-const accessCodeSHA512Hash =
-  AccessCodeServiceInstance.getStoredAccessCode() || ``;
-
 class CompanyService {
+  static accessCodeSHA512Hash =
+    AccessCodeServiceInstance.getStoredAccessCode() || ``;
   async getCompany(): Promise<CompanyModel | undefined> {
     try {
       const response = await fetch(CompanyEndpoint + "/api/company", {
         method: `GET`,
         headers: {
           "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          accessCodeSHA512Hash: CompanyService.accessCodeSHA512Hash,
+          "ngrok-skip-browser-warning": "true",
         },
       });
       if (response.status === 200) {
@@ -38,8 +37,8 @@ class CompanyService {
         method: `PUT`,
         headers: {
           "Content-Type": "application/json",
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          'ngrok-skip-browser-warning': 'true'
+          accessCodeSHA512Hash: CompanyService.accessCodeSHA512Hash,
+          "ngrok-skip-browser-warning": "true",
         },
         body: JSON.stringify(Company),
       });

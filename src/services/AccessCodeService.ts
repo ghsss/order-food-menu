@@ -286,6 +286,36 @@ class AccessCodeService {
       return false;
     }
   }
+  async requestAdminAccessCode(phone: string): Promise<boolean> {
+    try {
+      const response = await fetch(productEndpoint + "/api/requestAdminAccessCode", {
+        method: "GET",
+        headers: {
+          [isNaN(parseInt(phone)) ? `email` : `phoneNumber`]: phone,
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
+      if (response.status === 200) {
+        const boolResponse = await response.text();
+        console.log("getProducts.jsonResponse: ", boolResponse);
+        return boolResponse === `true`;
+      } else {
+        if (response.status === 401) {
+          window.alert("Solicitação de código de acesso não autorizada.");
+          // window.alert("Você não é um administrador.");
+          window.close();
+          return false;
+        }
+        window.alert("Erro de conexão ao servidor.");
+        window.close();
+        return false;
+      }
+    } catch (error) {
+      window.alert("Erro de conexão ao servidor.");
+      window.close();
+      return false;
+    }
+  }
   async requestAccessCode(phone: string): Promise<boolean> {
     try {
       const response = await fetch(productEndpoint + "/api/requestAccessCode", {
@@ -365,7 +395,7 @@ class AccessCodeService {
     try {
       const accessCodeSHA512Hash =
         accessCode.length > 100 ? accessCode : await sha512(accessCode);
-      const response = await fetch(productEndpoint + "/api/accessCodeIsValid", {
+      const response = await fetch(productEndpoint + "/api/customerAccessCodeIsValid", {
         method: "GET",
         headers: {
           accessCodeSHA512Hash: accessCodeSHA512Hash,
@@ -376,7 +406,7 @@ class AccessCodeService {
         const txtResponse = await response.text();
         console.log("accessCodeIsValid.txtResponse: ", txtResponse);
         if (txtResponse.length > 11) {
-          // document.cookie = "accessCodeSHA512Hash=;expires=;path=/admin;";
+          document.cookie = "accessCodeSHA512Hash=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
           const now = new Date();
           now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
           document.cookie =

@@ -14,7 +14,14 @@ const requestNewAccesCodeMinIntervalInMs = 1000 * 60;
 // const accesCodeTimeoutInMs = 1000 * 10;
 // const requestNewAccesCodeMinIntervalInMs = 1000 * 3;
 
-function CustomerAccessCodePage() {
+interface CustomerAccessCodePageProps {
+  showCartPage: boolean;
+  showOrdersPage: boolean;
+  setShowCartPage: (show: boolean) => void;
+  setShowOrdersPage: (show: boolean) => void;
+}
+
+function CustomerAccessCodePage({ showCartPage, showOrdersPage, setShowCartPage, setShowOrdersPage }: CustomerAccessCodePageProps) {
 
   const [lastAccessCodeRequestTimestamp, setLastAccessCodeRequestTimestamp] = useState<number>();
   const [requestedAccessCodeCount, setRequestedAccessCodeCount] = useState<number>(0);
@@ -99,7 +106,6 @@ function CustomerAccessCodePage() {
 
   }, [accessCode, phone]);
 
-
   // if (canRequestNewAccesCode) {
 
   if (typeof lastAccessCodeRequestTimestamp === 'undefined') {
@@ -114,12 +120,29 @@ function CustomerAccessCodePage() {
       }}>
         <button className='goBackButton' style={{ justifySelf: `flex-start`, alignSelf: `flex-start`, marginLeft: `1em`, marginBottom: '1em', marginTop: '1em' }}
           onClick={async e => {
-            if (AccessCodeServiceInstance.getStoredAccessCode())
-              window.history.back()
-            else
-              window.location.href = '/';
-          }
-          }>
+
+            if (AccessCodeServiceInstance.getStoredAccessCode()) {
+
+              // window.history.back()
+
+              if (showCartPage) {
+                setShowCartPage(false);
+              } else {
+                setShowOrdersPage(false);
+              }
+
+            } else {
+
+              if (showCartPage) {
+                setShowCartPage(false);
+              } else {
+                setShowOrdersPage(false);
+              }
+
+            }
+            // window.location.href = '/';
+          }}
+        >
           <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
         </button>
         <h1>Solicite seu código de acesso 👇🏻</h1>
@@ -169,7 +192,7 @@ function CustomerAccessCodePage() {
         }}>
           {receiveThrough === 'whatsapp' ? 'Receber código por e-mail' : 'Receber código por WhatsApp'}
         </button> */}
-      </div>
+      </div >
     );
 
   } else {
@@ -239,7 +262,22 @@ function CustomerAccessCodePage() {
 
             if (accessCodeIsValid) {
 
-              window.location.href = `/`;
+              // window.location.href = `/`;
+
+              if (showCartPage) {
+
+                setShowOrdersPage(true);
+                setShowCartPage(true);
+                setShowOrdersPage(false);
+
+              } else {
+
+                window.location.href = `/`;
+                setShowCartPage(true);
+                setShowOrdersPage(true);
+                setShowCartPage(false);
+                
+              }
 
             } else {
 
