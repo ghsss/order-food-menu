@@ -93,7 +93,7 @@ ${company?.phoneNumber ? `\x1B\x40TELEFONE: ${company?.phoneNumber}` : '\r'}
 
 \x1B\x40PEDIDO:
 \x1B\x61\x01\x1B\x4D\x02${item.orderNumber}
-TOTAL: \x1B\x61\x01R$ ${item.paymentAmount}
+TOTAL: \x1B\x61\x01R$ ${item.paymentAmount.toFixed(2).replace(`.`, `, `)}
 \x1B\x40FORMA DE PAGAMENTO: ${item.paymentMethod.name}
 \x1B\x40PAGO: ${(item.paymentMethod.isOnlinePayment ? (item.paymentStatus === 'approved' || item.paymentStatus === 'finished')
             :

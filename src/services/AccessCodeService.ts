@@ -329,6 +329,12 @@ class AccessCodeService {
             ";expires=" +
             now.getUTCDate() +
             ";path=/admin;";
+          document.cookie +=
+            "phone=" +
+            txtResponse +
+            ";expires=" +
+            now.getUTCDate() +
+            ";path=/admin;";
           return txtResponse.length > 11;
         } else {
           return false;
@@ -368,6 +374,12 @@ class AccessCodeService {
             ";expires=" +
             now.getUTCDate() +
             ";path=/;";
+          document.cookie +=
+            "phone=" +
+            txtResponse +
+            ";expires=" +
+            now.getUTCDate() +
+            ";path=/admin;";
           return txtResponse.length > 11;
         } else {
           return false;

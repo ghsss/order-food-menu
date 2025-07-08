@@ -196,17 +196,31 @@ function CustomerAccessCodePage() {
         </div>
         <button className='submitButton' disabled={!canRequestNewAccesCode} type="submit"
           onClick={async e => {
-            if (phone.length > 11) {
+            if (receiveThrough === 'whatsapp') {
+
+              if (phone.length > 11) {
+                setRequestedAccessCodeCount(requestedAccessCodeCount + 1);
+                setLastAccessCodeRequestTimestamp(new Date().getTime());
+                const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone.length > 11 ? phone : email);
+                if (requestedSuccessfully) {
+                  setLastAccessCodeRequestTimestamp(new Date().getTime());
+                  setCanRequestNewAccesCode(false);
+
+                }
+              } else {
+                window.alert(`Número inválido.`);
+              }
+            } else {
+
               setRequestedAccessCodeCount(requestedAccessCodeCount + 1);
               setLastAccessCodeRequestTimestamp(new Date().getTime());
-              const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone);
+              const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone.length > 11 ? phone : email);
               if (requestedSuccessfully) {
                 setLastAccessCodeRequestTimestamp(new Date().getTime());
                 setCanRequestNewAccesCode(false);
 
               }
-            } else {
-              window.alert(`Número inválido.`);
+
             }
           }}
         >
