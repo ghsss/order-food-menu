@@ -134,7 +134,7 @@ function ProductMenu() {
       console.log('getAdditionalProductsResponse: ', getAdditionalProductsResponse);
       setAdditionalProductMenuOptions(getAdditionalProductsResponse);
 
-      waitSeconds(5)
+      waitSeconds(3)
         .then(() => { setLoading(false); });
 
       syncAccessToken()
