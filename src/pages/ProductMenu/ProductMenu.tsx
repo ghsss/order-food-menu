@@ -94,6 +94,8 @@ function ProductMenu() {
 
     const getProducts = async () => {
 
+      setLoading(true);
+
       const getProductTypesResponse = await ProductTypeServiceInstance.getProductTypes();
       getProductTypesResponse.sort((a: ProductTypeModel, b: ProductTypeModel) => {
         // s1.toLowerCase().localeCompare(s2.toLowerCase()));
