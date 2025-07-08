@@ -43,8 +43,9 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
 
     async function handleOrderSubmit() {
 
-        if(cart.items.length === 0) {
-            window.alert('É necessário ao menos um item para finalizar o pedido.')
+        if (cart.items.length === 0) {
+            window.alert('É necessário ao menos um item para finalizar o pedido.');
+            return;
         }
 
         const expiresAt = new Date();

@@ -156,9 +156,9 @@ function CompanyPage(
           value={recordRefresh?.phoneNumber}
           onChange={e => {
             if (typeof recordRefresh === 'object') {
-              const value = e.target.value;
+              const value = e.target.value.replaceAll(' ', '').replace('+', '').replace('-', '') || '';;
               if (!isNaN(Number(value))) {
-                setRecordRefresh({ ...recordRefresh, phoneNumber: e.target.value });
+                setRecordRefresh({ ...recordRefresh, phoneNumber: value });
               }
             }
           }} />

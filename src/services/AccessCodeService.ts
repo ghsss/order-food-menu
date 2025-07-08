@@ -290,7 +290,8 @@ class AccessCodeService {
         return boolResponse === `true`;
       } else {
         if (response.status === 401) {
-          window.alert("Você não é um administrador.");
+          window.alert("Solicitação de código de acesso não autorizada.");
+          // window.alert("Você não é um administrador.");
           window.close();
           return false;
         }
@@ -328,6 +329,45 @@ class AccessCodeService {
             ";expires=" +
             now.getUTCDate() +
             ";path=/admin;";
+          return txtResponse.length > 11;
+        } else {
+          return false;
+        }
+      } else {
+        window.alert("Erro de conexão ao servidor.");
+        window.close();
+        return false;
+      }
+    } catch (error) {
+      window.alert("Erro de conexão ao servidor.");
+      window.close();
+      return false;
+    }
+  }
+  async customerAccessCodeIsValid(accessCode: string): Promise<boolean> {
+    try {
+      const accessCodeSHA512Hash =
+        accessCode.length > 100 ? accessCode : await sha512(accessCode);
+      const response = await fetch(productEndpoint + "/api/accessCodeIsValid", {
+        method: "GET",
+        headers: {
+          accessCodeSHA512Hash: accessCodeSHA512Hash,
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
+      if (response.status === 200) {
+        const txtResponse = await response.text();
+        console.log("accessCodeIsValid.txtResponse: ", txtResponse);
+        if (txtResponse.length > 11) {
+          // document.cookie = "accessCodeSHA512Hash=;expires=;path=/admin;";
+          const now = new Date();
+          now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
+          document.cookie =
+            "accessCodeSHA512Hash=" +
+            accessCodeSHA512Hash +
+            ";expires=" +
+            now.getUTCDate() +
+            ";path=/;";
           return txtResponse.length > 11;
         } else {
           return false;

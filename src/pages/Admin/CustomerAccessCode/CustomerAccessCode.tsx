@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import Menu from './pages/Menu/';
-import './AccessCode.css';
+import './CustomerAccessCode.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft, faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import AccessCodeServiceInstance from '../../../services/AccessCodeService';
@@ -14,7 +14,7 @@ const requestNewAccesCodeMinIntervalInMs = 1000 * 60;
 // const accesCodeTimeoutInMs = 1000 * 10;
 // const requestNewAccesCodeMinIntervalInMs = 1000 * 3;
 
-function AccessCodePage() {
+function CustomerAccessCodePage() {
 
   const [lastAccessCodeRequestTimestamp, setLastAccessCodeRequestTimestamp] = useState<number>();
   const [requestedAccessCodeCount, setRequestedAccessCodeCount] = useState<number>(0);
@@ -63,7 +63,7 @@ function AccessCodePage() {
           window.alert(`O tempo máximo para confirmação do código de acesso expirou.`);
           // clearInterval(syncIntervalId);
           // setCanRequestNewAccesCode(true);
-          window.location.href = '/admin/access-code?action=requestAccessCode';
+          window.location.href = '/';
 
         }
 
@@ -122,17 +122,14 @@ function AccessCodePage() {
           }>
           <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
         </button>
-        <h1>Solicite seu código de acesso a área de administradores 👇🏻</h1>
+        <h1>Solicite seu código de acesso 👇🏻</h1>
         <input className='inputAccessCode'
           type={receiveThrough === 'whatsapp' ? "tel" : "email"}
           placeholder={receiveThrough === 'whatsapp' ? '555499991111' : 'exemplo@gmail.com'}
           value={receiveThrough === 'whatsapp' ? phone : email}
           onChange={e => {
             if (receiveThrough === 'whatsapp') {
-              const value = e.target.value.replaceAll(' ', '').replace('+', '').replace('-', '') || '';
-              if (!isNaN(Number(value))) {
-                setPhone(value);
-              }
+              setPhone(e.target.value);
             } else {
               setEmail(e.target.value);
             }
@@ -221,11 +218,11 @@ function AccessCodePage() {
         <input style={{ color: `green` }} className='submitButton' type="submit" value={'Confirmar código'}
           onClick={async (e) => {
 
-            const accessCodeIsValid = await AccessCodeServiceInstance.accessCodeIsValid(accessCode);
+            const accessCodeIsValid = await AccessCodeServiceInstance.customerAccessCodeIsValid(accessCode);
 
             if (accessCodeIsValid) {
 
-              window.location.href = `/admin?action=menu`;
+              window.location.href = `/`;
 
             } else {
 
@@ -250,4 +247,4 @@ function AccessCodePage() {
 
 }
 
-export default AccessCodePage;
+export default CustomerAccessCodePage;

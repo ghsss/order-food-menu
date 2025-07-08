@@ -29,6 +29,27 @@ class OrderService {
       window.alert("Erro de conexão ao servidor.");
     }
   }
+  async getCustomerOrders(): Promise<OrderModel[] | undefined> {
+    try {
+      const response = await fetch(productEndpoint + "/api/order/customer", {
+        method: `GET`,
+        headers: {
+          "Content-Type": "application/json",
+          accessCodeSHA512Hash: accessCodeSHA512Hash,
+          'ngrok-skip-browser-warning': 'true'
+        },
+      });
+      if (response.status === 200) {
+        const jsonResponse = await response.json();
+        console.log("getOrders.jsonResponse: ", jsonResponse);
+        return jsonResponse;
+      } else {
+        window.alert("Erro de conexão ao servidor.");
+      }
+    } catch (error) {
+      window.alert("Erro de conexão ao servidor.");
+    }
+  }
   async getOrders(): Promise<OrderModel[] | undefined> {
     try {
       const response = await fetch(productEndpoint + "/api/order", {

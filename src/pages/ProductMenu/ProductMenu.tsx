@@ -5,7 +5,7 @@ import ProductMenuList from './components/ProductMenuList';
 import ProductModel from '../../models/Product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faArrowCircleLeft, faCartPlus, faCartShopping, faCheck, faCheckCircle, faClock, faCopy, faFilter, faGlobe, faHeadphones, faMinusCircle, faPlusCircle, faSearch, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft, faCartPlus, faCartShopping, faCheck, faCheckCircle, faClock, faCopy, faFilter, faGlobe, faHeadphones, faList, faMinusCircle, faPlusCircle, faSearch, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import ProductServiceInstance from '../../services/ProductService';
 import ProductTypeModel from '../../models/ProductType';
 import ProductTypeServiceInstance from '../../services/ProductTypeService';
@@ -18,11 +18,15 @@ import CartServiceInstance from '../../services/CartService';
 import AdditionalProductServiceInstance from '../../services/AdditionalProductService';
 import AdditionalProductModel from '../../models/AdditionalProduct';
 import CartPage from './components/Cart';
+import MyOrdersPage from './components/MyOrders';
+import AccessCodeServiceInstance from '../../services/AccessCodeService';
+import CustomerAccessCodePage from '../Admin/CustomerAccessCode/CustomerAccessCode';
 
 const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedido.');
 
 function ProductMenu() {
 
+  const [showOrdersPage, setShowOrdersPage] = useState<boolean>(false);
   const [showCartPage, setShowCartPage] = useState<boolean>(false);
   const [cart, setCart] = useState<OrderModel>();
   const [selectedItem, setSelectedItem] = useState<OrderItemModel | null>(null);
@@ -126,6 +130,10 @@ function ProductMenu() {
       });
       console.log('getAdditionalProductsResponse: ', getAdditionalProductsResponse);
       setAdditionalProductMenuOptions(getAdditionalProductsResponse);
+
+      // if (typeof AccessCodeServiceInstance.getStoredAccessCode() === 'undefined') {
+
+      // }
 
     }
 
@@ -619,7 +627,15 @@ function ProductMenu() {
     setShowCartPage(true);
   }
 
-  if (selectedItem === null && !showCartPage) {
+  function goToMyOrdersPage() {
+    setShowOrdersPage(true);
+  }
+
+  if (typeof AccessCodeServiceInstance.getStoredAccessCode() === 'undefined') {
+    return <CustomerAccessCodePage />;
+  }
+
+  if (selectedItem === null && !showCartPage && !showOrdersPage) {
     return (
       <div className="ProductMenuContainer">
         <div style={{ width: '100%', display: 'flex', marginBottom: '2em' }} className='titles'>
@@ -674,7 +690,6 @@ function ProductMenu() {
           </h1>
         </div >
         <div className='row linksRow' style={{ zIndex: '100' }}>
-          {/* {orderChannel === `WhatsApp` ? */}
           <button
             style={{ fontWeight: `bold`, zIndex: '101', cursor: 'pointer', background: orderChannel === `WebSite` ? '#fff' : 'grey' }}
             // href={"/#"} 
@@ -687,17 +702,29 @@ function ProductMenu() {
             {'Pedir pelo site '}
             <FontAwesomeIcon fontSize={`2.5em`} color='blue' icon={faGlobe} />
           </button>
-          {/* : */}
           <button
             style={{ fontWeight: `bold`, zIndex: '101', cursor: 'pointer', background: orderChannel === `WhatsApp` ? '#fff' : 'grey' }}
             onClick={e => { setOrderChannel('WhatsApp') }}
             className={!companyIsOpenNow() ? 'linkUnavailable' : robot?.phone ? orderChannel === `WhatsApp` ? 'goToWhatsAppLink glowBox' : 'goToWhatsAppLink' : 'linkUnavailable'} rel='noreferrer'
-          // target='_blank' href={`https://wa.me/${robot?.phone}?text=${whatsAppQueryParams}`}
           >
             {'Pedir pelo WhatsApp '}
             <FontAwesomeIcon fontSize={`2.5em`} color='green' icon={faWhatsapp} />
           </button>
-          {/* } */}
+        </div>
+        <div className='row linksRow' style={{ zIndex: '100' }}>
+          <button
+            style={{
+              fontWeight: `bold`, zIndex: '101', cursor: 'pointer',
+              // background: orderChannel === `WhatsApp` ? '#fff' : 'grey'
+              background: '#fff'
+            }}
+            onClick={e => { goToMyOrdersPage() }}
+            className={``} rel='noreferrer'
+          >
+            {'Meus pedidos '}
+            <FontAwesomeIcon fontSize={`1.75em`} color='#000' icon={faList} />
+          </button>
+
         </div>
         {
           robot ?
@@ -746,6 +773,17 @@ function ProductMenu() {
         setCartSelectedItemIdx={setCartSelectedItemIdx}
       />
     );
+  } else if (showOrdersPage === true && typeof cart === 'object') {
+
+    return (
+      <MyOrdersPage
+        // orders={orders} setOrders={setOrders} 
+        setShowOrdersPage={setShowOrdersPage}
+        setSelectedItem={setSelectedItem}
+        setCartSelectedItemIdx={setCartSelectedItemIdx}
+      />
+    );
+
   } else {
     return showSelectedProductDetails();
   }

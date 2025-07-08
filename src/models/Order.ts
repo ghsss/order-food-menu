@@ -49,6 +49,8 @@ type OrderModel = {
   orderNumber?: number;
   _id?: string;
   paymentId: string;
+  paymentQRCode?: string;
+  paymentQRCodeBase64DataURL?: string;
   paymentStatus: string;
   receivedPaymentInLocal: boolean;
   paymentGateway: string;
