@@ -31,6 +31,17 @@ class AccessCodeService {
     }
   }
 
+  getStoredPhone(): string | undefined {
+    if (document.cookie) {
+      console.log("document.cookie", document.cookie);
+      if (document.cookie.includes("phone=")) {
+        const phone = document?.cookie?.split(`phone=`)[1].split(`;`)[0];
+        console.log("document.cookie phone", phone);
+        return phone;
+      }
+    }
+  }
+
   async getAdmins(): Promise<UserModel[]> {
     try {
       const accessCode = this.getStoredAccessCode();
@@ -329,12 +340,12 @@ class AccessCodeService {
             ";expires=" +
             now.getUTCDate() +
             ";path=/admin;";
-          document.cookie +=
+          document.cookie =
             "phone=" +
             txtResponse +
             ";expires=" +
             now.getUTCDate() +
-            ";path=/admin;";
+            ";path=/;";
           return txtResponse.length > 11;
         } else {
           return false;
@@ -374,12 +385,12 @@ class AccessCodeService {
             ";expires=" +
             now.getUTCDate() +
             ";path=/;";
-          document.cookie +=
+          document.cookie =
             "phone=" +
             txtResponse +
             ";expires=" +
             now.getUTCDate() +
-            ";path=/admin;";
+            ";path=/;";
           return txtResponse.length > 11;
         } else {
           return false;

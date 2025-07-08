@@ -161,14 +161,14 @@ function CustomerAccessCodePage() {
         }}>
           {'Solicitar código de acesso'}
         </button>
-        <button style={{ transform: 'scale(0.5)' }} className='submitButton' type="submit" onClick={async e => {
+        {/* <button style={{ transform: 'scale(0.5)' }} className='submitButton' type="submit" onClick={async e => {
           e.stopPropagation();
           setReceiveThrough(receiveThrough === 'whatsapp' ? 'email' : 'whatsapp');
           setPhone('');
           setEmail('');
         }}>
           {receiveThrough === 'whatsapp' ? 'Receber código por e-mail' : 'Receber código por WhatsApp'}
-        </button>
+        </button> */}
       </div>
     );
 
@@ -201,7 +201,7 @@ function CustomerAccessCodePage() {
               if (phone.length > 11) {
                 setRequestedAccessCodeCount(requestedAccessCodeCount + 1);
                 setLastAccessCodeRequestTimestamp(new Date().getTime());
-                const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone.length > 11 ? phone : email);
+                const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone);
                 if (requestedSuccessfully) {
                   setLastAccessCodeRequestTimestamp(new Date().getTime());
                   setCanRequestNewAccesCode(false);
