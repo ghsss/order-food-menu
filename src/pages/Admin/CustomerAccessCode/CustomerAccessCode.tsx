@@ -129,7 +129,10 @@ function CustomerAccessCodePage() {
           value={receiveThrough === 'whatsapp' ? phone : email}
           onChange={e => {
             if (receiveThrough === 'whatsapp') {
-              setPhone(e.target.value);
+              const value = e.target.value.replaceAll(' ', '').replace('+', '').replace('-', '') || '';
+              if (!isNaN(Number(value))) {
+                setPhone(value);
+              }
             } else {
               setEmail(e.target.value);
             }
