@@ -34,7 +34,12 @@ interface AdminOrderMenuListProps {
 
 function AdminOrderMenuList({ updateOrderFinished, updateOrderPaymentReceived, orderMenuItems, children }: AdminOrderMenuListProps) {
 
-  const totalSoldList = orderMenuItems.map(order => { return order.paymentAmount });
+  const totalSoldList = orderMenuItems.map(order => {
+    return (order.paymentMethod.isOnlinePayment ? (order.paymentStatus === 'approved' || order.paymentStatus === 'finished')
+      :
+      order.receivedPaymentInLocal === true) === true ? order.paymentAmount : 0
+    // return order.paymentAmount
+  });
 
   const sumListItems = () => {
     let sum = 0;
@@ -52,7 +57,7 @@ function AdminOrderMenuList({ updateOrderFinished, updateOrderPaymentReceived, o
         <a href='/admin?action=list&collection=product#'>{`Voltar para produtos. `}<FontAwesomeIcon icon={faArrowCircleLeft} /><FontAwesomeIcon icon={faCartShopping} /></a>
       </div>
       <h2 className='listTitle linkUnavailable'>🔥 Pedidos do estabelecimento 🔥</h2>
-      <h2 className='listTitle linkUnavailable'>Total em vendas: <span style={{ color: 'green'  }}>R$ {totalSold.toFixed(2).replace('.', ',')}</span></h2>
+      <h2 className='listTitle linkUnavailable'>Total em vendas: <span style={{ color: 'green' }}>R$ {totalSold.toFixed(2).replace('.', ',')}</span></h2>
       {children}
       <div className='OrderMenuListContainerScroll'>
         <div className="OrderMenuList">
