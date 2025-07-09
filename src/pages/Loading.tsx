@@ -11,10 +11,82 @@ export default function LoadingPage() {
                         <FontAwesomeIcon icon={faList} /> {` Meus Pedidos`}
                     </span>
                 </div> */}
-                <div className="cartContainer" style={{ background: `#fff`, margin: '1em', alignContent: `center`, alignItems: `center`, flexWrap: `wrap`, width: '15em', height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '1em', marginBottom: '1em' }}>
-                    <img className="rotateAnimation" src="./logo192.png" alt="" />
-                    <p style={{ fontWeight: `bold`, textDecoration: `none`, color: '#000' }}>{'Baixando cardápio ...'}</p>
-                    {/* <p style={{ fontWeight: `bold`, textDecoration: `none`, color: '#000' }}></p> */}
+                <div className="cartContainer scaleAnimation" style={{
+                    background: `#fff`,
+                    margin: '1em',
+                    alignContent: `center`,
+                    alignItems: `center`,
+                    flexWrap: `wrap`,
+                    width: '15em',
+                    height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '1em', marginBottom: '1em',
+
+                    justifyContent: 'center',
+                    backgroundColor: 'rgb(231, 77, 0)',
+                    // width: '100%',
+                    border: 'solid thin #000',
+                    borderRadius: '1em',
+                    overflow: 'hidden',
+
+                }}>
+                    {/* <div className="spinAnimationY" style={{ borderRadius: `50%` }}>
+                        <div className="glowBox" style={{ borderRadius: `50%` }}>
+                            <img className="spinAnimationY backface" src="./logo192.jpg" alt=""
+                                style={{
+                                    border: 'solid medium gold',
+                                    borderRadius: '50%',
+                                    transformStyle: `preserve-3d`,
+                                    // backfaceVisibility: 'hidden',
+                                    zIndex: `100`
+                                }}
+                            />
+                        </div>
+                    </div> */}
+                    <div style={{
+                        justifyContent: 'center',
+                        padding: `1em`,
+                    }}>
+                        <div style={{
+                            width: 'fit-content',
+                            // justifyContent: 'center',
+                            // maxWidth: '70%',
+                            // overflow: 'hidden',
+                            borderRadius: '50%',
+                            // background: '#000'
+                            transform: `translateZ(1em)`,
+                            transformStyle: `preserve-3d`,
+                            background: 'rgba(93, 0, 0, 0.248)'
+                        }}>
+                            <div
+                                className='glowBox'
+                                style={{
+                                    width: 'fit-content',
+                                    justifyContent: 'center',
+                                    overflow: 'hidden',
+                                    // maxWidth: '70%',
+                                    paddingTop: `.25em`,
+                                    border: 'solid medium gold',
+                                    borderRadius: '50%',
+                                }}>
+                                <img
+                                    className="spinAnimationY"
+                                    src="./logo1.jpg" alt=""
+                                    style={{
+                                        // margin: '1em',
+                                        // maxWidth: '70%',
+                                        width: '70%',
+                                        height: '10em',
+                                        border: 'solid medium gold',
+                                        borderRadius: '50%',
+                                        padding: `.125em`,
+                                        background: `#fff`,
+                                        transformStyle: `preserve-3d`,
+                                        zIndex: `100`
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <a href="/#" style={{ fontWeight: `bold`, textDecoration: `none`, color: '#000' }}>{'Baixando cardápio ...'}</a>
                 </div>
             </div>
         </div>

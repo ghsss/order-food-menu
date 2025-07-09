@@ -83,8 +83,8 @@ function App() {
   return (
     <div className="App">
       {
-        action === 'order-bot' ?
-          <ProductMenu />
+        action === 'order-bot' || action === 'orders' || action === 'cart' ?
+          <ProductMenu action={action} />
           :
           urlPath.indexOf('/admin') === 0 ?
             // action === `menu` ?

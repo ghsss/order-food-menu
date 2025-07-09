@@ -266,16 +266,17 @@ function CustomerAccessCodePage({ showCartPage, showOrdersPage, setShowCartPage,
 
               if (showCartPage) {
 
-                setShowOrdersPage(true);
-                setShowCartPage(true);
-                setShowOrdersPage(false);
+                window.location.href = `/?action=cart`;
+                // setShowOrdersPage(true);
+                // setShowCartPage(true);
+                // setShowOrdersPage(false);
 
               } else {
 
-                window.location.href = `/`;
-                setShowCartPage(true);
-                setShowOrdersPage(true);
-                setShowCartPage(false);
+                window.location.href = `/?action=orders`;
+                // setShowCartPage(true);
+                // setShowOrdersPage(true);
+                // setShowCartPage(false);
                 
               }
 

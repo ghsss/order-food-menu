@@ -87,7 +87,11 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
         <div className='cartModal'>
             <div className="cartModalScroll">
                 <button className='goBackButton' style={{ borderWidth: `medium`, fontWeight: 'bold', fontSize: '1.125em', justifySelf: `flex-start`, alignSelf: `flex-start`, marginLeft: `1em`, marginBottom: '1em', marginTop: '1em' }}
-                    onClick={e => { setShowOrdersPage(false); setSelectedItem(null); setCartSelectedItemIdx(-1) }}>
+                    onClick={e => {
+                        // setShowOrdersPage(false); setSelectedItem(null); setCartSelectedItemIdx(-1)
+                        window.location.href = `/`;
+                    }
+                    }>
                     <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
                 </button>
                 <div className='row' style={{ paddingBottom: `1em`, alignItems: `center`, justifyContent: `center`, zIndex: '100' }}>

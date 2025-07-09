@@ -5,7 +5,7 @@ import ProductMenuList from './components/ProductMenuList';
 import ProductModel from '../../models/Product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faArrowCircleLeft, faCartPlus, faCartShopping, faCheck, faCheckCircle, faClock, faCopy, faFilter, faGlobe, faHeadphones, faList, faMinusCircle, faPlusCircle, faSearch, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft, faCartPlus, faCartShopping, faCheck, faCheckCircle, faClock, faCopy, faFilter, faGlobe, faHeadphones, faList, faMap, faMapLocation, faMapLocationDot, faMinusCircle, faPlusCircle, faSearch, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import ProductServiceInstance from '../../services/ProductService';
 import ProductTypeModel from '../../models/ProductType';
 import ProductTypeServiceInstance from '../../services/ProductTypeService';
@@ -25,7 +25,11 @@ import LoadingPage from '../Loading';
 
 const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedido.');
 
-function ProductMenu() {
+interface ProductMenuProps {
+  action: string;
+}
+
+function ProductMenu({ action }: ProductMenuProps) {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [accessCodeIsSet, setAccessCodeIsSet] = useState<boolean>(false);
@@ -219,6 +223,20 @@ function ProductMenu() {
     console.log('filteredProductMenuOptions: ', filteredProductMenuOptions);
 
   }, [productMenuOptions, filteredProductMenuOptions]);
+
+  useEffect(() => {
+
+    console.log('action: ', action);
+    if (action === 'orders') {
+      setShowOrdersPage(true);
+      setShowCartPage(false);
+      setOrderChannel(`WebSite`);
+    } else if (action === 'cart') {
+      setShowCartPage(true);
+      setShowOrdersPage(false);
+      setOrderChannel(`WebSite`);
+    }
+  }, [action]);
 
   useEffect(() => {
 
@@ -687,12 +705,103 @@ function ProductMenu() {
             <FontAwesomeIcon icon={faHeadphones} />
           </a>
         </div>
-        <div className='titles'>
+        <div className='row'
+          style={{
+            width: '70%'
+          }}
+        >
           {/* <h1 id='instruction1' style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique em um item do cardápio para copiar o código do produto! ❤️‍🔥😍
         </h1> */}
           {/* <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>
           <span style={{ color: 'green' }}>Redirecionamento automático <FontAwesomeIcon fontSize={`1.25em`} color='green' icon={faWhatsapp} /></span>
         </h1> */}
+          <div className='column' style={{
+            justifyContent: 'center',
+            backgroundColor: 'rgb(231, 77, 0)',
+            width: '100%',
+            border: 'solid thin #000',
+            borderRadius: '1em',
+            overflow: 'hidden',
+            marginBottom: `1em`,
+          }}>
+            <div style={{
+              justifyContent: 'center',
+              padding: `1em`,
+            }}>
+              <div style={{
+                width: 'fit-content',
+                // justifyContent: 'center',
+                // maxWidth: '70%',
+                // overflow: 'hidden',
+                borderRadius: '50%',
+                // background: '#000'
+                transform: `translateZ(1em)`,
+                transformStyle: `preserve-3d`,
+                background: 'rgba(93, 0, 0, 0.248)'
+              }}>
+                <div
+                  className='glowBox'
+                  style={{
+                    width: 'fit-content',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    // maxWidth: '70%',
+                    paddingTop: `.25em`,
+                    border: 'solid medium gold',
+                    borderRadius: '50%',
+                  }}>
+                  <img
+                    // className="glowBox"
+                    src="./logo1.jpg" alt=""
+                    style={{
+                      // margin: '1em',
+                      // maxWidth: '70%',
+                      width: '70%',
+                      height: '10em',
+                      border: 'solid medium gold',
+                      borderRadius: '50%',
+                      padding: `.125em`,
+                      background: `#fff`,
+                      // borderRadius: '2em',
+                      transform: `translateZ(2.5em)`,
+                      transformStyle: `preserve-3d`,
+                      // backfaceVisibility: 'hidden',
+                      zIndex: `100`
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            {company ?
+              <div
+                className='row'
+                style={{
+                  justifyContent: `center`,
+                  width: '100%',
+                  borderTop: 'solid thin #000'
+                }}
+              >
+                <a style={{
+                  margin: '.5em',
+                  textDecoration: 'none', color: '#000'
+                }}
+                  target='_blank'
+                  rel='noreferrer'
+                  href={`https://www.google.com/maps/search/"${company.street}, ${company.addressNumber}, bairro ${company.neighborhood}, ${company.city}-${company.state}/${company.country}"`.replaceAll(' ', '+')}
+                // onClick={e => {
+                //   window.location.href = ;
+                // }}
+                >
+                  <span style={{ color: '#000' }}>
+                    <FontAwesomeIcon icon={faMapLocationDot} />
+                    {` Localização: ${company.street}, ${company.addressNumber}, bairro ${company.neighborhood}, ${company.city}-${company.state}/${company.country}`}
+                  </span>
+                </a>
+              </div>
+              :
+              <></>
+            }
+          </div>
         </div>
         <div style={{ fontSize: '.75em', maxWidth: '60%' }} className='column'>
           <h1 style={{ color: '#000', cursor: `pointer` }} onClick={e => {
@@ -808,7 +917,7 @@ function ProductMenu() {
         }
       </div >
     );
-  } else if (showCartPage === true && typeof cart === 'object') {
+  } else if ((action === 'cart' || showCartPage === true) && typeof cart === 'object') {
 
     if (!accessCodeIsSet) {
       return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
@@ -820,7 +929,7 @@ function ProductMenu() {
         setCartSelectedItemIdx={setCartSelectedItemIdx}
       />
     );
-  } else if (showOrdersPage === true && typeof cart === 'object') {
+  } else if ((action === 'orders' || showOrdersPage === true) && typeof cart === 'object') {
 
     if (!accessCodeIsSet) {
       return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
