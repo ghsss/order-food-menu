@@ -157,6 +157,22 @@ h1 {
   animation: scaleAnimation 1.25s ease-in-out;
 }
 
+.logoClass {
+  position: relative;
+  transform-style: preserve-3d;
+  animation: spinAnimationY 3s ease-in-out;
+}
+
+.logoClass:hover {
+  transform-style: preserve-3d;
+  animation: spinAnimationY 3s infinite ease-in-out;
+}
+
+.logoClass::selection {
+  transform-style: preserve-3d;
+  animation: spinAnimationY 3s ease-in-out;
+}
+
 .spinAnimationY {
   transform-style: preserve-3d;
   animation: spinAnimationY 3s infinite ease-in-out;

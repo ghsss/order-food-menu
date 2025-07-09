@@ -31,6 +31,7 @@ interface ProductMenuProps {
 
 function ProductMenu({ action }: ProductMenuProps) {
 
+  const [logoClass, setLogoClass] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [accessCodeIsSet, setAccessCodeIsSet] = useState<boolean>(false);
   const [showOrdersPage, setShowOrdersPage] = useState<boolean>(false);
@@ -168,7 +169,9 @@ function ProductMenu({ action }: ProductMenuProps) {
 
     await waitSeconds(3);
 
-    syncAccessToken();
+    if (!accessCodeIsSet) {
+      syncAccessToken();
+    }
 
   }
 
@@ -197,7 +200,7 @@ function ProductMenu({ action }: ProductMenuProps) {
   useEffect(() => {
 
     console.log('cart: ', cart);
-    if (cart) {
+    if (typeof cart === 'object' && JSON.stringify(cart) !== JSON.stringify(CartServiceInstance.getStoredCart())) {
       CartServiceInstance.updateStoredCart(cart);
     }
 
@@ -237,6 +240,12 @@ function ProductMenu({ action }: ProductMenuProps) {
       setOrderChannel(`WebSite`);
     }
   }, [action]);
+
+  useEffect(() => {
+
+    console.log('logoClass: ', logoClass);
+
+  }, [logoClass]);
 
   useEffect(() => {
 
@@ -699,7 +708,7 @@ function ProductMenu({ action }: ProductMenuProps) {
   if (selectedItem === null && !showCartPage && !showOrdersPage) {
     return (
       <div className="ProductMenuContainer">
-        <div style={{ width: '100%', display: 'flex', marginBottom: '2em' }} className='titles'>
+        <div style={{ width: '100%', display: 'flex', marginTop: '1em', marginBottom: '2em' }} className='titles'>
           <a style={{ justifySelf: 'flex-end', alignSelf: 'flex-end', marginRight: '1em', marginTop: '1em' }} href='/admin?action=menu'>
             {`Sou um administrador `}
             <FontAwesomeIcon icon={faHeadphones} />
@@ -724,10 +733,28 @@ function ProductMenu({ action }: ProductMenuProps) {
             borderRadius: '1em',
             overflow: 'hidden',
             marginBottom: `1em`,
+            transformStyle: `preserve-3d`,
           }}>
+            <a href='/#'
+              style={{
+                display: 'flex',
+                background: 'rgba(93, 0, 0, 0.248)',
+                marginTop: '.5em',
+                width: '80%',
+                alignItems: `center`,
+                justifyContent: 'center',
+              }}
+            >⭐⭐⭐⭐⭐</a>
             <div style={{
               justifyContent: 'center',
+              margin: '1em',
+              marginTop: '.5em',
               padding: `1em`,
+              border: `solid thin #000`,
+              borderRadius: '1em',
+              background: 'rgba(93, 0, 0, 0.248)',
+              // borderTopLeftRadius: '1em',
+              // borderTopRightRadius: '1em',
             }}>
               <div style={{
                 width: 'fit-content',
@@ -750,21 +777,29 @@ function ProductMenu({ action }: ProductMenuProps) {
                     paddingTop: `.25em`,
                     border: 'solid medium gold',
                     borderRadius: '50%',
+                  }}
+                  onClick={async e => {
+                    setLogoClass('logoClass');
+                    await waitSeconds(1);
+                    setLogoClass('');
                   }}>
                   <img
-                    // className="glowBox"
+                    className={logoClass.length > 0 ? logoClass : ''}
+                    // className={'logoClass'}                    
                     src="./logo1.jpg" alt=""
                     style={{
+                      position: `relative`,
                       // margin: '1em',
                       // maxWidth: '70%',
-                      width: '70%',
-                      height: '10em',
+                      width: '75%',
+                      height: '9em',
                       border: 'solid medium gold',
                       borderRadius: '50%',
                       padding: `.125em`,
                       background: `#fff`,
                       // borderRadius: '2em',
-                      transform: `translateZ(2.5em)`,
+                      animationDuration: '1s',
+                      // transform: `translateZ(2.5em)`,
                       transformStyle: `preserve-3d`,
                       // backfaceVisibility: 'hidden',
                       zIndex: `100`
@@ -813,7 +848,7 @@ function ProductMenu({ action }: ProductMenuProps) {
             }
           </div>
         </div>
-        <div style={{ fontSize: '.75em', maxWidth: '60%' }} className='column'>
+        <div style={{ fontSize: '.75em', maxWidth: '60%', marginBottom: '1em', }} className='column'>
           <h1 style={{ color: '#000', cursor: `pointer` }} onClick={e => {
             setCompanyInfoDropdownOpen(!companyInfoDropdownOpen);
           }}>
