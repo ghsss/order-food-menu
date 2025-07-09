@@ -19,11 +19,11 @@ function ProductMenuList({ handleItemClick, companyIsOpenNow, productMenuItems, 
   return (
     <div className='ProductMenuListContainer'>
       {/* <div className='titles'> */}
-      <h1 style={{fontSize: '1em', width: 'fit-content', marginLeft: '.75em', padding: '.5em'}} className={companyIsOpenNow === true ? 'scalingAnimation glowBox ' : ''}>
+      {/* <h1 style={{fontSize: '1em', width: 'fit-content', marginLeft: '.75em', padding: '.5em'}} className={companyIsOpenNow === true ? 'scalingAnimation glowBox ' : ''}>
         <span style={{ color: '#000' }} className={companyIsOpenNow === true ? 'scalingAnimation ' : ''} >
           {companyIsOpenNow === true ? 'ABERTO' : 'FECHADO'} <FontAwesomeIcon fontSize={`1.25em`} color={companyIsOpenNow === true ? 'green' : 'red'} icon={companyIsOpenNow === true ? faCheckCircle : faX} />
         </span>
-      </h1>
+      </h1> */}
       {/* </div> */}
       <h2 id='listTitle' style={{borderWidth: 'medium'}} className='listTitle linkUnavailable'>🔥 Cardápio 🔥</h2>
       {children}

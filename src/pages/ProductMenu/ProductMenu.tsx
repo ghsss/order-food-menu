@@ -717,6 +717,7 @@ function ProductMenu({ action }: ProductMenuProps) {
         </h1> */}
           <div className='column' style={{
             justifyContent: 'center',
+            alignItems: 'center',
             backgroundColor: 'rgb(231, 77, 0)',
             width: '100%',
             border: 'solid thin #000',
@@ -770,6 +771,15 @@ function ProductMenu({ action }: ProductMenuProps) {
                     }}
                   />
                 </div>
+              </div>
+              <div className='row'
+                style={{ justifyContent: 'center' }}
+              >
+                <h1 style={{ marginTop: '1.5em', marginBottom: '.5em', fontSize: '1em', width: 'fit-content', padding: '.5em' }} className={companyIsOpenNow() === true ? 'scalingAnimation glowBox ' : ''}>
+                  <span style={{ color: '#000' }} className={companyIsOpenNow() === true ? 'scalingAnimation ' : ''} >
+                    {companyIsOpenNow() === true ? 'ABERTO' : 'FECHADO'} <FontAwesomeIcon fontSize={`1.25em`} color={companyIsOpenNow() === true ? 'green' : 'red'} icon={companyIsOpenNow() === true ? faCheckCircle : faX} />
+                  </span>
+                </h1>
               </div>
             </div>
             {company ?
