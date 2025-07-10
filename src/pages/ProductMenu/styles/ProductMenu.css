@@ -128,7 +128,7 @@ h1 {
   height: 5em;
   width: 100vw;
   background: rgb(231, 77, 0);
-  border: solid medium #000;
+  border-top: solid medium #000;
   border-top-left-radius: 1em;
   border-top-right-radius: 1em;
 }
