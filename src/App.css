@@ -1,9 +1,11 @@
 .App {
   text-align: center;
-  min-height: 100vh;
+  /* min-height: 100vh;
   height: 100%;
   width: 100%;
-  max-width: 100vw;
+  max-width: 100vw; */
+  width: fit-content;
+  height: auto;
   background-image: url('/public/chuva_de_hamburguer.jpg');
   background-repeat: no-repeat;
   background-size: cover;
