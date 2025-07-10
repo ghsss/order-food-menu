@@ -142,7 +142,7 @@ function ProductMenu({ action }: ProductMenuProps) {
       console.log('getAdditionalProductsResponse: ', getAdditionalProductsResponse);
       setAdditionalProductMenuOptions(getAdditionalProductsResponse);
 
-      await waitSeconds(3)
+      await waitSeconds(1.45)
 
       setLoading(false);
 
