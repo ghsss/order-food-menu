@@ -735,7 +735,8 @@ function ProductMenu({ action }: ProductMenuProps) {
   }
 
   function goToMyOrdersPage() {
-    setShowOrdersPage(true);
+    // setShowOrdersPage(true);
+    window.location.href = '/?action=orders'
   }
 
   async function showCompanyNameAnimatedDisplay() {
