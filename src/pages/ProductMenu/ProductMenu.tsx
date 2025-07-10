@@ -775,7 +775,7 @@ function ProductMenu({ action }: ProductMenuProps) {
         </div>
         <div className='row'
           style={{
-            transform: `scale(.9)`,
+            transform: `scale(.95)`,
             width: '95%'
           }}
         >
