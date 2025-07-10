@@ -552,112 +552,116 @@ function ProductMenu({ action }: ProductMenuProps) {
                     {/* {selectedItem.obs} */}
                   </div>
                 </div>
-                <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', border: 'solid thin #fff' }}>
-                  <div>
-                    {
+                {
+                  additionalProductMenuOptions && additionalProductMenuOptions?.length > 0 ?
+                    <>
+                      <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', border: 'solid thin #fff' }}>
+                        <div>
+                          <span>Adicionais: </span>
+                          {additionalProductMenuOptions?.map(additionalProductMenuOption => {
 
-                    }
-                    <span>Adicionais: </span>
-                    {additionalProductMenuOptions?.map(additionalProductMenuOption => {
+                            const replaceEmojis = (str: string) => {
+                              return str.replace(
+                                /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+                                ''
+                              )
+                            }
 
-                      const replaceEmojis = (str: string) => {
-                        return str.replace(
-                          /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-                          ''
-                        )
-                      }
+                            if (Array.isArray(selectedItem.additionalProducts) && additionalProductMenuOption.availableProductType.some(availableProductType => availableProductType.id === selectedItemProduct.productType.id)) {
+                              const selectedAdditionalProductIdx = selectedItem.additionalProducts?.findIndex(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id));
+                              const selectedAdditionalProductQty = selectedItem.additionalProducts?.find(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id))?.qty || 0;
+                              return (
+                                <div className='row' style={{ width: `100%`, marginTop: '1em', border: 'solid thin #fff', background: 'rgba(93, 0, 0, 0.248)', borderRadius: '.5em', padding: '.25em' }}>
+                                  <div className='column'>
+                                    <span>{additionalProductMenuOption.name} (R$ {parseFloat(additionalProductMenuOption.price.toFixed(2)).toFixed(2).replace('.', ',')}/Uni): {selectedAdditionalProductQty}</span>
+                                    <div className="row">
+                                      <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`1.5em`}
+                                        style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                                        onClick={e => {
+                                          e.stopPropagation();
+                                          e.preventDefault();
+                                          if (selectedAdditionalProductQty > 0 && Array.isArray(selectedItem.additionalProducts)) {
+                                            // if ( selectedAdditionalProductIdx === -1 ) {
+                                            //   selectedItem.additionalProducts?.push({...additionalProductMenuOption, qty: selectedAdditionalProductQty });
+                                            // }
+                                            selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = selectedAdditionalProductQty - 1;
+                                            // setSelectedItem({ ...selectedItem, qty: selectedAdditionalProductQty - 1 })
 
-                      if (Array.isArray(selectedItem.additionalProducts) && additionalProductMenuOption.availableProductType.some(availableProductType => availableProductType.id === selectedItemProduct.productType.id)) {
-                        const selectedAdditionalProductIdx = selectedItem.additionalProducts?.findIndex(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id));
-                        const selectedAdditionalProductQty = selectedItem.additionalProducts?.find(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id))?.qty || 0;
-                        return (
-                          <div className='row' style={{ width: `100%`, marginTop: '1em', border: 'solid thin #fff', background: 'rgba(93, 0, 0, 0.248)', borderRadius: '.5em', padding: '.25em' }}>
-                            <div className='column'>
-                              <span>{additionalProductMenuOption.name} (R$ {parseFloat(additionalProductMenuOption.price.toFixed(2)).toFixed(2).replace('.', ',')}/Uni): {selectedAdditionalProductQty}</span>
-                              <div className="row">
-                                <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`1.5em`}
-                                  style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
-                                  onClick={e => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    if (selectedAdditionalProductQty > 0 && Array.isArray(selectedItem.additionalProducts)) {
-                                      // if ( selectedAdditionalProductIdx === -1 ) {
-                                      //   selectedItem.additionalProducts?.push({...additionalProductMenuOption, qty: selectedAdditionalProductQty });
-                                      // }
-                                      selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = selectedAdditionalProductQty - 1;
-                                      // setSelectedItem({ ...selectedItem, qty: selectedAdditionalProductQty - 1 })
+                                            if (selectedItem.additionalProducts[selectedAdditionalProductIdx].qty === 0) {
+                                              selectedItem.additionalProducts.splice(selectedAdditionalProductIdx, 1);
+                                            }
 
-                                      if (selectedItem.additionalProducts[selectedAdditionalProductIdx].qty === 0) {
-                                        selectedItem.additionalProducts.splice(selectedAdditionalProductIdx, 1);
-                                      }
+                                            setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
 
-                                      setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
+                                          }
+                                        }}
+                                      />
+                                      <input type="number" step={1} id='itemDescription' className='itemDescription' value={selectedAdditionalProductQty}
+                                        onChange={e => {
+                                          // e.stopPropagation();
+                                          // e.preventDefault();
+                                          console.log(`Qty input change.`)
+                                          if (selectedAdditionalProductQty > 0 && Array.isArray(selectedItem.additionalProducts)) {
 
-                                    }
-                                  }}
-                                />
-                                <input type="number" step={1} id='itemDescription' className='itemDescription' value={selectedAdditionalProductQty}
-                                  onChange={e => {
-                                    // e.stopPropagation();
-                                    // e.preventDefault();
-                                    console.log(`Qty input change.`)
-                                    if (selectedAdditionalProductQty > 0 && Array.isArray(selectedItem.additionalProducts)) {
+                                            // selectedAdditionalProductQty
+                                            if (selectedAdditionalProductIdx === -1) {
 
-                                      // selectedAdditionalProductQty
-                                      if (selectedAdditionalProductIdx === -1) {
+                                              selectedItem.additionalProducts.push({ ...additionalProductMenuOption, qty: Number(e.target.value) });
 
-                                        selectedItem.additionalProducts.push({ ...additionalProductMenuOption, qty: Number(e.target.value) });
+                                            } else {
 
-                                      } else {
+                                              selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = Number(e.target.value);
 
-                                        selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = Number(e.target.value);
+                                              if (selectedItem.additionalProducts[selectedAdditionalProductIdx].qty === 0) {
+                                                selectedItem.additionalProducts.splice(selectedAdditionalProductIdx, 1);
+                                              }
 
-                                        if (selectedItem.additionalProducts[selectedAdditionalProductIdx].qty === 0) {
-                                          selectedItem.additionalProducts.splice(selectedAdditionalProductIdx, 1);
+                                            }
+
+                                            setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
+
+                                            // setSelectedItem({ ...selectedItem, qty: Number(e.target.value) })
+                                          }
                                         }
+                                        } />
+                                      {/* {selectedItem.obs} */}
+                                      <FontAwesomeIcon icon={faPlusCircle} color='green' fontSize={`1.5em`}
+                                        style={{ zIndex: `101`, marginLeft: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                                        onClick={e => {
+                                          e.stopPropagation();
+                                          e.preventDefault();
+                                          console.log(`Qty increase click.`)
+                                          if (Array.isArray(selectedItem.additionalProducts)) {
 
-                                      }
+                                            if (selectedAdditionalProductIdx === -1) {
 
-                                      setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
+                                              selectedItem.additionalProducts.push({ ...additionalProductMenuOption, qty: selectedAdditionalProductQty + 1 });
 
-                                      // setSelectedItem({ ...selectedItem, qty: Number(e.target.value) })
-                                    }
-                                  }
-                                  } />
-                                {/* {selectedItem.obs} */}
-                                <FontAwesomeIcon icon={faPlusCircle} color='green' fontSize={`1.5em`}
-                                  style={{ zIndex: `101`, marginLeft: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
-                                  onClick={e => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    console.log(`Qty increase click.`)
-                                    if (Array.isArray(selectedItem.additionalProducts)) {
+                                            } else {
 
-                                      if (selectedAdditionalProductIdx === -1) {
+                                              selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = selectedAdditionalProductQty + 1;
 
-                                        selectedItem.additionalProducts.push({ ...additionalProductMenuOption, qty: selectedAdditionalProductQty + 1 });
+                                            }
 
-                                      } else {
+                                            setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
 
-                                        selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = selectedAdditionalProductQty + 1;
-
-                                      }
-
-                                      setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
-
-                                    }
-                                  }
-                                  } />
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      } else {
-                        return (<></>);
-                      }
-                    })}
-                  </div>
-                </div>
+                                          }
+                                        }
+                                        } />
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            } else {
+                              return (<></>);
+                            }
+                          })}
+                        </div>
+                      </div>
+                    </>
+                    :
+                    <></>
+                }
                 <div className='row' style={{
                   width: `100%`, justifyContent: 'center', paddingTop: '1em', paddingBottom: '1em'
                   , background: `rgba(93, 0, 0, 0.248)`
