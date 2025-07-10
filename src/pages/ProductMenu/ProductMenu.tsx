@@ -105,7 +105,7 @@ function ProductMenu({ action }: ProductMenuProps) {
       const getProductTypesResponse = await ProductTypeServiceInstance.getProductTypes();
       getProductTypesResponse.sort((a: ProductTypeModel, b: ProductTypeModel) => {
         // s1.toLowerCase().localeCompare(s2.toLowerCase()));
-        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+        return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
       });
       console.log('getProductTypesResponse: ', getProductTypesResponse);
       setProductTypeSelectOptions(getProductTypesResponse);
@@ -113,7 +113,7 @@ function ProductMenu({ action }: ProductMenuProps) {
       const getProductsResponse = await ProductServiceInstance.getProducts();
       getProductsResponse.sort((a: ProductTypeModel, b: ProductTypeModel) => {
         // s1.toLowerCase().localeCompare(s2.toLowerCase()));
-        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+        return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
       });
       console.log('getProductsResponse: ', getProductsResponse);
       setProductMenuOptions(getProductsResponse);
