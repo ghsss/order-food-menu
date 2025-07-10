@@ -553,7 +553,8 @@ function ProductMenu({ action }: ProductMenuProps) {
                   </div>
                 </div>
                 {
-                  additionalProductMenuOptions && additionalProductMenuOptions?.length > 0 ?
+                  additionalProductMenuOptions && additionalProductMenuOptions?.length > 0
+                    && additionalProductMenuOptions.some(additionalProductMenuOption => additionalProductMenuOption.availableProductType.some(availableProductType => availableProductType.id === selectedItemProduct.productType.id)) ?
                     <>
                       <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', border: 'solid thin #fff' }}>
                         <div>
