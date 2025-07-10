@@ -777,15 +777,16 @@ function ProductMenu({ action }: ProductMenuProps) {
               className='scalingAnimation'
               style={
                 {
-                  fontSize: `1.25em`,
+                  fontSize: `1.5em`,
                   marginTop: '.5em',
                   padding: `.5em`,
                   fontFamily: 'fantasy',
                   color: '#fff',
                   textDecoration: `underline rgba(93, 0, 0, 0.248)`,
-                  WebkitTextStroke: `.125px #000`,
+                  WebkitTextStroke: `.025em #000`,
                   WebkitTextStrokeColor: `#000`,
-                  WebkitTextStrokeWidth: `.125px`,
+                  WebkitTextStrokeWidth: `.025em`,
+                  textShadow: '.1em .1em .1em #000'
                 }
               }
             >{companyNameAnimatedDisplay}</span>
