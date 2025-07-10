@@ -420,7 +420,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                             justifySelf: `flex-end`,
                                         }}
                                     > */}
-                                            <div style={{ paddingBottom: '1.5em', background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
+                                            <div style={{ background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', color: '#000', textDecoration: 'none', paddingBottom: `1.25em` }}>
                                                 <div id='copyIcon' style={{
                                                     position: `absolute`,
                                                     color: (`#000`),

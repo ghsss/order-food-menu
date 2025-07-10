@@ -510,7 +510,7 @@ function ProductMenu({ action }: ProductMenuProps) {
               <div className="CartProductMenuListItemContainer glowBox"
               // onClick={event => handleCartItemChange(selectedItem)}
               >
-                <div id='cartIcon' style={{ color: `#000`, justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em` }} >
+                <div id='cartIcon' style={{ color: `#000`, marginRight: `2em`, marginTop: `2em` }} >
                   <FontAwesomeIcon
                     icon={faCartShopping}
                   />
@@ -552,8 +552,11 @@ function ProductMenu({ action }: ProductMenuProps) {
                     {/* {selectedItem.obs} */}
                   </div>
                 </div>
-                <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', background: 'rgba(93, 0, 0, 0.248)', border: 'solid thin #fff' }}>
+                <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', border: 'solid thin #fff' }}>
                   <div>
+                    {
+
+                    }
                     <span>Adicionais: </span>
                     {additionalProductMenuOptions?.map(additionalProductMenuOption => {
 
@@ -568,8 +571,8 @@ function ProductMenu({ action }: ProductMenuProps) {
                         const selectedAdditionalProductIdx = selectedItem.additionalProducts?.findIndex(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id));
                         const selectedAdditionalProductQty = selectedItem.additionalProducts?.find(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id))?.qty || 0;
                         return (
-                          <div className='row' style={{ width: `100%`, marginTop: '1em', border: 'solid thin #fff', background: 'darkslategrey', borderRadius: '.5em', padding: '.25em' }}>
-                            <div className='column' style={{ background: 'darkslategrey' }}>
+                          <div className='row' style={{ width: `100%`, marginTop: '1em', border: 'solid thin #fff', background: 'rgba(93, 0, 0, 0.248)', borderRadius: '.5em', padding: '.25em' }}>
+                            <div className='column'>
                               <span>{additionalProductMenuOption.name} (R$ {parseFloat(additionalProductMenuOption.price.toFixed(2)).toFixed(2).replace('.', ',')}/Uni): {selectedAdditionalProductQty}</span>
                               <div className="row">
                                 <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`1.5em`}
@@ -655,7 +658,9 @@ function ProductMenu({ action }: ProductMenuProps) {
                     })}
                   </div>
                 </div>
-                <div className='row' style={{ width: `100%`, justifyContent: 'center', paddingTop: '1em', paddingBottom: '1em' }}>
+                <div className='row' style={{ width: `100%`, justifyContent: 'center', paddingTop: '1em', paddingBottom: '1em'
+                  , background: `rgba(93, 0, 0, 0.248)`
+                 }}>
                   <div>
                     <span>Quantidade: {selectedItem.qty}</span>
                     <div className="row">
