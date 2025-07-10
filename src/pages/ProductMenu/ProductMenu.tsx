@@ -31,6 +31,7 @@ interface ProductMenuProps {
 
 function ProductMenu({ action }: ProductMenuProps) {
 
+  const [companyNameAnimatedDisplay, setCompanyNameAnimatedDisplay] = useState<string>('');
   const [logoClass, setLogoClass] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [accessCodeIsSet, setAccessCodeIsSet] = useState<boolean>(false);
@@ -141,8 +142,9 @@ function ProductMenu({ action }: ProductMenuProps) {
       console.log('getAdditionalProductsResponse: ', getAdditionalProductsResponse);
       setAdditionalProductMenuOptions(getAdditionalProductsResponse);
 
-      waitSeconds(3)
-        .then(() => { setLoading(false); });
+      await waitSeconds(3)
+
+      setLoading(false);
 
       syncAccessToken()
 
@@ -151,6 +153,16 @@ function ProductMenu({ action }: ProductMenuProps) {
     getProducts();
 
   }, []);
+
+  useEffect(() => {
+
+    if (!loading) {
+
+      showCompanyNameAnimatedDisplay();
+    
+    }
+
+  }, [loading]);
 
   function waitSeconds(seconds: number) {
     return new Promise<void>((resolve, reject) => {
@@ -190,6 +202,12 @@ function ProductMenu({ action }: ProductMenuProps) {
     console.log('showCartPage: ', showCartPage);
 
   }, [showCartPage]);
+
+  useEffect(() => {
+
+    console.log('companyNameAnimatedDisplay: ', companyNameAnimatedDisplay);
+
+  }, [companyNameAnimatedDisplay]);
 
   useEffect(() => {
 
@@ -699,6 +717,24 @@ function ProductMenu({ action }: ProductMenuProps) {
     setShowOrdersPage(true);
   }
 
+  async function showCompanyNameAnimatedDisplay() {
+    console.log('showCompanyNameAnimatedDisplay');
+    if (typeof company === 'object') {
+      let companyName = '';
+      for await (const letter of company.name) {
+        await waitSeconds(.075);
+        companyName += letter;
+        setCompanyNameAnimatedDisplay(companyName);
+      }
+      companyName += ` 🔥`;
+      await waitSeconds(.5);
+      setCompanyNameAnimatedDisplay(companyName);
+      companyName = `🔥 ` + companyName;
+      await waitSeconds(.75);
+      setCompanyNameAnimatedDisplay(companyName);
+    }
+  }
+
   if (loading) {
 
     return (<LoadingPage />)
@@ -706,6 +742,7 @@ function ProductMenu({ action }: ProductMenuProps) {
   }
 
   if (selectedItem === null && !showCartPage && !showOrdersPage) {
+
     return (
       <div className="ProductMenuContainer">
         <div style={{ width: '100%', display: 'flex', marginTop: '1em', marginBottom: '2em' }} className='titles'>
@@ -716,7 +753,7 @@ function ProductMenu({ action }: ProductMenuProps) {
         </div>
         <div className='row'
           style={{
-            width: '70%'
+            width: '95%'
           }}
         >
           {/* <h1 id='instruction1' style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>Clique em um item do cardápio para copiar o código do produto! ❤️‍🔥😍
@@ -724,7 +761,7 @@ function ProductMenu({ action }: ProductMenuProps) {
           {/* <h1 style={{ color: '#000' }} className='scalingAnimation linkUnavailable'>
           <span style={{ color: 'green' }}>Redirecionamento automático <FontAwesomeIcon fontSize={`1.25em`} color='green' icon={faWhatsapp} /></span>
         </h1> */}
-          <div className='column' style={{
+          <div className='column glowBox' style={{
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: 'rgb(231, 77, 0)',
@@ -735,7 +772,22 @@ function ProductMenu({ action }: ProductMenuProps) {
             marginBottom: `1em`,
             transformStyle: `preserve-3d`,
           }}>
+            <span
+              className='scalingAnimation'
+              style={
+                {
+                  fontSize: `1.25em`,
+                  marginTop: '.5em',
+                  padding: `.5em`,
+                  fontFamily: 'fantasy',
+                  color: '#fff',
+                  textDecoration: `underline rgba(93, 0, 0, 0.248)`,
+                  WebkitTextStroke: `.125px #000`,
+                }
+              }
+            >{companyNameAnimatedDisplay}</span>
             <a href='/#'
+              className='glow'
               style={{
                 display: 'flex',
                 background: 'rgba(93, 0, 0, 0.248)',
@@ -746,9 +798,13 @@ function ProductMenu({ action }: ProductMenuProps) {
               }}
             >⭐⭐⭐⭐⭐</a>
             <div style={{
+              display: `flex`,
+              alignItems: `center`,
               justifyContent: 'center',
+              flexDirection: `column`,
               margin: '1em',
               marginTop: '.5em',
+              width: `75%`,
               padding: `1em`,
               border: `solid thin #000`,
               borderRadius: '1em',
@@ -792,13 +848,13 @@ function ProductMenu({ action }: ProductMenuProps) {
                       // margin: '1em',
                       // maxWidth: '70%',
                       width: '75%',
-                      height: '9em',
+                      height: '11em',
                       border: 'solid medium gold',
                       borderRadius: '50%',
                       padding: `.125em`,
                       background: `#fff`,
                       // borderRadius: '2em',
-                      animationDuration: '1s',
+                      animationDuration: '2s',
                       // transform: `translateZ(2.5em)`,
                       transformStyle: `preserve-3d`,
                       // backfaceVisibility: 'hidden',
@@ -827,7 +883,7 @@ function ProductMenu({ action }: ProductMenuProps) {
                 }}
               >
                 <a style={{
-                  margin: '.5em',
+                  margin: '1em',
                   textDecoration: 'none', color: '#000'
                 }}
                   target='_blank'
