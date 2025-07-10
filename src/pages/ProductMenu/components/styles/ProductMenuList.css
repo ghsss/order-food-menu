@@ -1,6 +1,7 @@
 .ProductMenuListContainer {
   background-color: rgb(231, 77, 0);
-  border: solid .25em #fff;
+  /* border: solid .25em #fff; */
+  border: solid .25em rgb(255, 246, 148) !important;
   border-radius: .5em;
   padding: 1.5em;
   height: 100%;
