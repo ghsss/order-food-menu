@@ -1,4 +1,8 @@
-export default function LoadingPage() {
+interface LoadingPageProps {
+    action: string;
+}
+
+export default function LoadingPage({ action }: LoadingPageProps) {
     return (
         <div className='cartModal'>
             <div className="cartModalScroll" style={{ display: 'flex', alignItems: `center`, justifyContent: 'center' }}>
@@ -86,7 +90,9 @@ export default function LoadingPage() {
                             </div>
                         </div>
                     </div>
-                    <a href="/#" style={{ fontWeight: `bold`, textDecoration: `none`, color: '#000' }}>{'Baixando cardápio ...'}</a>
+                    <a href="/#" style={{ fontWeight: `bold`, textDecoration: `none`, color: '#000' }}>
+                        {action === 'order-bot'? 'Baixando cardápio ...' : action === 'cart'? 'Baixando dados do carrinho ...' : action === 'orders'? 'Baixando pedidos ...' : 'Baixando cardápio ...' }
+                    </a>
                 </div>
             </div>
         </div>

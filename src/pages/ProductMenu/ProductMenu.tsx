@@ -759,7 +759,7 @@ function ProductMenu({ action }: ProductMenuProps) {
 
   if (loading) {
 
-    return (<LoadingPage />)
+    return (<LoadingPage action={action} />)
 
   }
 
