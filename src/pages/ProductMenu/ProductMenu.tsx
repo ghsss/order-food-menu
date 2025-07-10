@@ -735,7 +735,7 @@ function ProductMenu({ action }: ProductMenuProps) {
       await waitSeconds(.5);
       setCompanyNameAnimatedDisplay(companyName);
       companyName = `🔥 ` + companyName;
-      await waitSeconds(.75);
+      await waitSeconds(.5);
       setCompanyNameAnimatedDisplay(companyName);
     }
   }
