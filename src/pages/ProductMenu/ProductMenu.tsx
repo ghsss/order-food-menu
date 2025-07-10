@@ -784,6 +784,8 @@ function ProductMenu({ action }: ProductMenuProps) {
                   color: '#fff',
                   textDecoration: `underline rgba(93, 0, 0, 0.248)`,
                   WebkitTextStroke: `.125px #000`,
+                  WebkitTextStrokeColor: `#000`,
+                  WebkitTextStrokeWidth: `.125px`,
                 }
               }
             >{companyNameAnimatedDisplay}</span>
