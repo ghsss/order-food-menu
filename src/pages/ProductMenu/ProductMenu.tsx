@@ -810,7 +810,7 @@ function ProductMenu({ action }: ProductMenuProps) {
                 className='scalingAnimation'
                 style={
                   {
-                    fontSize: `1.5em`,
+                    fontSize: `1.25em`,
                     marginTop: '.5em',
                     padding: `.25em`,
                     fontFamily: 'fantasy',
