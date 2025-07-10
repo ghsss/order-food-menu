@@ -114,7 +114,8 @@ function AccessCodePage() {
       }}>
         <button className='goBackButton' style={{ justifySelf: `flex-start`, alignSelf: `flex-start`, marginLeft: `1em`, marginBottom: '1em', marginTop: '1em' }}
           onClick={async e => {
-            if (AccessCodeServiceInstance.getStoredAccessCode())
+            const storedAC = AccessCodeServiceInstance.getStoredAccessCode();
+            if (typeof storedAC === 'string' && (await AccessCodeServiceInstance.accessCodeIsValid(storedAC)) === true)
               window.history.back()
             else
               window.location.href = '/';

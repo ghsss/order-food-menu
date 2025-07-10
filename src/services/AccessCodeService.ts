@@ -288,13 +288,16 @@ class AccessCodeService {
   }
   async requestAdminAccessCode(phone: string): Promise<boolean> {
     try {
-      const response = await fetch(productEndpoint + "/api/requestAdminAccessCode", {
-        method: "GET",
-        headers: {
-          [isNaN(parseInt(phone)) ? `email` : `phoneNumber`]: phone,
-          "ngrok-skip-browser-warning": "true",
-        },
-      });
+      const response = await fetch(
+        productEndpoint + "/api/requestAdminAccessCode",
+        {
+          method: "GET",
+          headers: {
+            [isNaN(parseInt(phone)) ? `email` : `phoneNumber`]: phone,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
       if (response.status === 200) {
         const boolResponse = await response.text();
         console.log("getProducts.jsonResponse: ", boolResponse);
@@ -303,7 +306,8 @@ class AccessCodeService {
         if (response.status === 401) {
           window.alert("Solicitação de código de acesso não autorizada.");
           // window.alert("Você não é um administrador.");
-          window.close();
+          // window.close();
+          window.location.href = '/';
           return false;
         }
         window.alert("Erro de conexão ao servidor.");
@@ -381,9 +385,20 @@ class AccessCodeService {
           return false;
         }
       } else {
-        window.alert("Erro de conexão ao servidor.");
-        window.close();
-        return false;
+        if (response.status === 500) {
+          window.alert("Erro de conexão ao servidor.");
+          window.close();
+          return false;
+        } else {
+          if (response.status === 401 || response.status === 403) {
+            window.alert("Você não é um administrador.");
+            window.location.href = "/";
+            return false;
+          }
+          window.alert("Erro de conexão ao servidor.");
+          window.close();
+          return false;
+        }
       }
     } catch (error) {
       window.alert("Erro de conexão ao servidor.");
@@ -395,18 +410,22 @@ class AccessCodeService {
     try {
       const accessCodeSHA512Hash =
         accessCode.length > 100 ? accessCode : await sha512(accessCode);
-      const response = await fetch(productEndpoint + "/api/customerAccessCodeIsValid", {
-        method: "GET",
-        headers: {
-          accessCodeSHA512Hash: accessCodeSHA512Hash,
-          "ngrok-skip-browser-warning": "true",
-        },
-      });
+      const response = await fetch(
+        productEndpoint + "/api/customerAccessCodeIsValid",
+        {
+          method: "GET",
+          headers: {
+            accessCodeSHA512Hash: accessCodeSHA512Hash,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
       if (response.status === 200) {
         const txtResponse = await response.text();
         console.log("accessCodeIsValid.txtResponse: ", txtResponse);
         if (txtResponse.length > 11) {
-          document.cookie = "accessCodeSHA512Hash=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
+          document.cookie =
+            "accessCodeSHA512Hash=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
           const now = new Date();
           now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
           document.cookie =
