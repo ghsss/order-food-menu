@@ -510,7 +510,7 @@ function ProductMenu({ action }: ProductMenuProps) {
               <div className="CartProductMenuListItemContainer glowBox"
               // onClick={event => handleCartItemChange(selectedItem)}
               >
-                <div id='cartIcon' style={{ color: `#000`, marginRight: `2em`, marginTop: `2em` }} >
+                <div id='cartIcon' style={{ color: `#000`, marginLeft: `1em`, marginTop: `2.5em` }} >
                   <FontAwesomeIcon
                     icon={faCartShopping}
                   />
@@ -557,7 +557,11 @@ function ProductMenu({ action }: ProductMenuProps) {
                     && additionalProductMenuOptions.some(additionalProductMenuOption => additionalProductMenuOption.availableProductType.some(availableProductType => availableProductType.id === selectedItemProduct.productType.id)) ?
                     <>
                       <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', border: 'solid thin #fff' }}>
-                        <div>
+                        <div className='column'
+                          style={{
+                            maxWidth: '80%', alignItems: 'center', justifyContent: 'center'
+                          }}
+                        >
                           <span>Adicionais: </span>
                           {additionalProductMenuOptions?.map(additionalProductMenuOption => {
 
@@ -572,10 +576,18 @@ function ProductMenu({ action }: ProductMenuProps) {
                               const selectedAdditionalProductIdx = selectedItem.additionalProducts?.findIndex(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id));
                               const selectedAdditionalProductQty = selectedItem.additionalProducts?.find(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id))?.qty || 0;
                               return (
-                                <div className='row' style={{ width: `100%`, marginTop: '1em', border: 'solid thin #fff', background: 'rgba(93, 0, 0, 0.248)', borderRadius: '.5em', padding: '.25em' }}>
-                                  <div className='column'>
+                                <div className='row' style={{ alignItems: 'center', justifyContent: 'center', width: `100%`, marginTop: '1em', border: 'solid thin #fff', background: 'rgba(93, 0, 0, 0.248)', borderRadius: '.5em' }}>
+                                  <div className='column'
+                                    style={{
+                                      margin: '.25em'
+                                    }}
+                                  >
                                     <span>{additionalProductMenuOption.name} (R$ {parseFloat(additionalProductMenuOption.price.toFixed(2)).toFixed(2).replace('.', ',')}/Uni): {selectedAdditionalProductQty}</span>
-                                    <div className="row">
+                                    <div className="row"
+                                      style={
+                                        { alignItems: 'center', justifyContent: 'center' }
+                                      }
+                                    >
                                       <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`1.5em`}
                                         style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
                                         onClick={e => {
@@ -669,7 +681,12 @@ function ProductMenu({ action }: ProductMenuProps) {
                 }}>
                   <div>
                     <span>Quantidade: {selectedItem.qty}</span>
-                    <div className="row">
+                    <div className="row"
+                      style={{
+                        alignItems: 'center', justifyContent: 'center',
+                        margin: '.5em'
+                      }}
+                    >
                       <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`2.5em`}
                         style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
                         onClick={e => {
