@@ -529,8 +529,8 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                 </div>
                             </div>
                             {cart.paymentMethod.isOnlinePayment ?
-                                <div className="column" style={{ border: 'solid thin #000', paddingTop: '1em', paddingBottom: '1em' }}>
-                                    <div style={{ background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
+                                <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', paddingTop: '1em', paddingBottom: '1em' }}>
+                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
                                         <label
                                             htmlFor="cpfCnpj"
                                             style={{ color: '#000' }}
@@ -538,6 +538,9 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
 
                                         <input type="text" id="cpfCnpj" name="cpfCnpj" placeholder="Digite seu CPF ou CNPJ"
                                             value={cart.pixRequest.payer.identification.number}
+                                            style={{
+                                                margin: '.25em'
+                                            }}
                                             onChange={e => {
                                                 if (typeof cart === 'object') {
                                                     const value = e.target.value.replaceAll('.', '').replaceAll(',', '').replaceAll(' ', '');
@@ -566,8 +569,8 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                 <></>
                             }
                             {cart.paymentMethod.isOnlinePayment ?
-                                <div className="column" style={{ border: 'solid thin #000', paddingTop: '1em', paddingBottom: '1em' }}>
-                                    <div style={{ background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
+                                <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', paddingTop: '1em', paddingBottom: '1em' }}>
+                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center',background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
                                         <label
                                             htmlFor="email"
                                             style={{ color: '#000' }}
@@ -575,6 +578,9 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
 
                                         <input type="email" id="email" name="email" placeholder="exemplo@gmail.com"
                                             value={cart.pixRequest.payer.email}
+                                            style={{
+                                                margin: '.25em'
+                                            }}
                                             onChange={e => {
                                                 if (typeof cart === 'object') {
                                                     const value = e.target.value;
@@ -598,14 +604,17 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                 :
                                 <></>
                             }
-                            <div className="column" style={{ border: 'solid thin #000', borderBottomRightRadius: '1em', borderBottomLeftRadius: '1em', paddingTop: '1em', paddingBottom: '1em' }}>
-                                <div style={{ background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
+                            <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', borderBottomRightRadius: '1em', borderBottomLeftRadius: '1em', paddingTop: '1em', paddingBottom: '1em' }}>
+                                <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
                                     <label
                                         htmlFor="phone"
                                         style={{ color: '#000' }}
                                     >Digite seu WhatsApp <FontAwesomeIcon icon={faWhatsapp} color="green" style={{ transform: `scale(1.5)`, marginLeft: '.25em' }} /></label>
                                     <input id="phone" name="phone" type="tel" pattern="[0-9]{12}" placeholder='555499999999'
                                         value={cart?.chatId.split('@c.us')[0]}
+                                        style={{
+                                            margin: '.25em'
+                                        }}
                                         onChange={e => {
                                             if (typeof cart === 'object') {
                                                 const value = e.target.value.replaceAll(' ', '').replace('+', '').replace('-', '') || '';
