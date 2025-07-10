@@ -117,7 +117,7 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
                                     <span style={{ color: `#000` }}>{`Data: ${new Date(order.createdAt).toLocaleString('pt-BR')}`}</span>
                                     <br />
                                     <span style={{ color: `#000` }}>{`Status: ${getOrderStatusLabel(order.paymentStatus)}`}</span>
-                                    <div className="column" style={{marginTop: '.5em'}}>
+                                    <div className="column" style={{ marginTop: '.5em' }}>
                                         <div className="row" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000' }}>
                                             <p style={{ fontSize: `1.25em`, color: `#000`, textDecoration: 'none', background: '#fff', padding: '.125em', border: 'solid medium #000', borderRadius: '1em' }}>Total: R$ {order.paymentAmount.toFixed(2).replace('.', ',')}</p>
                                         </div>
@@ -190,6 +190,9 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
                         )
                     })}
                 </div>
+                <div className="row"
+                    style={{ marginTop: '1em' }}
+                ></div>
             </div>
         </div >
     );
