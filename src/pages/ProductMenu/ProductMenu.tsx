@@ -818,7 +818,7 @@ function ProductMenu({ action }: ProductMenuProps) {
                     textDecoration: `underline rgba(93, 0, 0, 0.248)`,
                     WebkitTextStroke: `.025em #000`,
                     WebkitTextStrokeColor: `#000`,
-                    WebkitTextStrokeWidth: `.025em`,
+                    WebkitTextStrokeWidth: `.05em`,
                     textShadow: '.1em .1em .5em #000'
                   }
                 }
