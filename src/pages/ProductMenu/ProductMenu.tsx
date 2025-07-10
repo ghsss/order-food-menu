@@ -159,7 +159,7 @@ function ProductMenu({ action }: ProductMenuProps) {
     if (!loading) {
 
       showCompanyNameAnimatedDisplay();
-    
+
     }
 
   }, [loading]);
@@ -765,147 +765,159 @@ function ProductMenu({ action }: ProductMenuProps) {
           <div className='column glowBox' style={{
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'rgb(231, 77, 0)',
+            background: 'rgb(255, 246, 148)',
             width: '100%',
             border: 'solid thin #000',
             borderRadius: '1em',
             overflow: 'hidden',
             marginBottom: `1em`,
+            padding: '.25em',
             transformStyle: `preserve-3d`,
           }}>
-            <span
-              className='scalingAnimation'
-              style={
-                {
-                  fontSize: `1.5em`,
-                  marginTop: '.5em',
-                  padding: `.5em`,
-                  fontFamily: 'fantasy',
-                  color: '#fff',
-                  textDecoration: `underline rgba(93, 0, 0, 0.248)`,
-                  WebkitTextStroke: `.025em #000`,
-                  WebkitTextStrokeColor: `#000`,
-                  WebkitTextStrokeWidth: `.025em`,
-                  textShadow: '.1em .1em .5em #000'
+            <div className='column' style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgb(231, 77, 0)',
+              width: '100%',
+              border: 'solid thin #000',
+              borderRadius: '1em',
+              overflow: 'hidden',
+              transformStyle: `preserve-3d`,
+            }}>
+              <span
+                className='scalingAnimation'
+                style={
+                  {
+                    fontSize: `1.5em`,
+                    marginTop: '.5em',
+                    padding: `.5em`,
+                    fontFamily: 'fantasy',
+                    color: '#fff',
+                    textDecoration: `underline rgba(93, 0, 0, 0.248)`,
+                    WebkitTextStroke: `.025em #000`,
+                    WebkitTextStrokeColor: `#000`,
+                    WebkitTextStrokeWidth: `.025em`,
+                    textShadow: '.1em .1em .5em #000'
+                  }
                 }
-              }
-            >{companyNameAnimatedDisplay}</span>
-            <a href='/#'
-              className='glow'
-              style={{
-                display: 'flex',
-                background: 'rgba(93, 0, 0, 0.248)',
-                marginTop: '.5em',
-                width: '80%',
+              >{companyNameAnimatedDisplay}</span>
+              <a href='/#'
+                className='glow'
+                style={{
+                  display: 'flex',
+                  background: 'rgba(93, 0, 0, 0.248)',
+                  marginTop: '.5em',
+                  width: '80%',
+                  alignItems: `center`,
+                  justifyContent: 'center',
+                }}
+              >⭐⭐⭐⭐⭐</a>
+              <div style={{
+                display: `flex`,
                 alignItems: `center`,
                 justifyContent: 'center',
-              }}
-            >⭐⭐⭐⭐⭐</a>
-            <div style={{
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: 'center',
-              flexDirection: `column`,
-              margin: '1em',
-              marginTop: '.5em',
-              width: `75%`,
-              padding: `1em`,
-              border: `solid thin #000`,
-              borderRadius: '1em',
-              background: 'rgba(93, 0, 0, 0.248)',
-              // borderTopLeftRadius: '1em',
-              // borderTopRightRadius: '1em',
-            }}>
-              <div style={{
-                width: 'fit-content',
-                // justifyContent: 'center',
-                // maxWidth: '70%',
-                // overflow: 'hidden',
-                borderRadius: '50%',
-                // background: '#000'
-                transform: `translateZ(1em)`,
-                transformStyle: `preserve-3d`,
-                background: 'rgba(93, 0, 0, 0.248)'
+                flexDirection: `column`,
+                margin: '1em',
+                marginTop: '.5em',
+                width: `75%`,
+                padding: `1em`,
+                border: `solid thin #000`,
+                borderRadius: '1em',
+                background: 'rgba(93, 0, 0, 0.248)',
+                // borderTopLeftRadius: '1em',
+                // borderTopRightRadius: '1em',
               }}>
-                <div
-                  className='glowBox'
-                  style={{
-                    width: 'fit-content',
-                    justifyContent: 'center',
-                    overflow: 'hidden',
-                    // maxWidth: '70%',
-                    paddingTop: `.25em`,
-                    border: 'solid medium gold',
-                    borderRadius: '50%',
-                  }}
-                  onClick={async e => {
-                    setLogoClass('logoClass');
-                    await waitSeconds(1);
-                    setLogoClass('');
-                  }}>
-                  <img
-                    className={logoClass.length > 0 ? logoClass : ''}
-                    // className={'logoClass'}                    
-                    src="./logo1.jpg" alt=""
+                <div style={{
+                  width: 'fit-content',
+                  // justifyContent: 'center',
+                  // maxWidth: '70%',
+                  // overflow: 'hidden',
+                  borderRadius: '50%',
+                  // background: '#000'
+                  transform: `translateZ(1em)`,
+                  transformStyle: `preserve-3d`,
+                  background: 'rgba(93, 0, 0, 0.248)'
+                }}>
+                  <div
+                    className='glowBox'
                     style={{
-                      position: `relative`,
-                      // margin: '1em',
+                      width: 'fit-content',
+                      justifyContent: 'center',
+                      overflow: 'hidden',
                       // maxWidth: '70%',
-                      width: '75%',
-                      height: '11em',
+                      paddingTop: `.25em`,
                       border: 'solid medium gold',
                       borderRadius: '50%',
-                      padding: `.125em`,
-                      background: `#fff`,
-                      // borderRadius: '2em',
-                      animationDuration: '2s',
-                      // transform: `translateZ(2.5em)`,
-                      transformStyle: `preserve-3d`,
-                      // backfaceVisibility: 'hidden',
-                      zIndex: `100`
                     }}
-                  />
+                    onClick={async e => {
+                      setLogoClass('logoClass');
+                      await waitSeconds(1);
+                      setLogoClass('');
+                    }}>
+                    <img
+                      className={logoClass.length > 0 ? logoClass : ''}
+                      // className={'logoClass'}                    
+                      src="./logo1.jpg" alt=""
+                      style={{
+                        position: `relative`,
+                        // margin: '1em',
+                        // maxWidth: '70%',
+                        width: '75%',
+                        height: '11em',
+                        border: 'solid medium gold',
+                        borderRadius: '50%',
+                        padding: `.125em`,
+                        background: `#fff`,
+                        // borderRadius: '2em',
+                        animationDuration: '2s',
+                        // transform: `translateZ(2.5em)`,
+                        transformStyle: `preserve-3d`,
+                        // backfaceVisibility: 'hidden',
+                        zIndex: `100`
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className='row'
+                  style={{ justifyContent: 'center' }}
+                >
+                  <h1 style={{ marginTop: '1.5em', marginBottom: '.5em', fontSize: '1em', width: 'fit-content', padding: '.5em' }} className={companyIsOpenNow() === true ? 'scalingAnimation glowBox ' : ''}>
+                    <span style={{ color: '#000' }} className={companyIsOpenNow() === true ? 'scalingAnimation ' : ''} >
+                      {companyIsOpenNow() === true ? 'ABERTO' : 'FECHADO'} <FontAwesomeIcon fontSize={`1.25em`} color={companyIsOpenNow() === true ? 'green' : 'red'} icon={companyIsOpenNow() === true ? faCheckCircle : faX} />
+                    </span>
+                  </h1>
                 </div>
               </div>
-              <div className='row'
-                style={{ justifyContent: 'center' }}
-              >
-                <h1 style={{ marginTop: '1.5em', marginBottom: '.5em', fontSize: '1em', width: 'fit-content', padding: '.5em' }} className={companyIsOpenNow() === true ? 'scalingAnimation glowBox ' : ''}>
-                  <span style={{ color: '#000' }} className={companyIsOpenNow() === true ? 'scalingAnimation ' : ''} >
-                    {companyIsOpenNow() === true ? 'ABERTO' : 'FECHADO'} <FontAwesomeIcon fontSize={`1.25em`} color={companyIsOpenNow() === true ? 'green' : 'red'} icon={companyIsOpenNow() === true ? faCheckCircle : faX} />
-                  </span>
-                </h1>
-              </div>
-            </div>
-            {company ?
-              <div
-                className='row'
-                style={{
-                  justifyContent: `center`,
-                  width: '100%',
-                  borderTop: 'solid thin #000'
-                }}
-              >
-                <a style={{
-                  margin: '1em',
-                  textDecoration: 'none', color: '#000'
-                }}
-                  target='_blank'
-                  rel='noreferrer'
-                  href={`https://www.google.com/maps/search/"${company.street}, ${company.addressNumber}, bairro ${company.neighborhood}, ${company.city}-${company.state}/${company.country}"`.replaceAll(' ', '+')}
-                // onClick={e => {
-                //   window.location.href = ;
-                // }}
+              {company ?
+                <div
+                  className='row'
+                  style={{
+                    justifyContent: `center`,
+                    width: '100%',
+                    borderTop: 'solid thin #000'
+                  }}
                 >
-                  <span style={{ color: '#000' }}>
-                    <FontAwesomeIcon icon={faMapLocationDot} />
-                    {` Localização: ${company.street}, ${company.addressNumber}, bairro ${company.neighborhood}, ${company.city}-${company.state}/${company.country}`}
-                  </span>
-                </a>
-              </div>
-              :
-              <></>
-            }
+                  <a style={{
+                    margin: '1em',
+                    textDecoration: 'none', color: '#000'
+                  }}
+                    target='_blank'
+                    rel='noreferrer'
+                    href={`https://www.google.com/maps/search/"${company.street}, ${company.addressNumber}, bairro ${company.neighborhood}, ${company.city}-${company.state}/${company.country}"`.replaceAll(' ', '+')}
+                  // onClick={e => {
+                  //   window.location.href = ;
+                  // }}
+                  >
+                    <span style={{ color: '#000' }}>
+                      <FontAwesomeIcon icon={faMapLocationDot} />
+                      {` Localização: ${company.street}, ${company.addressNumber}, bairro ${company.neighborhood}, ${company.city}-${company.state}/${company.country}`}
+                    </span>
+                  </a>
+                </div>
+                :
+                <></>
+              }
+            </div>
           </div>
         </div>
         <div style={{ fontSize: '.75em', maxWidth: '60%', marginBottom: '1em', }} className='column'>
