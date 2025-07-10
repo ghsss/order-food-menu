@@ -101,10 +101,10 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
                 </div>
                 <div className="cartContainer" style={{ flexWrap: `wrap`, width: '100vw', height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '1em', marginBottom: '1em' }}>
                     {/* <span>Meus pedidos</span> */}
-                    {myOrders.length === 0?
-                    <span>Nenhum pedido encontrado</span>
-                    :
-                    <></>}
+                    {myOrders.length === 0 ?
+                        <span>Nenhum pedido encontrado</span>
+                        :
+                        <></>}
                     {myOrders.map(order => {
 
                         const date_of_expirationFormatted = new Date(order.pixRequest.date_of_expiration).toLocaleString('pt-BR');
@@ -112,10 +112,12 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
                         return (
                             <div className="column">
                                 <div className="column" style={{ margin: `.5em`, paddingBottom: '1.5em', minHeight: `10vh`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '85%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
-                                    <span style={{ fontSize: `1.25em`, color: `#000` }}>{`Pedido #${order.orderNumber}`}</span>
+                                    <span style={{ margin: `.25em`, fontSize: `1.5em`, color: `#000` }}>{`Pedido #${order.orderNumber}`}</span>
+                                    {/* <br /> */}
+                                    <span style={{ color: `#000` }}>{`Data: ${new Date(order.createdAt).toLocaleString('pt-BR')}`}</span>
                                     <br />
                                     <span style={{ color: `#000` }}>{`Status: ${getOrderStatusLabel(order.paymentStatus)}`}</span>
-                                    <div className="column">
+                                    <div className="column" style={{marginTop: '.5em'}}>
                                         <div className="row" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000' }}>
                                             <p style={{ fontSize: `1.25em`, color: `#000`, textDecoration: 'none', background: '#fff', padding: '.125em', border: 'solid medium #000', borderRadius: '1em' }}>Total: R$ {order.paymentAmount.toFixed(2).replace('.', ',')}</p>
                                         </div>
