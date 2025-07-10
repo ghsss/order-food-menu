@@ -795,7 +795,7 @@ function ProductMenu({ action }: ProductMenuProps) {
                   {
                     fontSize: `1.5em`,
                     marginTop: '.5em',
-                    padding: `.5em`,
+                    padding: `.25em`,
                     fontFamily: 'fantasy',
                     color: '#fff',
                     textDecoration: `underline rgba(93, 0, 0, 0.248)`,
