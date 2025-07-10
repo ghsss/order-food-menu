@@ -105,12 +105,12 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
                         <span>Nenhum pedido encontrado</span>
                         :
                         <></>}
-                    {myOrders.map(order => {
+                    {myOrders.map((order, orderIdx) => {
 
                         const date_of_expirationFormatted = new Date(order.pixRequest.date_of_expiration).toLocaleString('pt-BR');
 
                         return (
-                            <div className="column">
+                            <div key={`order-${orderIdx}`} className="column">
                                 <div className="column" style={{ margin: `.5em`, paddingBottom: '1.5em', minHeight: `10vh`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '85%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
                                     <span style={{ margin: `.25em`, fontSize: `1.5em`, color: `#000` }}>{`Pedido #${order.orderNumber}`}</span>
                                     {/* <br /> */}
@@ -137,7 +137,7 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
                                             }
 
                                             return (
-                                                <div className="row" style={{ display: 'flex', alignItems: `center`, justifyContent: `center`, border: 'solid thin #000', width: `100%`, paddingTop: '1em', paddingBottom: '1em' }}
+                                                <div key={`order-${orderIdx}-item-${orderItemIdx}`} className="row" style={{ display: 'flex', alignItems: `center`, justifyContent: `center`, border: 'solid thin #000', width: `100%`, paddingTop: '1em', paddingBottom: '1em' }}
                                                 // onClick={e => { setShowCartPage(false); setCartSelectedItemIdx(orderItemIdx); setSelectedItem(orderItem) }}
                                                 >
                                                     {/* <div className="row"
