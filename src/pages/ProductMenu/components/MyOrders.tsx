@@ -101,6 +101,10 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
                 </div>
                 <div className="cartContainer" style={{ flexWrap: `wrap`, width: '100vw', height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '1em', marginBottom: '1em' }}>
                     {/* <span>Meus pedidos</span> */}
+                    {myOrders.length === 0?
+                    <span>Nenhum pedido encontrado</span>
+                    :
+                    <></>}
                     {myOrders.map(order => {
 
                         const date_of_expirationFormatted = new Date(order.pixRequest.date_of_expiration).toLocaleString('pt-BR');

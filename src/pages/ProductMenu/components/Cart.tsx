@@ -185,7 +185,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                         setCart(newCart);
                     }
                     await waitSeconds(.1);
-                    window.location.href = '/';
+                    window.location.href = '/?action=orders';
 
                 } else {
 
