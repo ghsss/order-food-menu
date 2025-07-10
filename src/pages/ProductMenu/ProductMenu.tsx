@@ -786,7 +786,7 @@ function ProductMenu({ action }: ProductMenuProps) {
                   WebkitTextStroke: `.025em #000`,
                   WebkitTextStrokeColor: `#000`,
                   WebkitTextStrokeWidth: `.025em`,
-                  textShadow: '.1em .1em .1em #000'
+                  textShadow: '.1em .1em .5em #000'
                 }
               }
             >{companyNameAnimatedDisplay}</span>
