@@ -426,21 +426,14 @@ function ProductMenu({ action }: ProductMenuProps) {
 
         if (orderChannel === 'WebSite' && robot && robot.phone) {
 
-          if (typeof cart === `object`) {
-            // setCart({  });
-          }
-
-          setSelectedItem({ ...item, qty: 1, obs: '.', additionalProducts: [] });
-          setCartSelectedItemIdx(-1);
-
-          // navigator.clipboard.writeText(item.id);
-          // setshowingIcon(faCheckCircle);
-          // setTimeout(() => {
-          //   window.location.href = `https://wa.me/${robot.phone}?text=${item.id}`;
-          // }, 100);
-          // setTimeout(() => {
-          //   setshowingIcon(faCopy);
-          // }, 1000);
+          setshowingIcon(faCheckCircle);
+          setTimeout(() => {
+            setSelectedItem({ ...item, qty: 1, obs: '.', additionalProducts: [] });
+            setCartSelectedItemIdx(-1);
+          }, 100);
+          setTimeout(() => {
+            setshowingIcon(faCartPlus);
+          }, 1000);
 
         }
 
@@ -1043,7 +1036,7 @@ function ProductMenu({ action }: ProductMenuProps) {
         </div>
         {
           robot ?
-            <ProductMenuList handleItemClick={handleItemClick} companyIsOpenNow={companyIsOpenNow()} robot={robot} productMenuItems={filteredProductMenuOptions.length > 0 || searchTerm.length > 0 ? filteredProductMenuOptions : productMenuOptions}
+            <ProductMenuList orderChannel={orderChannel} handleItemClick={handleItemClick} companyIsOpenNow={companyIsOpenNow()} robot={robot} productMenuItems={filteredProductMenuOptions.length > 0 || searchTerm.length > 0 ? filteredProductMenuOptions : productMenuOptions}
             >
               <div className='filterInputsContainer'>
                 <label htmlFor="searchTermInput"><FontAwesomeIcon icon={faSearch} /></label>

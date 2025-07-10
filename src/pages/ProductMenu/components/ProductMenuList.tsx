@@ -9,12 +9,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface ProductMenuListProps {
   handleItemClick: (item: ProductModel, setshowingIcon: Dispatch<SetStateAction<IconDefinition>>) => void,
   companyIsOpenNow: boolean,
+  orderChannel: string,
   productMenuItems: ProductModel[],
   robot: RobotModel,
   children?: React.ReactNode;
 }
 
-function ProductMenuList({ handleItemClick, companyIsOpenNow, productMenuItems, robot, children }: ProductMenuListProps) {
+function ProductMenuList({ orderChannel, handleItemClick, companyIsOpenNow, productMenuItems, robot, children }: ProductMenuListProps) {
 
   return (
     <div className='ProductMenuListContainer'>
@@ -36,7 +37,7 @@ function ProductMenuList({ handleItemClick, companyIsOpenNow, productMenuItems, 
               productMenuItems.map((productMenuItem) => {
                 if (productMenuItem.stock > 0) {
                   return (
-                    <ProductMenuListItem key={productMenuItem.id} handleItemClick={handleItemClick} robot={robot} item={productMenuItem} />
+                    <ProductMenuListItem key={productMenuItem.id} orderChannel={orderChannel} handleItemClick={handleItemClick} robot={robot} item={productMenuItem} />
                   )
                 } else {
                   return <></>

@@ -1,12 +1,13 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import './styles/ProductMenuListItem.css';
 import ProductModel from '../../../models/Product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { icon,  } from '@fortawesome/fontawesome-svg-core';
-import { faCheckCircle, faCopy, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faCartPlus, faCheckCircle, faCopy, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import RobotModel from '../../../models/Robot';
 
 interface ProductMenuListItemProps {
+  orderChannel: string;
   handleItemClick: (item: ProductModel, setshowingIcon: Dispatch<SetStateAction<IconDefinition>>) => void,
   item: ProductModel;
   robot: RobotModel;
@@ -14,12 +15,13 @@ interface ProductMenuListItemProps {
 }
 
 function ProductMenuListItem({
+  orderChannel,
   handleItemClick,
   item,
   robot,
 }: ProductMenuListItemProps) {
 
-  const [showingIcon, setshowingIcon] = useState<IconDefinition>(faCopy);
+  const [showingIcon, setshowingIcon] = useState<IconDefinition>(orderChannel === 'WebSite' ? faCartPlus : faCopy);
 
   function handleCopyItemCode() {
 
@@ -32,7 +34,7 @@ function ProductMenuListItem({
         window.location.href = `https://wa.me/${robot.phone}?text=${item.id}`;
       }, 100);
       setTimeout(() => {
-        setshowingIcon(faCopy);
+        setshowingIcon(orderChannel === 'WebSite' ? faCartPlus : faCopy);
       }, 1000);
 
     } catch (error) {
@@ -43,9 +45,18 @@ function ProductMenuListItem({
 
   }
 
+  useEffect(() => {
+    console.log(`orderChannel: ${orderChannel}`);
+    if(orderChannel===`WebSite`) {
+      setshowingIcon(faCartPlus);
+    } else {
+      setshowingIcon(faCopy);
+    }
+  }, [orderChannel])
+
   return (
     <div className="ProductMenuListItemContainer glowBox" onClick={event => handleItemClick(item, setshowingIcon)}>
-      <div id='copyIcon' style={{ color: (showingIcon === faCopy ? `inherit` : (showingIcon === faX ? `red` : `green`)), justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em` }} >
+      <div id='copyIcon' style={{ color: (orderChannel === 'WebSite' && showingIcon === faCartPlus ? `inherit` : showingIcon === faCopy ? `inherit` : (showingIcon === faX ? `red` : `green`)), marginRight: `2em`, marginTop: `2em` }} >
         <FontAwesomeIcon
           icon={showingIcon}
         />
