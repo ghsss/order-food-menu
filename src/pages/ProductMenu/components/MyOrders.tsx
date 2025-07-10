@@ -99,7 +99,7 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
                         <FontAwesomeIcon icon={faList} /> {` Meus Pedidos`}
                     </span>
                 </div>
-                <div className="cartContainer" style={{ flexWrap: `wrap`, width: '100vw', height: 'auto', padding: '1em', paddingTop: '1.5em', paddingBottom: '1.5em', marginTop: '1em', marginBottom: '1em' }}>
+                <div className="cartContainer" style={{ flexWrap: `wrap`, width: '100vw', height: '100%', padding: '1em', paddingTop: '1.5em', paddingBottom: '1.5em', marginTop: '1em', marginBottom: '1em' }}>
                     {/* <span>Meus pedidos</span> */}
                     {myOrders.length === 0 ?
                         <span>Nenhum pedido encontrado</span>
