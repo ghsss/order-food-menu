@@ -73,7 +73,7 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
 
             let itemMsg = (orderItemIdx === 0 ? `` : '\n\n') + `❤️‍🔥 Item ${orderItemIdx + 1}
 ${orderItem.name}
-${orderItem.qty} unidades.
+${orderItem.qty} unidade(s).
 Preço/unidade: R$${(orderItem.price).toFixed(2)}
 Subtotal do item: R$${((orderItem.price * orderItem.qty) + additionalProductsTotal).toFixed(2)}
 OBS: ${orderItem.obs} ${Array.isArray(orderItem?.additionalProducts) ?
@@ -120,7 +120,7 @@ Valor total: R$${(totalValue).toFixed(2)}`
             + paymentMethod + '\n\n' + itemsResumeTxt +
             (itemToSum ? (itemsResumeTxt.length === 0 ? '' : '\n\n') + `❤️‍🔥 Item ${orderItems.length + 1}
 ${itemToSum.name}
-${itemToSum.qty} unidades.
+${itemToSum.qty} unidade(s).
 Preço/unidade: R$${(itemToSum.price).toFixed(2)}
 Subtotal do item: R$${((itemToSum.price * itemToSum.qty) + additionalProductsTotal).toFixed(2)}
 OBS: ${itemToSum.obs} ${Array.isArray(itemToSum?.additionalProducts) ?
@@ -156,10 +156,10 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                 <>
                     <span style={{ textDecoration: 'none', color: '#000' }}>{`❤️‍🔥 Item ${itemIdx}`}</span><br />
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.name}`}</span>
-                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidades.`}</span>
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidade(s).`}</span>
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`Preço/unidade: R$${(item.price).toFixed(2)}`}</span>
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`Subtotal do item: R$${((item.price * item.qty) + additionalProductsTotal).toFixed(2)}`}</span>
-                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidades.`}</span>
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidade(s).`}</span>
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`OBS: ${item.obs}`}</span>
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${Array.isArray(item?.additionalProducts) ?
                         `
