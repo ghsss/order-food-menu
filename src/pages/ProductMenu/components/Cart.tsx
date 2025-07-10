@@ -133,6 +133,45 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
 
     }
 
+    function getItemResume(item: OrderItemModel, itemIdx: number) {
+
+        let additionalProductsTotal = 0;
+
+        const additionalProductsSubtotals = (item && Array.isArray(item?.additionalProducts) ?
+            item?.additionalProducts : []).map(additionalProduct => {
+                return additionalProduct.price * additionalProduct.qty;
+            });
+
+        if (Array.isArray(additionalProductsSubtotals)) {
+
+            for (const subtotal of additionalProductsSubtotals) {
+
+                additionalProductsTotal += subtotal;
+
+            }
+        }
+
+        return (
+            item ?
+                <>
+                    <span style={{ textDecoration: 'none', color: '#000' }}>{`❤️‍🔥 Item ${itemIdx}`}</span><br />
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.name}`}</span>
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidades.`}</span>
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`Preço/unidade: R$${(item.price).toFixed(2)}`}</span>
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`Subtotal do item: R$${((item.price * item.qty) + additionalProductsTotal).toFixed(2)}`}</span>
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidades.`}</span>
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`OBS: ${item.obs}`}</span>
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${Array.isArray(item?.additionalProducts) ?
+                        `
+                    Adicionais: ${item?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
+                            return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
+                        }).join(`, `)}` : ``}`}</span>
+                </>
+                :
+                ``
+        );
+    }
+
     async function handleOrderSubmit() {
 
         if (cart.items.length === 0) {
@@ -465,14 +504,17 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                                     />
                                                 </div>
                                                 {/* </div> */}
-                                                <span style={{ padding: '1.5em', color: `#000` }}>
-                                                    ({orderItem.qty}x) {orderItem.name} {orderItem.obs.length > 0 ? `| OBS: ${orderItem.obs}` : ''}{Array.isArray(orderItem?.additionalProducts) && orderItem?.additionalProducts?.length > 0 ?
+                                                <p style={{ textDecoration: 'none', fontSize: `1em`, padding: '.25em', color: `#000` }}>
+                                                    <span style={{ color: `#000` }}>
+                                                        {getItemResume(orderItem, orderItemIdx + 1)}
+                                                    </span>
+                                                    {/* ({orderItem.qty}x) {orderItem.name} {orderItem.obs.length > 0 ? `| OBS: ${orderItem.obs}` : ''}{Array.isArray(orderItem?.additionalProducts) && orderItem?.additionalProducts?.length > 0 ?
                                                         ` | Adicionais: ${orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
                                                             return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
                                                         }).join(`, `)}`
                                                         :
-                                                        ''} | Valor: R$ {orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ {((orderItem.qty * orderItem.price) + additionalProductsTotal).toFixed(2).replace('.', ',')}
-                                                </span>
+                                                        ''} | Valor: R$ {orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ {((orderItem.qty * orderItem.price) + additionalProductsTotal).toFixed(2).replace('.', ',')} */}
+                                                </p>
                                             </div>
                                         </div>
                                     );
@@ -570,7 +612,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                             }
                             {cart.paymentMethod.isOnlinePayment ?
                                 <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', paddingTop: '1em', paddingBottom: '1em' }}>
-                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center',background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
+                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
                                         <label
                                             htmlFor="email"
                                             style={{ color: '#000' }}
