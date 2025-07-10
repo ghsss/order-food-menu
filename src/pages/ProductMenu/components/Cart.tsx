@@ -581,7 +581,10 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                         <input type="text" id="cpfCnpj" name="cpfCnpj" placeholder="Digite seu CPF ou CNPJ"
                                             value={cart.pixRequest.payer.identification.number}
                                             style={{
-                                                margin: '.25em'
+                                                maxWidth: '90%',
+                                                margin: '.25em',
+                                                marginLeft: '.5em',
+                                                marginRight: '.5em',
                                             }}
                                             onChange={e => {
                                                 if (typeof cart === 'object') {
@@ -621,7 +624,10 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                         <input type="email" id="email" name="email" placeholder="exemplo@gmail.com"
                                             value={cart.pixRequest.payer.email}
                                             style={{
-                                                margin: '.25em'
+                                                maxWidth: '90%',
+                                                margin: '.25em',
+                                                marginLeft: '.5em',
+                                                marginRight: '.5em',
                                             }}
                                             onChange={e => {
                                                 if (typeof cart === 'object') {
@@ -655,7 +661,10 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                     <input id="phone" name="phone" type="tel" pattern="[0-9]{12}" placeholder='555499999999'
                                         value={cart?.chatId.split('@c.us')[0]}
                                         style={{
-                                            margin: '.25em'
+                                            maxWidth: '90%',
+                                            margin: '.25em',
+                                            marginLeft: '.5em',
+                                            marginRight: '.5em',
                                         }}
                                         onChange={e => {
                                             if (typeof cart === 'object') {
