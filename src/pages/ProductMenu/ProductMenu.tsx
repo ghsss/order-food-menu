@@ -510,7 +510,7 @@ function ProductMenu({ action }: ProductMenuProps) {
               <div className="CartProductMenuListItemContainer glowBox"
               // onClick={event => handleCartItemChange(selectedItem)}
               >
-                <div id='cartIcon' style={{ color: `#000`, marginLeft: `1em`, marginTop: `2.5em` }} >
+                <div id='cartIcon' style={{ color: `#000`, marginLeft: `.75em`, marginTop: `2.5em` }} >
                   <FontAwesomeIcon
                     icon={faCartShopping}
                   />
