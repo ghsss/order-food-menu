@@ -658,9 +658,10 @@ function ProductMenu({ action }: ProductMenuProps) {
                     })}
                   </div>
                 </div>
-                <div className='row' style={{ width: `100%`, justifyContent: 'center', paddingTop: '1em', paddingBottom: '1em'
+                <div className='row' style={{
+                  width: `100%`, justifyContent: 'center', paddingTop: '1em', paddingBottom: '1em'
                   , background: `rgba(93, 0, 0, 0.248)`
-                 }}>
+                }}>
                   <div>
                     <span>Quantidade: {selectedItem.qty}</span>
                     <div className="row">
@@ -889,6 +890,22 @@ function ProductMenu({ action }: ProductMenuProps) {
                   <h1 style={{ marginTop: '1.5em', marginBottom: '.5em', fontSize: '1em', width: 'fit-content', padding: '.5em' }} className={companyIsOpenNow() === true ? 'scalingAnimation glowBox ' : ''}>
                     <span style={{ color: '#000' }} className={companyIsOpenNow() === true ? 'scalingAnimation ' : ''} >
                       {companyIsOpenNow() === true ? 'ABERTO' : 'FECHADO'} <FontAwesomeIcon fontSize={`1.25em`} color={companyIsOpenNow() === true ? 'green' : 'red'} icon={companyIsOpenNow() === true ? faCheckCircle : faX} />
+                    </span>
+                  </h1>
+                </div>
+                <div className='row'
+                  style={{ justifyContent: 'center' }}
+                >
+                  <h1 style={{ marginBottom: '.5em', fontSize: '1em', width: 'fit-content', padding: '.5em' }} className={company?.haveDelivery === true ? 'scalingAnimation ' : ''}>
+                    <span style={{ color: '#000' }} className={company?.haveDelivery === true ? 'scalingAnimation ' : ''} >
+                      {company?.haveDelivery === true ? 'TELE-ENTREGA ' : 'TELE-ENTREGA '} <FontAwesomeIcon fontSize={`1.25em`} color={company?.haveDelivery === true ? 'green' : 'red'} icon={company?.haveDelivery === true ? faCheckCircle : faX} />
+                      <br />
+                      <span style={{ color: '#000' }} className={company?.haveDelivery === true ? 'scalingAnimation ' : ''} >
+                        {company?.haveDelivery === true ?
+                          `${company?.deliveryCost === 0 ? `GRÁTIS` : `R$ ${company?.deliveryCost?.toFixed(2).replace(`.`, `,`)}`}`
+                          :
+                          ``}
+                      </span>
                     </span>
                   </h1>
                 </div>
