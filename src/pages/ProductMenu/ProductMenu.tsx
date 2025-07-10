@@ -909,8 +909,10 @@ function ProductMenu({ action }: ProductMenuProps) {
                   // }}
                   >
                     <span style={{ color: '#000' }}>
-                      <FontAwesomeIcon icon={faMapLocationDot} />
-                      {` Localização: ${company.street}, ${company.addressNumber}, bairro ${company.neighborhood}, ${company.city}-${company.state}/${company.country}`}
+                      <FontAwesomeIcon icon={faMapLocationDot}
+                        fontSize={'1.5em'}
+                      />
+                      {`  Localização: ${company.street}, ${company.addressNumber}, bairro ${company.neighborhood}, ${company.city}-${company.state}/${company.country}`}
                     </span>
                   </a>
                 </div>
