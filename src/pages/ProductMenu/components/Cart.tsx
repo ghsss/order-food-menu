@@ -423,7 +423,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                         <FontAwesomeIcon icon={faCartShopping} /> {` Carrinho`}
                     </span>
                 </div>
-                <div className="cartContainer" style={{ alignItems: 'center', }}>
+                <div className="cartContainer" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '6em' }}>
                     <span style={{ marginTop: '1em', justifySelf: 'center', width: '90%', background: 'rgba(251, 0, 0, 1)', border: 'solid medium #000', borderRadius: '1em', color: '#fff', padding: '.5em' }}>
                         SOMENTE RETIRADA DE PEDIDOS, NÃO ESTAMOS REALIZANDO TELE-ENTREGA
                     </span>
