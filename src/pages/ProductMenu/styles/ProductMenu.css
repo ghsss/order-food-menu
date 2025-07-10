@@ -72,7 +72,7 @@ h1 {
 .cartModalScroll {
   position: relative;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
   height: 100vh;
   min-height: 100vh;
   width: 100%;
