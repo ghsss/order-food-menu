@@ -703,6 +703,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                             </div>
                         }
                     </div>
+                    <div style={{ height: '1em' }}></div>
                 </div>
                 <div className="fixedAddToCartContainer"
                     onClick={e => handleOrderSubmit()}
