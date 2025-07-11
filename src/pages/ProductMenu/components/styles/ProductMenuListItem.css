@@ -58,6 +58,7 @@ span {
   background: #fff000;
   margin-right: .5em;
   height: 100%;
+  max-height: 7em !important;
   max-width: 50%;
   min-width: 50%;
   border-radius: 2em;

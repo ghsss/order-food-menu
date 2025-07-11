@@ -375,7 +375,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
         return (
             <div className='cartModal'>
                 <div className="cartModalScroll">
-                    <div className="cartContainer" style={{ width: '100vw', height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '1em', marginBottom: '0' }}>
+                    <div className="cartContainer" style={{ width: '100vw', height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '1em', marginBottom: '1em' }}>
                         <span>Seu pedido será enviado para produção após o pagamento.</span>
                         <br />
                         <span>Caso o pagamento não seja realizado dentro do prazo abaixo o pedido será cancelado automaticamente.</span>
@@ -427,7 +427,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                     </span>
                 </div>
                 <div className="column" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '1em' }}>
-                    <div className="cartContainer" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '1em' }}>
+                    <div className="cartContainer" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '0' }}>
                         <span style={{ marginTop: '1em', justifySelf: 'center', width: '90%', background: 'rgba(251, 0, 0, 1)', border: 'solid medium #000', borderRadius: '1em', color: '#fff', padding: '.5em' }}>
                             SOMENTE RETIRADA DE PEDIDOS, NÃO ESTAMOS REALIZANDO TELE-ENTREGA
                         </span>
