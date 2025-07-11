@@ -27,9 +27,10 @@ const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedid
 
 interface ProductMenuProps {
   action: string;
+  prefilledOrderChannel?: string;
 }
 
-function ProductMenu({ action }: ProductMenuProps) {
+function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
 
   const [companyNameAnimatedDisplay, setCompanyNameAnimatedDisplay] = useState<string>('');
   const [logoClass, setLogoClass] = useState<string>('');
@@ -44,7 +45,7 @@ function ProductMenu({ action }: ProductMenuProps) {
 
   const [customerPhone, setCustomerPhone] = useState<string | null>(null);
 
-  const [orderChannel, setOrderChannel] = useState<string>('WhatsApp');
+  const [orderChannel, setOrderChannel] = useState<string>(prefilledOrderChannel || 'WhatsApp');
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [productTypeSearchTerm, setProductTypeSearchTerm] = useState<string>('');

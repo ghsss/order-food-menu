@@ -12,6 +12,7 @@ function App() {
   const [urlPath, setUrlPath] = useState<string>(``);
   const [searchParams, setSearchParams] = useState<URLSearchParams>(new URLSearchParams(window.location.search));
   const [action, setAction] = useState<string>('');
+  const [orderChannel, setOrderChannel] = useState<string>('');
   const [id, setId] = useState<string>(searchParams?.get('id') || '');
   const [collection, setCollection] = useState<string>(searchParams?.get('collection') || '');
   const [filter, setFilter] = useState<string>(searchParams?.get('filter') || '');
@@ -54,6 +55,7 @@ function App() {
       .then(() => {
         console.log('searchParams: ', searchParams?.keys());
         setAction(searchParams?.get('action') || 'order-bot');
+        setOrderChannel(searchParams?.get('orderChannel') || 'WhatsApp');
         setId(searchParams?.get('id') || '');
         setCollection(searchParams?.get('collection') || '');
         setFilter(searchParams?.get('filter') || '');
@@ -64,6 +66,7 @@ function App() {
 
   useEffect(() => {
 
+    console.log('orderChannel: ', orderChannel);
     console.log('action: ', action);
     console.log('collection: ', collection);
     console.log('id: ', id);
@@ -78,13 +81,13 @@ function App() {
       window.location.href = '/admin?action=menu';
     }
 
-  }, [action, collection, id]);
+  }, [action, orderChannel, collection, id]);
 
   return (
     <div className="App">
       {
         action === 'order-bot' || action === 'orders' || action === 'cart' ?
-          <ProductMenu action={action} />
+          <ProductMenu prefilledOrderChannel={orderChannel} action={action} />
           :
           urlPath.indexOf('/admin') === 0 ?
             // action === `menu` ?
