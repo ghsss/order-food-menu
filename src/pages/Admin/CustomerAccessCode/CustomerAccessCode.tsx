@@ -140,7 +140,7 @@ function CustomerAccessCodePage({ showCartPage, showOrdersPage, setShowCartPage,
               }
 
             }
-            // window.location.href = '/';
+            window.location.href = '/';
           }}
         >
           <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}

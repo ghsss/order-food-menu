@@ -1074,7 +1074,7 @@ function ProductMenu({ action }: ProductMenuProps) {
         }
       </div >
     );
-  } else if ((action === 'cart' || showCartPage === true) && typeof cart === 'object') {
+  } else if ((showCartPage === true) && typeof cart === 'object') {
 
     if (!accessCodeIsSet) {
       return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
@@ -1086,7 +1086,7 @@ function ProductMenu({ action }: ProductMenuProps) {
         setCartSelectedItemIdx={setCartSelectedItemIdx}
       />
     );
-  } else if ((action === 'orders' || showOrdersPage === true) && typeof cart === 'object') {
+  } else if ((showOrdersPage === true) && typeof cart === 'object') {
 
     if (!accessCodeIsSet) {
       return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
