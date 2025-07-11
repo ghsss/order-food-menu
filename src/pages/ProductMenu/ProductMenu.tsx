@@ -509,7 +509,7 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
                 onClick={e => setSelectedItem(null)}>
                 <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
               </button>
-              <div className="column" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '1em' }}>
+              <div className="column" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '0' }}>
                 <div className="CartProductMenuListItemContainer glowBox"
                 // onClick={event => handleCartItemChange(selectedItem)}
                 >

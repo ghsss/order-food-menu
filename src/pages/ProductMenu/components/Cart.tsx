@@ -375,7 +375,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
         return (
             <div className='cartModal'>
                 <div className="cartModalScroll">
-                    <div className="cartContainer" style={{ width: '100vw', height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '1em', marginBottom: '1em' }}>
+                    <div className="cartContainer" style={{ width: '100vw', height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '1em', marginBottom: '0' }}>
                         <span>Seu pedido será enviado para produção após o pagamento.</span>
                         <br />
                         <span>Caso o pagamento não seja realizado dentro do prazo abaixo o pedido será cancelado automaticamente.</span>
