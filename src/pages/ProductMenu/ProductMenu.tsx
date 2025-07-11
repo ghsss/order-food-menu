@@ -731,7 +731,8 @@ function ProductMenu({ action }: ProductMenuProps) {
   }
 
   function goToCartPage() {
-    setShowCartPage(true);
+    // setShowCartPage(true);
+    window.location.href = '/?action=cart'
   }
 
   function goToMyOrdersPage() {
