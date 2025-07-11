@@ -426,281 +426,283 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                         <FontAwesomeIcon icon={faCartShopping} /> {` Carrinho`}
                     </span>
                 </div>
-                <div className="cartContainer" style={{ alignItems: 'center', justifyContent: 'center', paddingBottom: '1em', marginBottom: '6em' }}>
-                    <span style={{ marginTop: '1em', justifySelf: 'center', width: '90%', background: 'rgba(251, 0, 0, 1)', border: 'solid medium #000', borderRadius: '1em', color: '#fff', padding: '.5em' }}>
-                        SOMENTE RETIRADA DE PEDIDOS, NÃO ESTAMOS REALIZANDO TELE-ENTREGA
-                    </span>
-                    {cart.items.length === 0 ?
-                        <p style={{ textDecoration: `none`, color: `#fff`, padding: `1em`, alignSelf: `center`, justifySelf: `center` }}>Nenhum item no carrinho</p>
-                        :
-                        <div >
-                            <div className="column">
-                                <div className="row" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000', borderTop: `none` }}>
-                                    <p style={{ color: `#000`, textDecoration: 'none', background: '#fff', padding: '.25em', border: 'solid medium #000', borderRadius: '1em' }}>Total: R$ {cart.paymentAmount.toFixed(2).replace('.', ',')}</p>
-                                </div>
-                                {cart.items.map((orderItem, orderItemIdx) => {
+                <div className="row">
+                    <div className="cartContainer" style={{ alignItems: 'center', justifyContent: 'center', paddingBottom: '1em', marginBottom: '6em' }}>
+                        <span style={{ marginTop: '1em', justifySelf: 'center', width: '90%', background: 'rgba(251, 0, 0, 1)', border: 'solid medium #000', borderRadius: '1em', color: '#fff', padding: '.5em' }}>
+                            SOMENTE RETIRADA DE PEDIDOS, NÃO ESTAMOS REALIZANDO TELE-ENTREGA
+                        </span>
+                        {cart.items.length === 0 ?
+                            <p style={{ textDecoration: `none`, color: `#fff`, padding: `1em`, alignSelf: `center`, justifySelf: `center` }}>Nenhum item no carrinho</p>
+                            :
+                            <div >
+                                <div className="column">
+                                    <div className="row" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000', borderTop: `none` }}>
+                                        <p style={{ color: `#000`, textDecoration: 'none', background: '#fff', padding: '.25em', border: 'solid medium #000', borderRadius: '1em' }}>Total: R$ {cart.paymentAmount.toFixed(2).replace('.', ',')}</p>
+                                    </div>
+                                    {cart.items.map((orderItem, orderItemIdx) => {
 
-                                    let additionalProductsTotal = 0;
+                                        let additionalProductsTotal = 0;
 
-                                    const additionalProductsSubtotals = (Array.isArray(orderItem?.additionalProducts) ?
-                                        orderItem?.additionalProducts : []).map(additionalProduct => {
-                                            return additionalProduct.price * additionalProduct.qty;
-                                        });
+                                        const additionalProductsSubtotals = (Array.isArray(orderItem?.additionalProducts) ?
+                                            orderItem?.additionalProducts : []).map(additionalProduct => {
+                                                return additionalProduct.price * additionalProduct.qty;
+                                            });
 
-                                    for (const subtotal of additionalProductsSubtotals) {
+                                        for (const subtotal of additionalProductsSubtotals) {
 
-                                        additionalProductsTotal += subtotal;
+                                            additionalProductsTotal += subtotal;
 
-                                    }
+                                        }
 
-                                    return (
-                                        <div className="row" style={{ display: 'flex', alignItems: `center`, justifyContent: `center`, border: 'solid thin #000', width: `100%`, paddingTop: '1em', paddingBottom: '1em' }}
-                                            onClick={e => { setShowCartPage(false); setCartSelectedItemIdx(orderItemIdx); setSelectedItem(orderItem) }}
-                                        >
-                                            {/* <div className="row"
+                                        return (
+                                            <div className="row" style={{ display: 'flex', alignItems: `center`, justifyContent: `center`, border: 'solid thin #000', width: `100%`, paddingTop: '1em', paddingBottom: '1em' }}
+                                                onClick={e => { setShowCartPage(false); setCartSelectedItemIdx(orderItemIdx); setSelectedItem(orderItem) }}
+                                            >
+                                                {/* <div className="row"
                                         style={{
                                             justifySelf: `flex-end`,
                                         }}
                                     > */}
-                                            <div style={{ background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', color: '#000', textDecoration: 'none', paddingBottom: `1.25em` }}>
-                                                <div id='copyIcon' style={{
-                                                    position: `absolute`,
-                                                    color: (`#000`),
-                                                    float: 'right',
-                                                    justifySelf: 'flex-start',
-                                                    transform: `scale(2)`,
-                                                    // marginLeft: `50%`,  
-                                                    width: 'auto',
-                                                    height: 'auto',
-                                                    margin: `1em`,
-                                                    marginLeft: `1em`,
-                                                    zIndex: `100`
-                                                }}
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={faPencil}
-                                                    />
-                                                </div>
-                                                <div id='deleteIcon' style={{
-                                                    // position: `absolute`,
-                                                    // color: (`rgba(251, 0, 0, 0.84)`),
-                                                    color: (`rgba(200, 2, 2, 0.96)`),
-                                                    // float: 'right',
-                                                    justifySelf: 'flex-end',
-                                                    transform: `scale(2) `,
-                                                    // marginLeft: `50%`,
-                                                    margin: `1em`,
-                                                    marginBottom: `.5em`,
-                                                    width: 'auto',
-                                                    height: 'auto',
-                                                    zIndex: `100`
-                                                }}
-                                                    onClick={async e => {
-                                                        e.stopPropagation();
-                                                        cart.items.splice(orderItemIdx, 1);
-                                                        setCart({ ...cart })
-                                                        // await handleDeleteItemCode(item);
+                                                <div style={{ background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', color: '#000', textDecoration: 'none', paddingBottom: `1.25em` }}>
+                                                    <div id='copyIcon' style={{
+                                                        position: `absolute`,
+                                                        color: (`#000`),
+                                                        float: 'right',
+                                                        justifySelf: 'flex-start',
+                                                        transform: `scale(2)`,
+                                                        // marginLeft: `50%`,  
+                                                        width: 'auto',
+                                                        height: 'auto',
+                                                        margin: `1em`,
+                                                        marginLeft: `1em`,
+                                                        zIndex: `100`
                                                     }}
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={faTrash}
-                                                    />
-                                                </div>
-                                                {/* </div> */}
-                                                <p style={{ textDecoration: 'none', fontSize: `1em`, padding: '.25em', color: `#000` }}>
-                                                    <span style={{ color: `#000` }}>
-                                                        {getItemResume(orderItem, orderItemIdx + 1)}
-                                                    </span>
-                                                    {/* ({orderItem.qty}x) {orderItem.name} {orderItem.obs.length > 0 ? `| OBS: ${orderItem.obs}` : ''}{Array.isArray(orderItem?.additionalProducts) && orderItem?.additionalProducts?.length > 0 ?
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faPencil}
+                                                        />
+                                                    </div>
+                                                    <div id='deleteIcon' style={{
+                                                        // position: `absolute`,
+                                                        // color: (`rgba(251, 0, 0, 0.84)`),
+                                                        color: (`rgba(200, 2, 2, 0.96)`),
+                                                        // float: 'right',
+                                                        justifySelf: 'flex-end',
+                                                        transform: `scale(2) `,
+                                                        // marginLeft: `50%`,
+                                                        margin: `1em`,
+                                                        marginBottom: `.5em`,
+                                                        width: 'auto',
+                                                        height: 'auto',
+                                                        zIndex: `100`
+                                                    }}
+                                                        onClick={async e => {
+                                                            e.stopPropagation();
+                                                            cart.items.splice(orderItemIdx, 1);
+                                                            setCart({ ...cart })
+                                                            // await handleDeleteItemCode(item);
+                                                        }}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faTrash}
+                                                        />
+                                                    </div>
+                                                    {/* </div> */}
+                                                    <p style={{ textDecoration: 'none', fontSize: `1em`, padding: '.25em', color: `#000` }}>
+                                                        <span style={{ color: `#000` }}>
+                                                            {getItemResume(orderItem, orderItemIdx + 1)}
+                                                        </span>
+                                                        {/* ({orderItem.qty}x) {orderItem.name} {orderItem.obs.length > 0 ? `| OBS: ${orderItem.obs}` : ''}{Array.isArray(orderItem?.additionalProducts) && orderItem?.additionalProducts?.length > 0 ?
                                                         ` | Adicionais: ${orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
                                                             return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
                                                         }).join(`, `)}`
                                                         :
                                                         ''} | Valor: R$ {orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ {((orderItem.qty * orderItem.price) + additionalProductsTotal).toFixed(2).replace('.', ',')} */}
-                                                </p>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                            <div className="column" style={{ border: 'solid thin #000', paddingTop: '2em', paddingBottom: '2em' }}>
-                                <div className="column" style={{ background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', paddingBottom: `1em`, color: '#000', textDecoration: 'none' }}>
-                                    <p style={{ background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.25em', color: '#000', textDecoration: 'none' }}>Método de pagamento: {cart.paymentMethod.name}</p>
-                                    {paymentMethods.map((paymentMethod, paymentMethodIdx) => {
-                                        return (
-                                            <div className="row">
-                                                <label
-                                                    htmlFor={'paymentMethodCheckbox' + paymentMethodIdx}
-                                                    style={{ color: '#000' }}
-                                                >
-                                                    {paymentMethod.name}
-                                                </label>
-                                                <input type="checkbox"
-                                                    id={'paymentMethodCheckbox' + paymentMethodIdx}
-                                                    name="paymentMethodCheckbox"
-                                                    checked={paymentMethod.id === cart.paymentMethod.id}
-                                                    value={paymentMethod.id}
-                                                    placeholder={paymentMethod.name}
-                                                    style={{ color: '#fff', transform: `scale(2)` }}
-                                                    onChange={e => {
-                                                        const selectedPaymentMethod = paymentMethods.find(item => item.id === e.target.value);
-                                                        if (selectedPaymentMethod) {
-                                                            cart.paymentMethod = selectedPaymentMethod;
-                                                            if (!selectedPaymentMethod.isOnlinePayment) {
-                                                                setCart({
-                                                                    ...cart,
-                                                                    pixRequest: {
-                                                                        ...cart.pixRequest,
-                                                                        payment_method_id: selectedPaymentMethod.id,
-                                                                        payer: {
-                                                                            ...cart.pixRequest.payer,
-                                                                            identification: {
-                                                                                type: 'PHONE',
-                                                                                number: cart.chatId.split('@')[0]
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                });
-                                                                return;
-                                                            }
-                                                        }
-                                                        setCart({ ...cart });
-                                                    }}
-                                                />
-                                            </div>
-                                        )
-
+                                        );
                                     })}
                                 </div>
-                            </div>
-                            {cart.paymentMethod.isOnlinePayment ?
-                                <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', paddingTop: '1em', paddingBottom: '1em' }}>
-                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
-                                        <label
-                                            htmlFor="cpfCnpj"
-                                            style={{ color: '#000' }}
-                                        >Digite seu CPF ou CNPJ</label>
-
-                                        <input type="text" id="cpfCnpj" name="cpfCnpj" placeholder="Digite seu CPF ou CNPJ"
-                                            value={cart.pixRequest.payer.identification.number}
-                                            style={{
-                                                maxWidth: '90%',
-                                                margin: '.25em',
-                                                marginLeft: '.5em',
-                                                marginRight: '.5em',
-                                            }}
-                                            onChange={e => {
-                                                if (typeof cart === 'object') {
-                                                    const value = e.target.value.replaceAll('.', '').replaceAll(',', '').replaceAll(' ', '');
-                                                    if (!isNaN(Number(value))) {
-                                                        const isCnpj = value.length > 11;
-                                                        setCart({
-                                                            ...cart,
-                                                            pixRequest: {
-                                                                ...cart.pixRequest,
-                                                                payer: {
-                                                                    ...cart.pixRequest.payer,
-                                                                    identification: {
-                                                                        type: isCnpj ? 'CNPJ' : 'CPF',
-                                                                        number: value
-                                                                    }
+                                <div className="column" style={{ border: 'solid thin #000', paddingTop: '2em', paddingBottom: '2em' }}>
+                                    <div className="column" style={{ background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', paddingBottom: `1em`, color: '#000', textDecoration: 'none' }}>
+                                        <p style={{ background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.25em', color: '#000', textDecoration: 'none' }}>Método de pagamento: {cart.paymentMethod.name}</p>
+                                        {paymentMethods.map((paymentMethod, paymentMethodIdx) => {
+                                            return (
+                                                <div className="row">
+                                                    <label
+                                                        htmlFor={'paymentMethodCheckbox' + paymentMethodIdx}
+                                                        style={{ color: '#000' }}
+                                                    >
+                                                        {paymentMethod.name}
+                                                    </label>
+                                                    <input type="checkbox"
+                                                        id={'paymentMethodCheckbox' + paymentMethodIdx}
+                                                        name="paymentMethodCheckbox"
+                                                        checked={paymentMethod.id === cart.paymentMethod.id}
+                                                        value={paymentMethod.id}
+                                                        placeholder={paymentMethod.name}
+                                                        style={{ color: '#fff', transform: `scale(2)` }}
+                                                        onChange={e => {
+                                                            const selectedPaymentMethod = paymentMethods.find(item => item.id === e.target.value);
+                                                            if (selectedPaymentMethod) {
+                                                                cart.paymentMethod = selectedPaymentMethod;
+                                                                if (!selectedPaymentMethod.isOnlinePayment) {
+                                                                    setCart({
+                                                                        ...cart,
+                                                                        pixRequest: {
+                                                                            ...cart.pixRequest,
+                                                                            payment_method_id: selectedPaymentMethod.id,
+                                                                            payer: {
+                                                                                ...cart.pixRequest.payer,
+                                                                                identification: {
+                                                                                    type: 'PHONE',
+                                                                                    number: cart.chatId.split('@')[0]
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                    return;
                                                                 }
                                                             }
-                                                        });
-                                                    }
-                                                }
-                                            }}
-                                        />
+                                                            setCart({ ...cart });
+                                                        }}
+                                                    />
+                                                </div>
+                                            )
+
+                                        })}
                                     </div>
                                 </div>
-                                :
-                                <></>
-                            }
-                            {cart.paymentMethod.isOnlinePayment ?
-                                <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', paddingTop: '1em', paddingBottom: '1em' }}>
-                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
-                                        <label
-                                            htmlFor="email"
-                                            style={{ color: '#000' }}
-                                        >Digite seu e-mail</label>
+                                {cart.paymentMethod.isOnlinePayment ?
+                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', paddingTop: '1em', paddingBottom: '1em' }}>
+                                        <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
+                                            <label
+                                                htmlFor="cpfCnpj"
+                                                style={{ color: '#000' }}
+                                            >Digite seu CPF ou CNPJ</label>
 
-                                        <input type="email" id="email" name="email" placeholder="exemplo@gmail.com"
-                                            value={cart.pixRequest.payer.email}
-                                            style={{
-                                                maxWidth: '90%',
-                                                margin: '.25em',
-                                                marginLeft: '.5em',
-                                                marginRight: '.5em',
-                                            }}
-                                            onChange={e => {
-                                                if (typeof cart === 'object') {
-                                                    const value = e.target.value;
-                                                    // if (!isNaN(Number(value))) {
-                                                    // const isCnpj = value.length > 11;
-                                                    setCart({
-                                                        ...cart,
-                                                        pixRequest: {
-                                                            ...cart.pixRequest,
-                                                            payer: {
-                                                                ...cart.pixRequest.payer,
-                                                                email: value
-                                                            }
+                                            <input type="text" id="cpfCnpj" name="cpfCnpj" placeholder="Digite seu CPF ou CNPJ"
+                                                value={cart.pixRequest.payer.identification.number}
+                                                style={{
+                                                    maxWidth: '90%',
+                                                    margin: '.25em',
+                                                    marginLeft: '.5em',
+                                                    marginRight: '.5em',
+                                                }}
+                                                onChange={e => {
+                                                    if (typeof cart === 'object') {
+                                                        const value = e.target.value.replaceAll('.', '').replaceAll(',', '').replaceAll(' ', '');
+                                                        if (!isNaN(Number(value))) {
+                                                            const isCnpj = value.length > 11;
+                                                            setCart({
+                                                                ...cart,
+                                                                pixRequest: {
+                                                                    ...cart.pixRequest,
+                                                                    payer: {
+                                                                        ...cart.pixRequest.payer,
+                                                                        identification: {
+                                                                            type: isCnpj ? 'CNPJ' : 'CPF',
+                                                                            number: value
+                                                                        }
+                                                                    }
+                                                                }
+                                                            });
                                                         }
-                                                    });
-                                                }
-                                            }}
-                                        />
+                                                    }
+                                                }}
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                                :
-                                <></>
-                            }
-                            <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', borderBottomRightRadius: '1em', borderBottomLeftRadius: '1em', paddingTop: '1em', paddingBottom: '1em' }}>
-                                <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
-                                    <label
-                                        htmlFor="phone"
-                                        style={{ color: '#000' }}
-                                    >Digite seu WhatsApp <FontAwesomeIcon icon={faWhatsapp} color="green" style={{ transform: `scale(1.5)`, marginLeft: '.25em' }} /></label>
-                                    <input id="phone" name="phone" type="tel" pattern="[0-9]{12}" placeholder='555499999999'
-                                        value={cart?.chatId.split('@c.us')[0]}
-                                        style={{
-                                            maxWidth: '90%',
-                                            margin: '.25em',
-                                            marginLeft: '.5em',
-                                            marginRight: '.5em',
-                                        }}
-                                        onChange={e => {
-                                            if (typeof cart === 'object') {
-                                                const value = e.target.value.replaceAll(' ', '').replace('+', '').replace('-', '') || '';
-                                                if (!isNaN(Number(value))) {
-                                                    // +55 54 9695-3402
-                                                    const customerFormattedNumber = `+${value.substring(0, 2)} ${value.substring(2, 4)} ${value.substring(4, 8)}-${value.substring(8, 12)}`;
-                                                    setCart({ ...cart, chatId: value + '@c.us', customerFormattedNumber });
-                                                    if (!cart.paymentMethod.isOnlinePayment) {
+                                    :
+                                    <></>
+                                }
+                                {cart.paymentMethod.isOnlinePayment ?
+                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', paddingTop: '1em', paddingBottom: '1em' }}>
+                                        <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
+                                            <label
+                                                htmlFor="email"
+                                                style={{ color: '#000' }}
+                                            >Digite seu e-mail</label>
+
+                                            <input type="email" id="email" name="email" placeholder="exemplo@gmail.com"
+                                                value={cart.pixRequest.payer.email}
+                                                style={{
+                                                    maxWidth: '90%',
+                                                    margin: '.25em',
+                                                    marginLeft: '.5em',
+                                                    marginRight: '.5em',
+                                                }}
+                                                onChange={e => {
+                                                    if (typeof cart === 'object') {
+                                                        const value = e.target.value;
+                                                        // if (!isNaN(Number(value))) {
+                                                        // const isCnpj = value.length > 11;
                                                         setCart({
                                                             ...cart,
-                                                            chatId: value + '@c.us', customerFormattedNumber,
                                                             pixRequest: {
                                                                 ...cart.pixRequest,
                                                                 payer: {
                                                                     ...cart.pixRequest.payer,
-                                                                    identification: {
-                                                                        type: 'PHONE',
-                                                                        number: value
-                                                                    }
+                                                                    email: value
                                                                 }
                                                             }
                                                         });
                                                     }
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    :
+                                    <></>
+                                }
+                                <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', borderBottomRightRadius: '1em', borderBottomLeftRadius: '1em', paddingTop: '1em', paddingBottom: '1em' }}>
+                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
+                                        <label
+                                            htmlFor="phone"
+                                            style={{ color: '#000' }}
+                                        >Digite seu WhatsApp <FontAwesomeIcon icon={faWhatsapp} color="green" style={{ transform: `scale(1.5)`, marginLeft: '.25em' }} /></label>
+                                        <input id="phone" name="phone" type="tel" pattern="[0-9]{12}" placeholder='555499999999'
+                                            value={cart?.chatId.split('@c.us')[0]}
+                                            style={{
+                                                maxWidth: '90%',
+                                                margin: '.25em',
+                                                marginLeft: '.5em',
+                                                marginRight: '.5em',
+                                            }}
+                                            onChange={e => {
+                                                if (typeof cart === 'object') {
+                                                    const value = e.target.value.replaceAll(' ', '').replace('+', '').replace('-', '') || '';
+                                                    if (!isNaN(Number(value))) {
+                                                        // +55 54 9695-3402
+                                                        const customerFormattedNumber = `+${value.substring(0, 2)} ${value.substring(2, 4)} ${value.substring(4, 8)}-${value.substring(8, 12)}`;
+                                                        setCart({ ...cart, chatId: value + '@c.us', customerFormattedNumber });
+                                                        if (!cart.paymentMethod.isOnlinePayment) {
+                                                            setCart({
+                                                                ...cart,
+                                                                chatId: value + '@c.us', customerFormattedNumber,
+                                                                pixRequest: {
+                                                                    ...cart.pixRequest,
+                                                                    payer: {
+                                                                        ...cart.pixRequest.payer,
+                                                                        identification: {
+                                                                            type: 'PHONE',
+                                                                            number: value
+                                                                        }
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                    }
                                                 }
-                                            }
-                                        }}
+                                            }}
 
-                                    />
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
                 <div className="fixedAddToCartContainer"
                     onClick={e => handleOrderSubmit()}
