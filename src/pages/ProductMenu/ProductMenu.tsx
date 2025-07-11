@@ -192,11 +192,10 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
 
     console.log('company: ', company);
     console.log('robot: ', robot);
-    console.log('orderChannel: ', orderChannel);
     console.log('selectedItem: ', selectedItem);
     console.log('cartSelectedItemIdx: ', cartSelectedItemIdx);
 
-  }, [company, robot, orderChannel, selectedItem, cartSelectedItemIdx]);
+  }, [company, robot, selectedItem, cartSelectedItemIdx]);
 
   useEffect(() => {
 
@@ -209,6 +208,15 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
     console.log('companyNameAnimatedDisplay: ', companyNameAnimatedDisplay);
 
   }, [companyNameAnimatedDisplay]);
+
+  useEffect(() => {
+
+    console.log('prefilledOrderChannel: ', orderChannel);
+    if (prefilledOrderChannel && orderChannel !== prefilledOrderChannel) {
+      setOrderChannel(prefilledOrderChannel);
+    }
+
+  }, [prefilledOrderChannel]);
 
   useEffect(() => {
 
