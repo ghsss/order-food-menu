@@ -427,7 +427,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                     </span>
                 </div>
                 <div className="column" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '1em' }}>
-                    <div className="cartContainer" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '6em' }}>
+                    <div className="cartContainer" style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <span style={{ marginTop: '1em', justifySelf: 'center', width: '90%', background: 'rgba(251, 0, 0, 1)', border: 'solid medium #000', borderRadius: '1em', color: '#fff', padding: '.5em' }}>
                             SOMENTE RETIRADA DE PEDIDOS, NÃO ESTAMOS REALIZANDO TELE-ENTREGA
                         </span>
@@ -703,7 +703,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                             </div>
                         }
                     </div>
-                    <div style={{ height: '6em' }}></div>
+                    <div style={{ height: '7em' }}></div>
                 </div>
                 <div className="fixedAddToCartContainer"
                     onClick={e => handleOrderSubmit()}

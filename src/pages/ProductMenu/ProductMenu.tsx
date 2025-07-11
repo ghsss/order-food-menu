@@ -509,222 +509,224 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
                 onClick={e => setSelectedItem(null)}>
                 <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
               </button>
-              <div className="CartProductMenuListItemContainer glowBox"
-              // onClick={event => handleCartItemChange(selectedItem)}
-              >
-                <div id='cartIcon' style={{ color: `#000`, marginLeft: `.75em`, marginTop: `2.5em` }} >
-                  <FontAwesomeIcon
-                    icon={faCartShopping}
-                  />
-                </div>
-                <br /><br />
-                <p id='cartItemName' className='cartItemName scalingAnimation'
-                  style={{ marginTop: '2em' }}>
-                  <span>⭐ </span>
-                  {selectedItem.name}
-                </p>
-                <div className='cartItemImageContainer'>
-                  {typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'}
-                  <img draggable={false} className='cartItemImage' src={selectedItemProduct.image_url || './no-image.png'} about={typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} title={typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} alt={typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} />
-                </div>
-                <div className='row'>
-                  <div className='column'>
-                    <div>
-                      <p id='itemPrice' className=''>
-                        {/* <span>Promoção por tempo limitado!</span>
+              <div className="column" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '1em' }}>
+                <div className="CartProductMenuListItemContainer glowBox"
+                // onClick={event => handleCartItemChange(selectedItem)}
+                >
+                  <div id='cartIcon' style={{ color: `#000`, marginLeft: `.75em`, marginTop: `2.5em` }} >
+                    <FontAwesomeIcon
+                      icon={faCartShopping}
+                    />
+                  </div>
+                  <br /><br />
+                  <p id='cartItemName' className='cartItemName scalingAnimation'
+                    style={{ marginTop: '2em' }}>
+                    <span>⭐ </span>
+                    {selectedItem.name}
+                  </p>
+                  <div className='cartItemImageContainer'>
+                    {typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'}
+                    <img draggable={false} className='cartItemImage' src={selectedItemProduct.image_url || './no-image.png'} about={typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} title={typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} alt={typeof selectedItemProduct.image_url !== 'undefined' ? 'Imagem ilustrativa' : 'Sem imagem'} />
+                  </div>
+                  <div className='row'>
+                    <div className='column'>
+                      <div>
+                        <p id='itemPrice' className=''>
+                          {/* <span>Promoção por tempo limitado!</span>
                         <br/> */}
-                        {` R$ ` + selectedItem.price.toFixed(2).replace('.', ',')}
+                          {` R$ ` + selectedItem.price.toFixed(2).replace('.', ',')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='row' style={{ width: `100%`, transform: 'scale(0.95)' }}>
+                    <div>
+                      <p id='itemDescription' className='itemDescription'>
+                        <span>Descrição: </span>
+                        {selectedItemProduct.description}
                       </p>
                     </div>
                   </div>
-                </div>
-                <div className='row' style={{ width: `100%`, transform: 'scale(0.95)' }}>
-                  <div>
-                    <p id='itemDescription' className='itemDescription'>
-                      <span>Descrição: </span>
-                      {selectedItemProduct.description}
-                    </p>
+                  <div className='row' style={{ width: `100%`, padding: '1em' }}>
+                    <div>
+                      <span>Observação (Ex: "sem milho e ervilha"): </span>
+                      <textarea id='itemDescription' className='itemDescription' value={selectedItem.obs}
+                        onChange={e => { setSelectedItem({ ...selectedItem, obs: e.target.value }) }} />
+                      {/* {selectedItem.obs} */}
+                    </div>
                   </div>
-                </div>
-                <div className='row' style={{ width: `100%`, padding: '1em' }}>
-                  <div>
-                    <span>Observação (Ex: "sem milho e ervilha"): </span>
-                    <textarea id='itemDescription' className='itemDescription' value={selectedItem.obs}
-                      onChange={e => { setSelectedItem({ ...selectedItem, obs: e.target.value }) }} />
-                    {/* {selectedItem.obs} */}
-                  </div>
-                </div>
-                {
-                  additionalProductMenuOptions && additionalProductMenuOptions?.length > 0
-                    && additionalProductMenuOptions.some(additionalProductMenuOption => additionalProductMenuOption.availableProductType.some(availableProductType => availableProductType.id === selectedItemProduct.productType.id)) ?
-                    <>
-                      <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', border: 'solid thin #fff' }}>
-                        <div className='column'
-                          style={{
-                            maxWidth: '80%', alignItems: 'center', justifyContent: 'center'
-                          }}
-                        >
-                          <span>Adicionais: </span>
-                          {additionalProductMenuOptions?.map(additionalProductMenuOption => {
+                  {
+                    additionalProductMenuOptions && additionalProductMenuOptions?.length > 0
+                      && additionalProductMenuOptions.some(additionalProductMenuOption => additionalProductMenuOption.availableProductType.some(availableProductType => availableProductType.id === selectedItemProduct.productType.id)) ?
+                      <>
+                        <div className='row' style={{ maxWidth: `100%`, width: `100%`, paddingTop: '.5em', paddingBottom: '1em', alignItems: `center`, justifyContent: 'center', alignContent: 'center', border: 'solid thin #fff' }}>
+                          <div className='column'
+                            style={{
+                              maxWidth: '80%', alignItems: 'center', justifyContent: 'center'
+                            }}
+                          >
+                            <span>Adicionais: </span>
+                            {additionalProductMenuOptions?.map(additionalProductMenuOption => {
 
-                            const replaceEmojis = (str: string) => {
-                              return str.replace(
-                                /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-                                ''
-                              )
-                            }
+                              const replaceEmojis = (str: string) => {
+                                return str.replace(
+                                  /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+                                  ''
+                                )
+                              }
 
-                            if (Array.isArray(selectedItem.additionalProducts) && additionalProductMenuOption.availableProductType.some(availableProductType => availableProductType.id === selectedItemProduct.productType.id)) {
-                              const selectedAdditionalProductIdx = selectedItem.additionalProducts?.findIndex(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id));
-                              const selectedAdditionalProductQty = selectedItem.additionalProducts?.find(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id))?.qty || 0;
-                              return (
-                                <div className='row' style={{ alignItems: 'center', justifyContent: 'center', width: `100%`, marginTop: '1em', border: 'solid thin #fff', background: 'rgba(93, 0, 0, 0.248)', borderRadius: '.5em' }}>
-                                  <div className='column'
-                                    style={{
-                                      margin: '.25em'
-                                    }}
-                                  >
-                                    <span>{additionalProductMenuOption.name} (R$ {parseFloat(additionalProductMenuOption.price.toFixed(2)).toFixed(2).replace('.', ',')}/Uni): {selectedAdditionalProductQty}</span>
-                                    <div className="row"
-                                      style={
-                                        { alignItems: 'center', justifyContent: 'center' }
-                                      }
+                              if (Array.isArray(selectedItem.additionalProducts) && additionalProductMenuOption.availableProductType.some(availableProductType => availableProductType.id === selectedItemProduct.productType.id)) {
+                                const selectedAdditionalProductIdx = selectedItem.additionalProducts?.findIndex(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id));
+                                const selectedAdditionalProductQty = selectedItem.additionalProducts?.find(selectedAdditionalProduct => replaceEmojis(selectedAdditionalProduct.id) === replaceEmojis(additionalProductMenuOption.id))?.qty || 0;
+                                return (
+                                  <div className='row' style={{ alignItems: 'center', justifyContent: 'center', width: `100%`, marginTop: '1em', border: 'solid thin #fff', background: 'rgba(93, 0, 0, 0.248)', borderRadius: '.5em' }}>
+                                    <div className='column'
+                                      style={{
+                                        margin: '.25em'
+                                      }}
                                     >
-                                      <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`1.5em`}
-                                        style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
-                                        onClick={e => {
-                                          e.stopPropagation();
-                                          e.preventDefault();
-                                          if (selectedAdditionalProductQty > 0 && Array.isArray(selectedItem.additionalProducts)) {
-                                            // if ( selectedAdditionalProductIdx === -1 ) {
-                                            //   selectedItem.additionalProducts?.push({...additionalProductMenuOption, qty: selectedAdditionalProductQty });
-                                            // }
-                                            selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = selectedAdditionalProductQty - 1;
-                                            // setSelectedItem({ ...selectedItem, qty: selectedAdditionalProductQty - 1 })
-
-                                            if (selectedItem.additionalProducts[selectedAdditionalProductIdx].qty === 0) {
-                                              selectedItem.additionalProducts.splice(selectedAdditionalProductIdx, 1);
-                                            }
-
-                                            setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
-
-                                          }
-                                        }}
-                                      />
-                                      <input type="number" step={1} id='itemDescription' className='itemDescription' value={selectedAdditionalProductQty}
-                                        onChange={e => {
-                                          // e.stopPropagation();
-                                          // e.preventDefault();
-                                          console.log(`Qty input change.`)
-                                          if (selectedAdditionalProductQty > 0 && Array.isArray(selectedItem.additionalProducts)) {
-
-                                            // selectedAdditionalProductQty
-                                            if (selectedAdditionalProductIdx === -1) {
-
-                                              selectedItem.additionalProducts.push({ ...additionalProductMenuOption, qty: Number(e.target.value) });
-
-                                            } else {
-
-                                              selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = Number(e.target.value);
+                                      <span>{additionalProductMenuOption.name} (R$ {parseFloat(additionalProductMenuOption.price.toFixed(2)).toFixed(2).replace('.', ',')}/Uni): {selectedAdditionalProductQty}</span>
+                                      <div className="row"
+                                        style={
+                                          { alignItems: 'center', justifyContent: 'center' }
+                                        }
+                                      >
+                                        <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`1.5em`}
+                                          style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                                          onClick={e => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            if (selectedAdditionalProductQty > 0 && Array.isArray(selectedItem.additionalProducts)) {
+                                              // if ( selectedAdditionalProductIdx === -1 ) {
+                                              //   selectedItem.additionalProducts?.push({...additionalProductMenuOption, qty: selectedAdditionalProductQty });
+                                              // }
+                                              selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = selectedAdditionalProductQty - 1;
+                                              // setSelectedItem({ ...selectedItem, qty: selectedAdditionalProductQty - 1 })
 
                                               if (selectedItem.additionalProducts[selectedAdditionalProductIdx].qty === 0) {
                                                 selectedItem.additionalProducts.splice(selectedAdditionalProductIdx, 1);
                                               }
 
-                                            }
-
-                                            setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
-
-                                            // setSelectedItem({ ...selectedItem, qty: Number(e.target.value) })
-                                          }
-                                        }
-                                        } />
-                                      {/* {selectedItem.obs} */}
-                                      <FontAwesomeIcon icon={faPlusCircle} color='green' fontSize={`1.5em`}
-                                        style={{ zIndex: `101`, marginLeft: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
-                                        onClick={e => {
-                                          e.stopPropagation();
-                                          e.preventDefault();
-                                          console.log(`Qty increase click.`)
-                                          if (Array.isArray(selectedItem.additionalProducts)) {
-
-                                            if (selectedAdditionalProductIdx === -1) {
-
-                                              selectedItem.additionalProducts.push({ ...additionalProductMenuOption, qty: selectedAdditionalProductQty + 1 });
-
-                                            } else {
-
-                                              selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = selectedAdditionalProductQty + 1;
+                                              setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
 
                                             }
+                                          }}
+                                        />
+                                        <input type="number" step={1} id='itemDescription' className='itemDescription' value={selectedAdditionalProductQty}
+                                          onChange={e => {
+                                            // e.stopPropagation();
+                                            // e.preventDefault();
+                                            console.log(`Qty input change.`)
+                                            if (selectedAdditionalProductQty > 0 && Array.isArray(selectedItem.additionalProducts)) {
 
-                                            setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
+                                              // selectedAdditionalProductQty
+                                              if (selectedAdditionalProductIdx === -1) {
 
+                                                selectedItem.additionalProducts.push({ ...additionalProductMenuOption, qty: Number(e.target.value) });
+
+                                              } else {
+
+                                                selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = Number(e.target.value);
+
+                                                if (selectedItem.additionalProducts[selectedAdditionalProductIdx].qty === 0) {
+                                                  selectedItem.additionalProducts.splice(selectedAdditionalProductIdx, 1);
+                                                }
+
+                                              }
+
+                                              setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
+
+                                              // setSelectedItem({ ...selectedItem, qty: Number(e.target.value) })
+                                            }
                                           }
-                                        }
-                                        } />
+                                          } />
+                                        {/* {selectedItem.obs} */}
+                                        <FontAwesomeIcon icon={faPlusCircle} color='green' fontSize={`1.5em`}
+                                          style={{ zIndex: `101`, marginLeft: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                                          onClick={e => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            console.log(`Qty increase click.`)
+                                            if (Array.isArray(selectedItem.additionalProducts)) {
+
+                                              if (selectedAdditionalProductIdx === -1) {
+
+                                                selectedItem.additionalProducts.push({ ...additionalProductMenuOption, qty: selectedAdditionalProductQty + 1 });
+
+                                              } else {
+
+                                                selectedItem.additionalProducts[selectedAdditionalProductIdx].qty = selectedAdditionalProductQty + 1;
+
+                                              }
+
+                                              setSelectedItem(JSON.parse(JSON.stringify(selectedItem)));
+
+                                            }
+                                          }
+                                          } />
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              );
-                            } else {
-                              return (<></>);
-                            }
-                          })}
+                                );
+                              } else {
+                                return (<></>);
+                              }
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    </>
-                    :
-                    <></>
-                }
-                <div className='row' style={{
-                  width: `100%`, justifyContent: 'center', paddingTop: '1em', paddingBottom: '1em'
-                  , background: `rgba(93, 0, 0, 0.248)`
-                }}>
-                  <div>
-                    <span>Quantidade: {selectedItem.qty}</span>
-                    <div className="row"
-                      style={{
-                        alignItems: 'center', justifyContent: 'center',
-                        margin: '.5em'
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`2.5em`}
-                        style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
-                        onClick={e => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                          if (selectedItem.qty > 1) {
-                            setSelectedItem({ ...selectedItem, qty: selectedItem.qty -= 1 })
-                          }
+                      </>
+                      :
+                      <></>
+                  }
+                  <div className='row' style={{
+                    width: `100%`, justifyContent: 'center', paddingTop: '1em', paddingBottom: '1em'
+                    , background: `rgba(93, 0, 0, 0.248)`
+                  }}>
+                    <div>
+                      <span>Quantidade: {selectedItem.qty}</span>
+                      <div className="row"
+                        style={{
+                          alignItems: 'center', justifyContent: 'center',
+                          margin: '.5em'
                         }}
-                      />
-                      <input type="number" step={1} id='itemDescription' className='itemDescription' value={selectedItem.qty}
-                        onChange={e => {
-                          // e.stopPropagation();
-                          // e.preventDefault();
-                          console.log(`Qty decrease click.`)
-                          if (selectedItem.qty > 0) {
-                            setSelectedItem({ ...selectedItem, qty: Number(e.target.value) })
-                          }
-                        }} />
-                      {/* {selectedItem.obs} */}
-                      <FontAwesomeIcon icon={faPlusCircle} color='green' fontSize={`2.5em`}
-                        style={{ zIndex: `101`, marginLeft: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
-                        onClick={e => {
-                          // e.stopPropagation();
-                          // e.preventDefault();
-                          console.log(`Qty increase click.`)
-                          setSelectedItem({
-                            ...selectedItem, qty: selectedItem.qty += 1
+                      >
+                        <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`2.5em`}
+                          style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                          onClick={e => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            if (selectedItem.qty > 1) {
+                              setSelectedItem({ ...selectedItem, qty: selectedItem.qty -= 1 })
+                            }
+                          }}
+                        />
+                        <input type="number" step={1} id='itemDescription' className='itemDescription' value={selectedItem.qty}
+                          onChange={e => {
+                            // e.stopPropagation();
+                            // e.preventDefault();
+                            console.log(`Qty decrease click.`)
+                            if (selectedItem.qty > 0) {
+                              setSelectedItem({ ...selectedItem, qty: Number(e.target.value) })
+                            }
+                          }} />
+                        {/* {selectedItem.obs} */}
+                        <FontAwesomeIcon icon={faPlusCircle} color='green' fontSize={`2.5em`}
+                          style={{ zIndex: `101`, marginLeft: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                          onClick={e => {
+                            // e.stopPropagation();
+                            // e.preventDefault();
+                            console.log(`Qty increase click.`)
+                            setSelectedItem({
+                              ...selectedItem, qty: selectedItem.qty += 1
 
-                          })
-                        }} />
+                            })
+                          }} />
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div style={{ height: '7em' }}></div>
               </div>
-
               <div className="fixedAddToCartContainer"
                 onClick={e => handleCartItemChange(selectedItem, cartSelectedItemIdx)}
               >
