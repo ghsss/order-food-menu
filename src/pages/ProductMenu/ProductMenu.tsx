@@ -725,7 +725,7 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
                     </div>
                   </div>
                 </div>
-                <div className='row' style={{ marginTop: '7em', }}></div>
+                <div className='row' style={{ width:'100%', height:'auto', marginTop: '7em', }}></div>
               </div>
               <div className="fixedAddToCartContainer"
                 onClick={e => handleCartItemChange(selectedItem, cartSelectedItemIdx)}

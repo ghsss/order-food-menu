@@ -703,14 +703,14 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                             </div>
                         }
                     </div>
-                    <div style={{ marginTop: '7em', }}></div>
-                </div>
-                <div className="fixedAddToCartContainer"
-                    onClick={e => handleOrderSubmit()}
-                >
-                    <p><FontAwesomeIcon icon={faArrowRight} /> Enviar pedido</p>
-                </div>
+                    <div style={{ width:'100%', height:'auto',  marginTop: '7em', }}></div>
             </div>
+            <div className="fixedAddToCartContainer"
+                onClick={e => handleOrderSubmit()}
+            >
+                <p><FontAwesomeIcon icon={faArrowRight} /> Enviar pedido</p>
+            </div>
+        </div>
         </div >
     )
 }
