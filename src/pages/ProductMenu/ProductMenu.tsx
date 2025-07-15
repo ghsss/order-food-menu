@@ -591,8 +591,10 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
                                           { alignItems: 'center', justifyContent: 'center' }
                                         }
                                       >
-                                        <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`1.5em`}
-                                          style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                                        <FontAwesomeIcon
+                                          className='backface'
+                                          icon={faMinusCircle} color='red' fontSize={`1.5em`}
+                                          style={{ background: '#fff', zIndex: `101`, marginRight: '.1em', border: `solid thin #fff`, borderRadius: `50%` }}
                                           onClick={e => {
                                             e.stopPropagation();
                                             e.preventDefault();
@@ -641,8 +643,10 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
                                           }
                                           } />
                                         {/* {selectedItem.obs} */}
-                                        <FontAwesomeIcon icon={faPlusCircle} color='green' fontSize={`1.5em`}
-                                          style={{ zIndex: `101`, marginLeft: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                                        <FontAwesomeIcon
+                                          className='backface'
+                                          icon={faPlusCircle} color='green' fontSize={`1.5em`}
+                                          style={{ background: '#fff', zIndex: `101`, marginLeft: '.1em', border: `solid thin #fff`, borderRadius: `50%` }}
                                           onClick={e => {
                                             e.stopPropagation();
                                             e.preventDefault();
@@ -690,8 +694,10 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
                           margin: '.5em'
                         }}
                       >
-                        <FontAwesomeIcon icon={faMinusCircle} color='red' fontSize={`2.5em`}
-                          style={{ zIndex: `101`, marginRight: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                        <FontAwesomeIcon
+                          className='backface'
+                          icon={faMinusCircle} color='red' fontSize={`2.5em`}
+                          style={{ background: '#fff', zIndex: `101`, marginRight: '.1em', border: `solid thin #fff`, borderRadius: `50%` }}
                           onClick={e => {
                             e.stopPropagation();
                             e.preventDefault();
@@ -710,8 +716,10 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
                             }
                           }} />
                         {/* {selectedItem.obs} */}
-                        <FontAwesomeIcon icon={faPlusCircle} color='green' fontSize={`2.5em`}
-                          style={{ zIndex: `101`, marginLeft: '.1em', border: `solid thin #000`, borderRadius: `50%` }}
+                        <FontAwesomeIcon
+                          className='backface'
+                          icon={faPlusCircle} color='green' fontSize={`2.5em`}
+                          style={{ background: '#fff', zIndex: `101`, marginLeft: '.1em', border: `solid thin #fff`, borderRadius: `50%` }}
                           onClick={e => {
                             // e.stopPropagation();
                             // e.preventDefault();
@@ -725,7 +733,7 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
                     </div>
                   </div>
                 </div>
-                <div className='row' style={{ width:'100%', height:'auto', marginTop: '7em', }}></div>
+                <div className='row' style={{ width: '100%', height: 'auto', marginTop: '7em', }}></div>
               </div>
               <div className="fixedAddToCartContainer"
                 onClick={e => handleCartItemChange(selectedItem, cartSelectedItemIdx)}
