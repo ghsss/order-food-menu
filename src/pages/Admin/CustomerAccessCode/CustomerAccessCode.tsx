@@ -4,6 +4,7 @@ import './CustomerAccessCode.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft, faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import AccessCodeServiceInstance from '../../../services/AccessCodeService';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 // import ProductMenu from './pages/ProductMenu/ProductMenu';
 // import AdminMenu from './pages/Admin/AdminMenu';
 
@@ -145,7 +146,7 @@ function CustomerAccessCodePage({ showCartPage, showOrdersPage, setShowCartPage,
         >
           <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
         </button>
-        <h1>Solicite seu código de acesso 👇🏻</h1>
+        <h1><span style={{ color: '#000' }}>{`Solicite seu código de acesso via WhatsApp `}<FontAwesomeIcon icon={faWhatsapp} color='green' style={{ fontSize: '1.5em' }} /></span></h1>
         <input className='inputAccessCode'
           type={receiveThrough === 'whatsapp' ? "tel" : "email"}
           placeholder={receiveThrough === 'whatsapp' ? '555499991111' : 'exemplo@gmail.com'}
@@ -161,7 +162,9 @@ function CustomerAccessCodePage({ showCartPage, showOrdersPage, setShowCartPage,
             }
           }} />
         <br />
-        <button className='submitButton' type="submit" onClick={async e => {
+        <button className='submitButton' type="submit" 
+          // style={{background: "orange"}}
+        onClick={async e => {
           if (receiveThrough === 'whatsapp') {
             if (phone.length > 11) {
               const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone);
@@ -277,7 +280,7 @@ function CustomerAccessCodePage({ showCartPage, showOrdersPage, setShowCartPage,
                 // setShowCartPage(true);
                 // setShowOrdersPage(true);
                 // setShowCartPage(false);
-                
+
               }
 
             } else {

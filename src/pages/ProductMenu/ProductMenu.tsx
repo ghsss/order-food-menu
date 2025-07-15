@@ -822,7 +822,7 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
                 className='scalingAnimation'
                 style={
                   {
-                    fontSize: `1.125em`,
+                    fontSize: `1.5em`,
                     marginTop: '.5em',
                     padding: `.25em`,
                     fontFamily: 'fantasy',
