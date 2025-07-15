@@ -161,7 +161,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`Preço/unidade: R$${(item.price).toFixed(2)}`}</span>
                     {/* <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidade(s).`}</span> */}
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`OBS: ${item.obs}`}</span>
-                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${Array.isArray(item?.additionalProducts) ?
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${Array.isArray(item?.additionalProducts) && item?.additionalProducts.length > 0 ?
                         `
                     Adicionais: ${item?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
                             return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
