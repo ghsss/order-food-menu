@@ -114,7 +114,7 @@ export default function MyOrdersPage({ setShowOrdersPage, setCartSelectedItemIdx
                                 <div className="column" style={{ margin: `.5em`, paddingBottom: '1.5em', minHeight: `10vh`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '85%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
                                     <span style={{ margin: `.25em`, fontSize: `1.5em`, color: `#000` }}>{`Pedido #${order.orderNumber}`}</span>
                                     {/* <br /> */}
-                                    <span style={{ color: `#000` }}>{`Data: ${new Date(order.createdAt).toLocaleString('pt-BR')}`}</span>
+                                    <span style={{ color: `#000` }}>{`Data: ${new Date(order.createdAt).toLocaleString('pt-BR').substring(0, new Date(order.createdAt).toLocaleString('pt-BR').length - 3).replace(',', ' às')}`}</span>
                                     <br />
                                     <span style={{ color: `#000` }}>{`Status: ${getOrderStatusLabel(order.paymentStatus)}`}</span>
                                     <div className="column" style={{ marginTop: '.5em' }}>
