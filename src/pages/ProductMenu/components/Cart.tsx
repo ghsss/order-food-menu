@@ -159,7 +159,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`(${item.qty}) ${item.name}`}</span>
                     {/* <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidade(s).`}</span> */}
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`Preço/unidade: R$${(item.price).toFixed(2)}`}</span>
-                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidade(s).`}</span>
+                    {/* <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidade(s).`}</span> */}
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`OBS: ${item.obs}`}</span>
                     <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${Array.isArray(item?.additionalProducts) ?
                         `
