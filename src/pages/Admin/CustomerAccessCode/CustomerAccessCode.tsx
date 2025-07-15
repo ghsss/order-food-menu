@@ -147,7 +147,9 @@ function CustomerAccessCodePage({ showCartPage, showOrdersPage, setShowCartPage,
           <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
         </button>
         <h1><span style={{ color: '#000' }}>{`Solicite seu código de acesso via WhatsApp `}<FontAwesomeIcon icon={faWhatsapp} color='green' style={{ fontSize: '1.5em' }} /></span></h1>
+        <label style={{ padding: `.25em`, fontSize: `1em`, width: `82.5%` }} htmlFor="inputPhone">Digite seu número do WhatsApp</label>
         <input className='inputAccessCode'
+          id='inputPhone'
           type={receiveThrough === 'whatsapp' ? "tel" : "email"}
           placeholder={receiveThrough === 'whatsapp' ? '555499991111' : 'exemplo@gmail.com'}
           value={receiveThrough === 'whatsapp' ? phone : email}
@@ -162,29 +164,29 @@ function CustomerAccessCodePage({ showCartPage, showOrdersPage, setShowCartPage,
             }
           }} />
         <br />
-        <button className='submitButton' type="submit" 
+        <button className='submitButton' type="submit"
           // style={{background: "orange"}}
-        onClick={async e => {
-          if (receiveThrough === 'whatsapp') {
-            if (phone.length > 11) {
-              const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone);
+          onClick={async e => {
+            if (receiveThrough === 'whatsapp') {
+              if (phone.length > 11) {
+                const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone);
+                if (requestedSuccessfully) {
+                  setLastAccessCodeRequestTimestamp(new Date().getTime());
+                  setCanRequestNewAccesCode(false);
+
+                }
+              } else {
+                window.alert(`Número inválido.`);
+              }
+            } else {
+              const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(email);
               if (requestedSuccessfully) {
                 setLastAccessCodeRequestTimestamp(new Date().getTime());
                 setCanRequestNewAccesCode(false);
 
               }
-            } else {
-              window.alert(`Número inválido.`);
             }
-          } else {
-            const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(email);
-            if (requestedSuccessfully) {
-              setLastAccessCodeRequestTimestamp(new Date().getTime());
-              setCanRequestNewAccesCode(false);
-
-            }
-          }
-        }}>
+          }}>
           {'Solicitar código de acesso'}
         </button>
         {/* <button style={{ transform: 'scale(0.5)' }} className='submitButton' type="submit" onClick={async e => {
