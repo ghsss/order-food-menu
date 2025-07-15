@@ -72,13 +72,14 @@ export default function CartPage({ cart, setCart, setShowCartPage, setCartSelect
             }
 
             let itemMsg = (orderItemIdx === 0 ? `` : '\n\n') + `❤️‍🔥 Item ${orderItemIdx + 1}
-${orderItem.name}
-${orderItem.qty} unidade(s).
+
+R$${((orderItem.price * orderItem.qty) + additionalProductsTotal).toFixed(2)}
+
+(${orderItem.qty}x) ${orderItem.name}
 Preço/unidade: R$${(orderItem.price).toFixed(2)}
-Subtotal do item: R$${((orderItem.price * orderItem.qty) + additionalProductsTotal).toFixed(2)}
-OBS: ${orderItem.obs} ${Array.isArray(orderItem?.additionalProducts) ?
-                    `
-Adicionais: ${orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
+OBS: ${orderItem.obs}
+${Array.isArray(orderItem?.additionalProducts) && orderItem?.additionalProducts.length > 0 ?
+                    `Adicionais: ${orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
                         return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
                     }).join(`, `)}` : ``}`;
 
@@ -703,14 +704,14 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                             </div>
                         }
                     </div>
-                    <div style={{ width:'100%', height:'auto',  marginTop: '7em', }}></div>
+                    <div style={{ width: '100%', height: 'auto', marginTop: '7em', }}></div>
+                </div>
+                <div className="fixedAddToCartContainer"
+                    onClick={e => handleOrderSubmit()}
+                >
+                    <p><FontAwesomeIcon icon={faArrowRight} /> Enviar pedido</p>
+                </div>
             </div>
-            <div className="fixedAddToCartContainer"
-                onClick={e => handleOrderSubmit()}
-            >
-                <p><FontAwesomeIcon icon={faArrowRight} /> Enviar pedido</p>
-            </div>
-        </div>
         </div >
     )
 }
