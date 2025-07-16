@@ -26,11 +26,12 @@ import LoadingPage from '../Loading';
 const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedido.');
 
 interface ProductMenuProps {
+  isAdmin: boolean;
   action: string;
   prefilledOrderChannel?: string;
 }
 
-function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
+function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProps) {
 
   const [companyNameAnimatedDisplay, setCompanyNameAnimatedDisplay] = useState<string>('');
   const [logoClass, setLogoClass] = useState<string>('');
@@ -1114,7 +1115,8 @@ function ProductMenu({ action, prefilledOrderChannel }: ProductMenuProps) {
 
     return (
       <MyOrdersPage
-        // orders={orders} setOrders={setOrders} 
+        // orders={orders} setOrders={setOrders}
+        isAdmin={isAdmin}
         setShowOrdersPage={setShowOrdersPage}
         setSelectedItem={setSelectedItem}
         setCartSelectedItemIdx={setCartSelectedItemIdx}

@@ -87,7 +87,7 @@ function App() {
     <div className="App">
       {
         action === 'order-bot' || action === 'orders' || action === 'cart' ?
-          <ProductMenu prefilledOrderChannel={orderChannel} action={action} />
+          <ProductMenu prefilledOrderChannel={orderChannel} action={action} isAdmin={isAdmin} />
           :
           urlPath.indexOf('/admin') === 0 ?
             // action === `menu` ?
