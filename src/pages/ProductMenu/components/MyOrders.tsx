@@ -278,6 +278,12 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
         return QRbase64;
     }
 
+    useEffect(() => {
+
+        console.log(`isAdmin? ${isAdmin}`);
+
+    }, [isAdmin]);
+
     return (
         <div className='cartModal'>
             <div className="cartModalScroll">
@@ -312,7 +318,8 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                                             <div id='printIcon' style={{
                                                 color: (showingPrintIcon === faPrint ? `${printerDevice?.gatt?.connected ? `blue` : `grey`}` : (showingPrintIcon === faX ? `red` : `grey`)),
                                                 justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em`,
-                                                zIndex: `100`
+                                                zIndex: `100`,
+                                                transform: 'scale(3) translateX(3em) translateY(-.25em)'
                                             }}
                                                 onClick={async e => {
                                                     e.stopPropagation();

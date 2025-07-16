@@ -40,9 +40,27 @@ function App() {
     }
   }
 
+  const verifyIfIsAdmin = async () => {
+    const accessCode = AccessCodeServiceInstance.getStoredAccessCode();
+    if (accessCode) {
+      const accessCodeIsValid = await AccessCodeServiceInstance.accessCodeIsValid(accessCode);
+      console.log(`accessCodeIsValid: `, accessCodeIsValid);
+      if (!accessCodeIsValid) {
+        // window.location.href = `/admin/access-code?action=requestAccessCode`;
+        return;
+      }
+      const isSuperAdminRefresh = await AccessCodeServiceInstance.isSuperAdmin();
+      setIsSuperAdmin(isSuperAdminRefresh);
+      setAccessCodeSHA512Hash(accessCode);
+      setIsAdmin(accessCodeIsValid);
+    } else {
+      // window.location.href = `/admin/access-code?action=requestAccessCode`;
+    }
+  }
+
   useEffect(() => {
 
-    // verifyAccess();
+    verifyIfIsAdmin();
 
   }, []);
 
@@ -66,6 +84,7 @@ function App() {
 
   useEffect(() => {
 
+    console.log('isAdmin: ', isAdmin);
     console.log('orderChannel: ', orderChannel);
     console.log('action: ', action);
     console.log('collection: ', collection);
@@ -81,7 +100,7 @@ function App() {
       window.location.href = '/admin?action=menu';
     }
 
-  }, [action, orderChannel, collection, id]);
+  }, [action, orderChannel, collection, id, isAdmin]);
 
   return (
     <div className="App">
