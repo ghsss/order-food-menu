@@ -593,29 +593,32 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                                         <div className="column" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000' }}>
                                             <p style={{ fontSize: `1.25em`, color: `#000`, textDecoration: 'none', background: '#fff', padding: '.125em', border: 'solid medium #000', borderRadius: '1em' }}>Total: R$ {order.paymentAmount.toFixed(2).replace('.', ',')}</p>
                                             {
-                                                order.paymentMethod.isOnlinePayment ?
-                                                    <p id='itemPaymentStatus' style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em`, padding: `.5em` }}>
-                                                        <span>Status do pagamento: </span>
-                                                        {getPaymentStatusLabel(order.paymentStatus)}
-                                                    </p>
+                                                !isAdmin ?
+                                                    <></>
                                                     :
-                                                    <p style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em` }} id='itemReceivedPaymentInLocal' className='itemReceivedPaymentInLocal' onClick={async e => {
-                                                        e.stopPropagation();
-                                                        if (!order.receivedPaymentInLocal) {
-                                                            console.log('itemReceivedPaymentInLocal click');
-                                                            await handleReceivedOrderPayment(e, order);
-                                                        } else {
-                                                            window.alert('Pagamento do pedido já foi confirmado.');
-                                                        }
-                                                    }}>
-                                                        <span style={{ color: `#000` }}>{order.receivedPaymentInLocal ? `Status do pagamento: ` : `Recebeu o pagamento? Clique aqui 👇🏻`}</span>
-                                                        {order.receivedPaymentInLocal ? 'PAGO' : 'AGUARDANDO PAGAMENTO ...'}
-                                                        {order.receivedPaymentInLocal ?
-                                                            <FontAwesomeIcon color='green' icon={faCheckCircle} />
-                                                            :
-                                                            <FontAwesomeIcon className='rotateRefresh' color='rgb(182, 182, 182)' icon={faRefresh} />
-                                                        }
-                                                    </p>
+                                                    order.paymentMethod.isOnlinePayment ?
+                                                        <p id='itemPaymentStatus' style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em`, padding: `.5em` }}>
+                                                            <span>Status do pagamento: </span>
+                                                            {getPaymentStatusLabel(order.paymentStatus)}
+                                                        </p>
+                                                        :
+                                                        <p style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em` }} id='itemReceivedPaymentInLocal' className='itemReceivedPaymentInLocal' onClick={async e => {
+                                                            e.stopPropagation();
+                                                            if (!order.receivedPaymentInLocal) {
+                                                                console.log('itemReceivedPaymentInLocal click');
+                                                                await handleReceivedOrderPayment(e, order);
+                                                            } else {
+                                                                window.alert('Pagamento do pedido já foi confirmado.');
+                                                            }
+                                                        }}>
+                                                            <span style={{ color: `#000` }}>{order.receivedPaymentInLocal ? `Status do pagamento: ` : `Recebeu o pagamento? Clique aqui 👇🏻`}</span>
+                                                            {order.receivedPaymentInLocal ? 'PAGO' : 'AGUARDANDO PAGAMENTO ...'}
+                                                            {order.receivedPaymentInLocal ?
+                                                                <FontAwesomeIcon color='green' icon={faCheckCircle} />
+                                                                :
+                                                                <FontAwesomeIcon className='rotateRefresh' color='rgb(182, 182, 182)' icon={faRefresh} />
+                                                            }
+                                                        </p>
                                             }
                                         </div>
                                         {order.items.map((orderItem, orderItemIdx) => {
