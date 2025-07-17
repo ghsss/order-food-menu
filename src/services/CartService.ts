@@ -14,7 +14,13 @@ class CartService {
         const now = new Date();
         now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
         document.cookie =
-          "cart=" + newCart + ";expires=" + now.getUTCDate() + ";path=/;";
+          "cart=" +
+          newCart +
+          ";expires=" +
+          now.getUTCDate() +
+          ";max-age=" +
+          (60 * 60 * 24 * 15) +
+          ";path=/;";
         return this.getStoredCart();
       }
     } else {
@@ -24,7 +30,13 @@ class CartService {
       const now = new Date();
       now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
       document.cookie +=
-        "cart=" + newCartStr + ";expires=" + now.getUTCDate() + ";path=/;";
+        "cart=" +
+        newCartStr +
+        ";expires=" +
+        now.getUTCDate() +
+        ";max-age=" +
+        (60 * 60 * 24 * 15) +
+        ";path=/;";
       return this.getStoredCart();
     }
   }
@@ -41,7 +53,13 @@ class CartService {
         const now = new Date();
         now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
         document.cookie =
-          "cart=" + newCartStr + ";expires=" + now.getUTCDate() + ";path=/;";
+          "cart=" +
+          newCartStr +
+          ";expires=" +
+          now.getUTCDate() +
+          ";max-age=" +
+          (60 * 60 * 24 * 15) +
+          ";path=/;";
       } else {
         const newCart = cartUpdated;
         const newCartStr = JSON.stringify(newCart);
@@ -50,7 +68,13 @@ class CartService {
         const now = new Date();
         now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
         document.cookie +=
-          "cart=" + newCartStr + ";expires=" + now.getUTCDate() + ";path=/;";
+          "cart=" +
+          newCartStr +
+          ";expires=" +
+          now.getUTCDate() +
+          ";max-age=" +
+          (60 * 60 * 24 * 15) +
+          ";path=/;";
         // return this.getStoredCart();
       }
     } else {
@@ -60,13 +84,18 @@ class CartService {
       const now = new Date();
       now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
       document.cookie =
-        "cart=" + newCartStr + ";expires=" + now.getUTCDate() + ";path=/;";
+        "cart=" +
+        newCartStr +
+        ";expires=" +
+        now.getUTCDate() +
+        ";max-age=" +
+        (60 * 60 * 24 * 15) +
+        ";path=/;";
       // return this.getStoredCart();
     }
   }
 
   newCart(): OrderModel {
-
     const expiresAt = new Date();
     expiresAt.setMinutes(expiresAt.getMinutes() + 30);
     expiresAt.setSeconds(expiresAt.getSeconds() + 1);

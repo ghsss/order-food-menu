@@ -1,4 +1,4 @@
-import { faArrowCircleLeft, faCheckCircle, faCopy, faList, faPrint, faX, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { faArrowCircleLeft, faCheckCircle, faCopy, faList, faPrint, faRefresh, faTruck, faX, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import OrderModel, { OrderItemModel } from "../../../models/Order";
@@ -17,10 +17,96 @@ interface MyOrdersPageProps {
 export default function MyOrdersPage({ isAdmin, setShowOrdersPage, setCartSelectedItemIdx, setSelectedItem }: MyOrdersPageProps) {
 
     const [myOrders, setMyOrders] = useState<OrderModel[]>([]);
+    const [showingIcons, setshowingIcons] = useState<{ [index: string]: IconDefinition }>({});
     const [showingPrintIcon, setshowingPrintIcon] = useState<IconDefinition>(faPrint);
     const [printerDevice, setPrinterDevice] = useState<BluetoothDevice | null>(null);
 
     // const [qrCodeBase64DataURL, setQrCodeBase64DataURL] = useState<string | undefined>(undefined);
+
+    function sortOrders(ordersToSort: OrderModel[]) {
+        ordersToSort.sort((a: OrderModel, b: OrderModel) => {
+            if (a.orderNumber && b.orderNumber)
+                return a.orderNumber - b.orderNumber;
+            else
+                return 0;
+        });
+        const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'expired': 4 };
+        ordersToSort.sort((a: OrderModel, b: OrderModel) => {
+            return statusOrderBy[a.paymentStatus] - statusOrderBy[b.paymentStatus];
+        });
+        ordersToSort.sort((a: OrderModel, b: OrderModel) => {
+            const descStatus = ['finished', 'expired'];
+            if (descStatus.includes(a.paymentStatus) && descStatus.includes(b.paymentStatus) && a.paymentStatus === b.paymentStatus) {
+                if (a.orderNumber && b.orderNumber)
+                    return b.orderNumber - a.orderNumber;
+                else
+                    return 0;
+            }
+            return 0;
+        });
+    }
+
+    function updateOrderPaymentReceived(itemToUpdate: OrderModel): boolean {
+
+        if (itemToUpdate._id) {
+
+            const idxToUpdate = myOrders.findIndex(item =>
+                (itemToUpdate._id && item._id?.toLowerCase().includes(itemToUpdate._id.toLowerCase()))
+                || item?.orderNumber === itemToUpdate?.orderNumber
+            )
+
+            if (idxToUpdate > -1) {
+
+                myOrders[idxToUpdate].receivedPaymentInLocal = true;
+
+                console.log('Updated ' + idxToUpdate + ' receivedPaymentInLocal from order list.');
+
+                sortOrders(myOrders);
+
+                setMyOrders(JSON.parse(JSON.stringify(myOrders)));
+
+                // setFilteredProductMenuOptions(productMenuOptions);
+
+                return true
+
+            }
+
+        }
+
+        return false
+
+    }
+
+    function updateOrderFinished(itemToUpdate: OrderModel): boolean {
+
+        if (itemToUpdate._id) {
+
+            const idxToUpdate = myOrders.findIndex(item =>
+                (itemToUpdate._id && item._id?.toLowerCase().includes(itemToUpdate._id.toLowerCase()))
+                || item?.orderNumber === itemToUpdate?.orderNumber
+            )
+
+            if (idxToUpdate > -1) {
+
+                myOrders[idxToUpdate].paymentStatus = 'finished';
+                myOrders[idxToUpdate].companyNotified = false;
+                myOrders[idxToUpdate].customerNotified = false;
+
+                console.log('Updated ' + idxToUpdate + ' from order list.');
+
+                sortOrders(myOrders);
+
+                setMyOrders(JSON.parse(JSON.stringify(myOrders)));
+
+                return true
+
+            }
+
+        }
+
+        return false
+
+    }
 
     async function printOrderReceipt(order: OrderModel) {
 
@@ -213,6 +299,125 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
 
     }
 
+    async function handleCopyItemCode(event: React.MouseEvent<HTMLDivElement, MouseEvent>, item: OrderModel) {
+
+        // Copy the text inside the text field
+        try {
+
+            setTimeout(async () => {
+
+                if (item.paymentStatus !== 'approved') {
+                    window.alert('Só é possível finalizar pedidos em produção, onde o pagamento foi aprovado.');
+                    return;
+                }
+
+                const confirmed = window.confirm(`Confirma a finalização do pedido N°: "${item.orderNumber}" ? `)
+                // setshowingIcon(faCheckCircle);
+                if (confirmed && item.orderNumber && item._id && item.paymentStatus === 'approved') {
+
+                    const finishedOrderId = await OrderServiceInstance.finishOrder(item._id);
+
+                    if (finishedOrderId === item._id && item.orderNumber) {
+
+                        updateOrderFinished(item);
+
+                        setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: faCheckCircle });
+                        setTimeout(() => {
+
+                            window.alert('Pedido finalizado com sucesso.');
+
+                            item.paymentStatus = 'finished';
+                            item.customerNotified = false;
+                            item.companyNotified = false;
+
+                            if (item.orderNumber)
+                                // setshowingIcon(getIconByPaymentStatus(item.paymentStatus));
+                                setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: getIconByPaymentStatus(item.paymentStatus) });
+                            // window.location.href = '/admin?action=list&collection=productType';
+                        }, 50);
+                        // REMOVE ITEM FROM LIST
+
+                        // window.location.href = '/admin?action=list&collection=productType';
+                    }
+                    else {
+                        // window.alert(`Erro ao excluir tipo de produto.`);
+                    }
+
+                } else {
+                    if (confirmed) {
+                        window.alert('Só é possível finalizar pedidos em produção, onde o pagamento foi aprovado.');
+                    }
+                }
+
+            }, 50);
+
+        } catch (error) {
+
+            if (item.orderNumber)
+                setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: faX });
+            // setshowingIcon(faX);
+
+        }
+
+    }
+
+    async function handleReceivedOrderPayment(event: React.MouseEvent<HTMLDivElement, MouseEvent>, item: OrderModel) {
+
+        // Copy the text inside the text field
+        try {
+            setTimeout(async () => {
+
+                if (item.paymentMethod.isOnlinePayment === true) {
+                    window.alert('Só é possível confirmar pagamentos de pedidos com a forma de pagamento na retirada.');
+                    return;
+                }
+
+                const confirmed = window.confirm(`Confirma ter recebido o pagamento do pedido N°: "${item.orderNumber}" ? `)
+                // setshowingIcon(faCheckCircle);
+                if (confirmed && item.orderNumber && item._id && item.receivedPaymentInLocal === false) {
+
+                    const confirmedOrderPaymentId = await OrderServiceInstance.confirmPayment(item._id);
+
+                    if (confirmedOrderPaymentId === item._id) {
+
+                        updateOrderPaymentReceived(item);
+                        setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: faCheckCircle });
+                        setTimeout(() => {
+
+                            window.alert('Pagamento do pedido atualizado com sucesso.');
+
+                            // item.customerNotified = false;
+                            // item.companyNotified = false;
+                            if (item.orderNumber)
+                                setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: getIconByPaymentStatus(item.paymentStatus) });
+                            // setshowingIcon(getIconByPaymentStatus(item.paymentStatus));
+                            // window.location.href = '/admin?action=list&collection=productType';
+                        }, 50);
+                        // REMOVE ITEM FROM LIST
+
+                        // window.location.href = '/admin?action=list&collection=productType';
+                    }
+                    else {
+                        // window.alert(`Erro ao excluir tipo de produto.`);
+                    }
+
+                } else {
+                    if (confirmed) {
+                        window.alert('Pagamento do pedido já foi confirmado.');
+                    }
+                }
+
+            }, 50);
+
+        } catch (error) {
+
+            if (item.orderNumber)
+                setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: faX });
+
+        }
+
+    }
+
     useEffect(() => {
 
         syncMyOrders();
@@ -255,6 +460,13 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
 
     }
 
+    function getIconByPaymentStatus(paymentStatus: string): IconDefinition {
+        return paymentStatus === 'approved' ? faTruck : paymentStatus === 'finished' ? faCheckCircle : paymentStatus === 'pending' ? faRefresh : faX;
+    }
+    function getPaymentStatusLabel(paymentStatus: string): string {
+        const labels: { [index: string]: any } = { "pending": 'PAGAMENTO PENDENTE ❌', 'approved': 'PAGAMENTO APROVADO! ✅', 'finished': 'PAGAMENTO APROVADO! ✅ (PEDIDO FINALIZADO)', 'expired': 'PAGAMENTO EXPIROU ❌' };
+        return labels[paymentStatus];
+    }
     function getOrderStatusLabel(paymentStatus: string): string {
         const labels: { [index: string]: any } = { "pending": 'AGUARDANDO PAGAMENTO ...', 'approved': 'EM PRODUÇÃO 🔥', 'finished': 'CONCLUÍDO ✅', 'expired': 'CANCELADO ❌' };
         return labels[paymentStatus];
@@ -284,6 +496,24 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
 
     }, [isAdmin]);
 
+    useEffect(() => {
+
+        console.log('showingIcons', showingIcons);
+
+    }, [showingIcons]);
+
+    useEffect(() => {
+
+        console.log(`myOrders? ${myOrders}`);
+
+        for (const order of myOrders) {
+            if (order.orderNumber && !Object.keys(showingIcons).includes(order.orderNumber.toString())) {
+                setshowingIcons({ ...showingIcons, [order.orderNumber.toString()]: getIconByPaymentStatus(order.paymentStatus) });
+            }
+        }
+
+    }, [myOrders]);
+
     return (
         <div className='cartModal'>
             <div className="cartModalScroll">
@@ -300,7 +530,8 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                         <FontAwesomeIcon icon={faList} /> {` Meus Pedidos`}
                     </span>
                 </div>
-                <div className="cartContainer" style={{ alignItems: `center`, justifyContent: `center`, flexWrap: `wrap`, width: '100vw', minHeight: '20%', padding: '1em', paddingTop: '1.5em', paddingBottom: '1.5em', marginTop: '1em', marginBottom: '6em' }}>
+                <div className="cartContainer" style={{ alignItems: `center`, justifyContent: `center`, flexWrap: `wrap`, width: '100vw', minHeight: '20%', padding: '1em', paddingTop: '1.5em', paddingBottom: '1.5em', marginTop: '1em', marginBottom: '6em' }}
+                >
                     {/* <span>Meus pedidos</span> */}
                     {myOrders.length === 0 ?
                         <span>Nenhum pedido encontrado</span>
@@ -311,24 +542,39 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                         const date_of_expirationFormatted = new Date(order.pixRequest.date_of_expiration).toLocaleString('pt-BR');
 
                         return (
-                            <div key={`order-${orderIdx}`} className="column">
+                            <div key={`order-${orderIdx}`} className="column"
+                                onClick={async event => {
+                                    await handleCopyItemCode(event, order)
+                                }}>
                                 <div className="column" style={{ margin: `.5em`, paddingBottom: '1.5em', minHeight: `10vh`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '85%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
                                     {
-                                        isAdmin ?
-                                            <div id='printIcon' style={{
-                                                color: (showingPrintIcon === faPrint ? `${printerDevice?.gatt?.connected ? `blue` : `grey`}` : (showingPrintIcon === faX ? `red` : `grey`)),
-                                                justifySelf: `flex-end`, marginRight: `2em`, marginTop: `2em`,
-                                                zIndex: `100`,
-                                                transform: 'scale(3) translateX(3em) translateY(-.25em)'
-                                            }}
-                                                onClick={async e => {
-                                                    e.stopPropagation();
-                                                    await handlePrintItem(order);
+                                        isAdmin && order.orderNumber ?
+                                            <div className="row" style={{ width: '92.5%' }}>
+                                                <div className={showingIcons[order.orderNumber] === faTruck ? 'moveCar copyIcon' : showingIcons[order.orderNumber] === faRefresh ? `rotateRefreshBig copyIcon` : 'copyIcon'} style={{
+                                                    color: (showingIcons[order.orderNumber] === faTruck || showingIcons[order.orderNumber] === faRefresh ? `inherit` : (showingIcons[order.orderNumber] === faX ? `red` : `green`)),
+                                                    justifySelf: `flex-start`, marginLeft: `1em`, marginTop: `2em`,
+                                                    zIndex: `100`,
+                                                    transform: 'scale(3) translateY(-.25em)'
+                                                }} >
+                                                    <FontAwesomeIcon
+                                                        icon={showingIcons[order.orderNumber]}
+                                                    />
+                                                </div>
+                                                <div id='printIcon' style={{
+                                                    color: (showingPrintIcon === faPrint ? `${printerDevice?.gatt?.connected ? `blue` : `grey`}` : (showingPrintIcon === faX ? `red` : `grey`)),
+                                                    justifySelf: `flex-end`, marginRight: `1em`, marginTop: `2em`,
+                                                    zIndex: `100`,
+                                                    transform: 'scale(3)translateY(-.25em)'
                                                 }}
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={showingPrintIcon}
-                                                />
+                                                    onClick={async e => {
+                                                        e.stopPropagation();
+                                                        await handlePrintItem(order);
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={showingPrintIcon}
+                                                    />
+                                                </div>
                                             </div>
                                             :
                                             <></>
@@ -339,8 +585,33 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                                     <br />
                                     <span style={{ color: `#000` }}>{`Status: ${getOrderStatusLabel(order.paymentStatus)}`}</span>
                                     <div className="column" style={{ marginTop: '.5em' }}>
-                                        <div className="row" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000' }}>
+                                        <div className="column" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000' }}>
                                             <p style={{ fontSize: `1.25em`, color: `#000`, textDecoration: 'none', background: '#fff', padding: '.125em', border: 'solid medium #000', borderRadius: '1em' }}>Total: R$ {order.paymentAmount.toFixed(2).replace('.', ',')}</p>
+                                            {
+                                                order.paymentMethod.isOnlinePayment ?
+                                                    <p id='itemPaymentStatus' style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em`, padding: `.5em` }}>
+                                                        <span>Status do pagamento: </span>
+                                                        {getPaymentStatusLabel(order.paymentStatus)}
+                                                    </p>
+                                                    :
+                                                    <p style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em` }} id='itemReceivedPaymentInLocal' className='itemReceivedPaymentInLocal' onClick={async e => {
+                                                        e.stopPropagation();
+                                                        if (!order.receivedPaymentInLocal) {
+                                                            console.log('itemReceivedPaymentInLocal click');
+                                                            await handleReceivedOrderPayment(e, order);
+                                                        } else {
+                                                            window.alert('Pagamento do pedido já foi confirmado.');
+                                                        }
+                                                    }}>
+                                                        <span style={{ color: `#000` }}>{order.receivedPaymentInLocal ? `Status do pagamento: ` : `Recebeu o pagamento? Clique aqui 👇🏻`}</span>
+                                                        {order.receivedPaymentInLocal ? 'PAGO' : 'AGUARDANDO PAGAMENTO ...'}
+                                                        {order.receivedPaymentInLocal ?
+                                                            <FontAwesomeIcon color='green' icon={faCheckCircle} />
+                                                            :
+                                                            <FontAwesomeIcon className='rotateRefresh' color='rgb(182, 182, 182)' icon={faRefresh} />
+                                                        }
+                                                    </p>
+                                            }
                                         </div>
                                         {order.items.map((orderItem, orderItemIdx) => {
 

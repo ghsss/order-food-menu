@@ -307,7 +307,7 @@ class AccessCodeService {
           window.alert("Solicitação de código de acesso não autorizada.");
           // window.alert("Você não é um administrador.");
           // window.close();
-          window.location.href = '/';
+          window.location.href = "/";
           return false;
         }
         window.alert("Erro de conexão ao servidor.");
@@ -366,20 +366,30 @@ class AccessCodeService {
         console.log("accessCodeIsValid.txtResponse: ", txtResponse);
         if (txtResponse.length > 11) {
           // document.cookie = "accessCodeSHA512Hash=;expires=;path=/admin;";
-          const now = new Date();
-          now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
-          document.cookie =
-            "accessCodeSHA512Hash=" +
-            accessCodeSHA512Hash +
-            ";expires=" +
-            now.getUTCDate() +
-            ";path=/admin;";
-          document.cookie =
-            "phone=" +
-            txtResponse +
-            ";expires=" +
-            now.getUTCDate() +
-            ";path=/;";
+          if (this.getStoredAccessCode() !== accessCodeSHA512Hash) {
+            const now = new Date();
+            now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
+            document.cookie =
+              "accessCodeSHA512Hash=" +
+              accessCodeSHA512Hash +
+              ";expires=" +
+              now.getUTCDate() +
+              ";max-age=" +
+              60 * 60 * 24 +
+              ";Secure=true" +
+              ";SameSite=strict" +
+              ";path=/;";
+            document.cookie =
+              "phone=" +
+              txtResponse +
+              ";expires=" +
+              now.getUTCDate() +
+              ";max-age=" +
+              60 * 60 * 24 +
+              ";Secure=true" +
+              ";SameSite=strict" +
+              ";path=/;";
+          }
           return txtResponse.length > 11;
         } else {
           return false;
@@ -392,7 +402,7 @@ class AccessCodeService {
         } else {
           if (response.status === 401 || response.status === 403) {
             window.alert("Você não é um administrador.");
-            window.location.href = "/";
+            // window.location.href = "/";
             return false;
           }
           window.alert("Erro de conexão ao servidor.");
@@ -424,27 +434,39 @@ class AccessCodeService {
         const txtResponse = await response.text();
         console.log("accessCodeIsValid.txtResponse: ", txtResponse);
         if (txtResponse.length > 11) {
-          document.cookie =
-            "accessCodeSHA512Hash=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
-          const now = new Date();
-          now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
-          document.cookie =
-            "accessCodeSHA512Hash=" +
-            accessCodeSHA512Hash +
-            ";expires=" +
-            now.getUTCDate() +
-            ";path=/;";
-          document.cookie =
-            "phone=" +
-            txtResponse +
-            ";expires=" +
-            now.getUTCDate() +
-            ";path=/;";
+          // document.cookie =
+          //   "accessCodeSHA512Hash=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
+          if (this.getStoredAccessCode() !== accessCodeSHA512Hash) {
+            this.deleteStoredAccessCode();
+            const now = new Date();
+            now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
+            document.cookie =
+              "accessCodeSHA512Hash=" +
+              accessCodeSHA512Hash +
+              ";expires=" +
+              now.getUTCDate() +
+              ";max-age=" +
+              60 * 60 * 24 +
+              ";Secure=true" +
+              ";SameSite=strict" +
+              ";path=/;";
+            document.cookie =
+              "phone=" +
+              txtResponse +
+              ";expires=" +
+              now.getUTCDate() +
+              ";max-age=" +
+              60 * 60 * 24 +
+              ";Secure=true" +
+              ";SameSite=strict" +
+              ";path=/;";
+          }
           return txtResponse.length > 11;
         } else {
           return false;
         }
       } else {
+        this.deleteStoredAccessCode();
         window.alert("Erro de conexão ao servidor.");
         window.close();
         return false;
@@ -454,6 +476,11 @@ class AccessCodeService {
       window.close();
       return false;
     }
+  }
+
+  deleteStoredAccessCode() {
+    document.cookie =
+      "accessCodeSHA512Hash=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
   }
 }
 
