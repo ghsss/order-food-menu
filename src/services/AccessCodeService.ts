@@ -401,8 +401,6 @@ class AccessCodeService {
           return false;
         } else {
           if (response.status === 401 || response.status === 403) {
-            window.alert("Você não é um administrador.");
-            // window.location.href = "/";
             return false;
           }
           window.alert("Erro de conexão ao servidor.");
@@ -467,8 +465,10 @@ class AccessCodeService {
         }
       } else {
         this.deleteStoredAccessCode();
+        if (response.status === 401 || response.status === 403) {
+          return false;
+        }
         window.alert("Erro de conexão ao servidor.");
-        window.close();
         return false;
       }
     } catch (error) {

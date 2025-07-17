@@ -27,6 +27,10 @@ function App() {
         const accessCodeIsValid = await AccessCodeServiceInstance.accessCodeIsValid(accessCode);
         console.log(`accessCodeIsValid: `, accessCodeIsValid);
         if (!accessCodeIsValid) {
+          // if (response.status === 403) {
+          // return false;
+          // }
+          window.alert("Você não é um administrador.");
           window.location.href = `/admin/access-code?action=requestAccessCode`;
           return;
         }
@@ -47,6 +51,10 @@ function App() {
       console.log(`accessCodeIsValid: `, accessCodeIsValid);
       if (!accessCodeIsValid) {
         // window.location.href = `/admin/access-code?action=requestAccessCode`;
+        const isCustomerAccessValid = await AccessCodeServiceInstance.customerAccessCodeIsValid(accessCode);
+        if (!isCustomerAccessValid) {
+          AccessCodeServiceInstance.deleteStoredAccessCode();
+        }
         return;
       }
       const isSuperAdminRefresh = await AccessCodeServiceInstance.isSuperAdmin();
