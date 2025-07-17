@@ -321,7 +321,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
 
                         updateOrderFinished(item);
 
-                        setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: faCheckCircle });
+                        setshowingIcons({ ...showingIcons, [item.orderNumber.toString()]: faCheckCircle });
                         setTimeout(() => {
 
                             window.alert('Pedido finalizado com sucesso.');
@@ -332,7 +332,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
 
                             if (item.orderNumber)
                                 // setshowingIcon(getIconByPaymentStatus(item.paymentStatus));
-                                setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: getIconByPaymentStatus(item.paymentStatus) });
+                                setshowingIcons({ ...showingIcons, [item.orderNumber.toString()]: getIconByPaymentStatus(item.paymentStatus) });
                             // window.location.href = '/admin?action=list&collection=productType';
                         }, 50);
                         // REMOVE ITEM FROM LIST
@@ -354,7 +354,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
         } catch (error) {
 
             if (item.orderNumber)
-                setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: faX });
+                setshowingIcons({ ...showingIcons, [item.orderNumber.toString()]: faX });
             // setshowingIcon(faX);
 
         }
@@ -381,7 +381,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                     if (confirmedOrderPaymentId === item._id) {
 
                         updateOrderPaymentReceived(item);
-                        setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: faCheckCircle });
+                        setshowingIcons({ ...showingIcons, [item.orderNumber.toString()]: faCheckCircle });
                         setTimeout(() => {
 
                             window.alert('Pagamento do pedido atualizado com sucesso.');
@@ -389,7 +389,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                             // item.customerNotified = false;
                             // item.companyNotified = false;
                             if (item.orderNumber)
-                                setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: getIconByPaymentStatus(item.paymentStatus) });
+                                setshowingIcons({ ...showingIcons, [item.orderNumber.toString()]: getIconByPaymentStatus(item.paymentStatus) });
                             // setshowingIcon(getIconByPaymentStatus(item.paymentStatus));
                             // window.location.href = '/admin?action=list&collection=productType';
                         }, 50);
@@ -412,7 +412,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
         } catch (error) {
 
             if (item.orderNumber)
-                setshowingIcons({ ...setshowingIcons, [item.orderNumber.toString()]: faX });
+                setshowingIcons({ ...showingIcons, [item.orderNumber.toString()]: faX });
 
         }
 
@@ -445,6 +445,11 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                     }
                 }
                 setMyOrders([...myOrdersRef]);
+                for (const order of myOrdersRef) {
+                    if (order.orderNumber && !Object.keys(showingIcons).includes(order.orderNumber.toString())) {
+                        setshowingIcons({ ...showingIcons, [order.orderNumber.toString()]: getIconByPaymentStatus(order.paymentStatus) });
+                    }
+                }
             }
 
             await waitSeconds(60);
