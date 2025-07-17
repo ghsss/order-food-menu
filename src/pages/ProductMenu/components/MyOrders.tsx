@@ -555,14 +555,14 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                                     {
                                         isAdmin && order.orderNumber ?
                                             <div className="row" style={{ width: '92.5%' }}>
-                                                <div className={showingIcons[order.orderNumber] === faTruck ? 'moveCar copyIcon' : showingIcons[order.orderNumber] === faRefresh ? `rotateRefreshBig copyIcon` : 'copyIcon'} style={{
-                                                    color: (showingIcons[order.orderNumber] === faTruck || showingIcons[order.orderNumber] === faRefresh ? `inherit` : (showingIcons[order.orderNumber] === faX ? `red` : `green`)),
+                                                <div className={showingIcons[order.orderNumber.toString()] === faTruck ? 'moveCar copyIcon' : showingIcons[order.orderNumber.toString()] === faRefresh ? `rotateRefreshBig copyIcon` : 'copyIcon'} style={{
+                                                    color: (showingIcons[order.orderNumber.toString()] === faTruck || showingIcons[order.orderNumber.toString()] === faRefresh ? `inherit` : (showingIcons[order.orderNumber.toString()] === faX ? `red` : `green`)),
                                                     justifySelf: `flex-start`, marginLeft: `1em`, marginTop: `2em`,
                                                     zIndex: `100`,
                                                     transform: 'scale(3) translateY(-.25em)'
                                                 }} >
                                                     <FontAwesomeIcon
-                                                        icon={showingIcons[order.orderNumber]}
+                                                        icon={showingIcons[order.orderNumber.toString()]}
                                                     />
                                                 </div>
                                                 <div id='printIcon' style={{
