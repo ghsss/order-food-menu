@@ -549,7 +549,8 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                         return (
                             <div key={`order-${orderIdx}`} className="column"
                                 onClick={async event => {
-                                    await handleCopyItemCode(event, order)
+                                    if (isAdmin)
+                                        await handleCopyItemCode(event, order)
                                 }}>
                                 <div className="column" style={{ margin: `.5em`, paddingBottom: '1.5em', minHeight: `10vh`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '85%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
                                     {
