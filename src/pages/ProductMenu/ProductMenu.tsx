@@ -480,7 +480,15 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
           setCart(JSON.parse(JSON.stringify(cart)));
         }
 
-        goToCartPage()
+        if(isAdmin) {
+          
+          window.location.href = '/?orderChannel=WebSite'
+
+        } else {
+
+          goToCartPage();
+
+        }
 
       }
 
