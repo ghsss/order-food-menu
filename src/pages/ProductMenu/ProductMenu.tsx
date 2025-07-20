@@ -482,7 +482,8 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
 
         if(isAdmin) {
           
-          window.location.href = '/?orderChannel=WebSite'
+          // window.location.href = '/?orderChannel=WebSite'
+          setSelectedItem(null);
 
         } else {
 
