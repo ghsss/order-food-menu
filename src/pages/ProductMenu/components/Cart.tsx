@@ -210,6 +210,8 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
             return;
         }
 
+        cart.pixRequest.transaction_amount = cart.paymentAmount;
+
         const confirmed = window.confirm(`Confirma o pedido?\n\n${getOrderResume(cart)}`)
         // setshowingIcon(faCheckCircle);
         if (confirmed) {
