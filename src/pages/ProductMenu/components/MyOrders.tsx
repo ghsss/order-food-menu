@@ -559,7 +559,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                                 }}>
                                 <div className="column" style={{ margin: `.5em`, paddingBottom: '1.5em', minHeight: `10vh`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '85%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
                                     {
-                                        isAdmin && order.orderNumber ?
+                                        isAdmin && order.orderNumber && Object.keys(showingIcons).includes(order.orderNumber.toString()) ?
                                             <div className="row" style={{ width: '92.5%' }}>
                                                 <div className={showingIcons[order.orderNumber.toString()] === faTruck ? 'moveCar copyIcon' : showingIcons[order.orderNumber.toString()] === faRefresh ? `rotateRefreshBig copyIcon` : 'copyIcon'} style={{
                                                     color: (showingIcons[order.orderNumber.toString()] === faTruck || showingIcons[order.orderNumber.toString()] === faRefresh ? `inherit` : (showingIcons[order.orderNumber.toString()] === faX ? `red` : `green`)),
