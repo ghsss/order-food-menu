@@ -348,11 +348,11 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount.toFixed(2).replace(`.`, `, `)}
   }
 
   function getPaymentStatusLabel(paymentStatus: string): string {
-    const labels: { [index: string]: any } = { "pending": 'PAGAMENTO PENDENTE ❌', 'approved': 'PAGAMENTO APROVADO! ✅', 'finished': 'PAGAMENTO APROVADO! ✅ (PEDIDO FINALIZADO)', 'expired': 'PAGAMENTO EXPIROU ❌', 'canceled': 'PAGAMENTO EXPIROU ❌' };
+    const labels: { [index: string]: any } = { "pending": 'PAGAMENTO PENDENTE ❌', 'approved': 'PAGAMENTO APROVADO! ✅', 'finished': 'PAGAMENTO APROVADO! ✅ (PEDIDO FINALIZADO)', 'expired': 'PAGAMENTO EXPIROU ❌', 'canceled': 'PAGAMENTO EXPIROU ❌', 'cancelled': 'PAGAMENTO EXPIROU ❌' };
     return labels[paymentStatus];
   }
   function getOrderStatusLabel(paymentStatus: string): string {
-    const labels: { [index: string]: any } = { "pending": 'AGUARDANDO PAGAMENTO ...', 'approved': 'EM PRODUÇÃO 🔥', 'finished': 'CONCLUÍDO ✅', 'expired': 'CANCELADO ❌', 'canceled': 'CANCELADO ❌' };
+    const labels: { [index: string]: any } = { "pending": 'AGUARDANDO PAGAMENTO ...', 'approved': 'EM PRODUÇÃO 🔥', 'finished': 'CONCLUÍDO ✅', 'expired': 'CANCELADO ❌', 'canceled': 'CANCELADO ❌', 'cancelled': 'CANCELADO ❌' };
     return labels[paymentStatus];
   }
 
