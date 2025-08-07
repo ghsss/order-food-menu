@@ -445,11 +445,19 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                     }
                 }
                 setMyOrders([...myOrdersRef]);
+                // for (const order of myOrdersRef) {
+                //     if (order.orderNumber && !Object.keys(showingIcons).includes(order.orderNumber.toString())) {
+                //         setshowingIcons({ ...showingIcons, [order.orderNumber.toString()]: getIconByPaymentStatus(order.paymentStatus) });
+                //     }
+                // }
+                const oldShowingIconsRef = showingIcons;
                 for (const order of myOrdersRef) {
                     if (order.orderNumber && !Object.keys(showingIcons).includes(order.orderNumber.toString())) {
-                        setshowingIcons({ ...showingIcons, [order.orderNumber.toString()]: getIconByPaymentStatus(order.paymentStatus) });
+                        oldShowingIconsRef[order.orderNumber.toString()] = getIconByPaymentStatus(order.paymentStatus);
+                        // setshowingIcons({ ...showingIcons, [order.orderNumber.toString()]: getIconByPaymentStatus(order.paymentStatus) });
                     }
                 }
+                setshowingIcons({ ...oldShowingIconsRef });
             }
 
             await waitSeconds(60);
