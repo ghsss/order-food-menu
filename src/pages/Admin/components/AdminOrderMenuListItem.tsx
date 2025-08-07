@@ -418,7 +418,7 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount.toFixed(2).replace(`.`, `, `)}
         {
           item.paymentMethod.isOnlinePayment ?
             <p id='itemPaymentStatus'>
-              <span>Status do pagamento: </span>
+              <span style={{ color: '#000' }}>Status do pagamento: </span>
               {getPaymentStatusLabel(item.paymentStatus)}
             </p>
             :
@@ -431,7 +431,7 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount.toFixed(2).replace(`.`, `, `)}
                 window.alert('Pagamento do pedido já foi confirmado.');
               }
             }}>
-              <span>{item.receivedPaymentInLocal ? `Status do pagamento: ` : `Recebeu o pagamento? Clique aqui 👇🏻`}</span>
+              <span style={{ color: '#000' }}>{item.receivedPaymentInLocal ? `Status do pagamento: ` : `Recebeu o pagamento? Clique aqui 👇🏻`}</span>
               {item.receivedPaymentInLocal ? 'PAGO' : 'AGUARDANDO PAGAMENTO ...'}
               {item.receivedPaymentInLocal ?
                 <FontAwesomeIcon color='green' icon={faCheckCircle} />

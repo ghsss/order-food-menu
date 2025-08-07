@@ -604,7 +604,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                                                     :
                                                     order.paymentMethod.isOnlinePayment ?
                                                         <p id='itemPaymentStatus' style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em`, padding: `.5em` }}>
-                                                            <span>Status do pagamento: </span>
+                                                            <span style={{ color: '#000' }}>Status do pagamento: </span>
                                                             {getPaymentStatusLabel(order.paymentStatus)}
                                                         </p>
                                                         :
