@@ -469,11 +469,11 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
         return paymentStatus === 'approved' ? faTruck : paymentStatus === 'finished' ? faCheckCircle : paymentStatus === 'pending' ? faRefresh : faX;
     }
     function getPaymentStatusLabel(paymentStatus: string): string {
-        const labels: { [index: string]: any } = { "pending": 'PAGAMENTO PENDENTE ❌', 'approved': 'PAGAMENTO APROVADO! ✅', 'finished': 'PAGAMENTO APROVADO! ✅ (PEDIDO FINALIZADO)', 'expired': 'PAGAMENTO EXPIROU ❌' };
+        const labels: { [index: string]: any } = { "pending": 'PAGAMENTO PENDENTE ❌', 'approved': 'PAGAMENTO APROVADO! ✅', 'finished': 'PAGAMENTO APROVADO! ✅ (PEDIDO FINALIZADO)', 'expired': 'PAGAMENTO EXPIROU ❌', 'canceled': 'PAGAMENTO EXPIROU ❌' };
         return labels[paymentStatus];
     }
     function getOrderStatusLabel(paymentStatus: string): string {
-        const labels: { [index: string]: any } = { "pending": 'AGUARDANDO PAGAMENTO ...', 'approved': 'EM PRODUÇÃO 🔥', 'finished': 'CONCLUÍDO ✅', 'expired': 'CANCELADO ❌' };
+        const labels: { [index: string]: any } = { "pending": 'AGUARDANDO PAGAMENTO ...', 'approved': 'EM PRODUÇÃO 🔥', 'finished': 'CONCLUÍDO ✅', 'expired': 'CANCELADO ❌', 'canceled': 'CANCELADO ❌' };
         return labels[paymentStatus];
     }
 
