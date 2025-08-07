@@ -510,12 +510,14 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
     useEffect(() => {
 
         console.log(`myOrders? ${myOrders}`);
-
+        const oldShowingIconsRef = showingIcons;
         for (const order of myOrders) {
             if (order.orderNumber && !Object.keys(showingIcons).includes(order.orderNumber.toString())) {
-                setshowingIcons({ ...showingIcons, [order.orderNumber.toString()]: getIconByPaymentStatus(order.paymentStatus) });
+                oldShowingIconsRef[order.orderNumber.toString()] = getIconByPaymentStatus(order.paymentStatus);
+                // setshowingIcons({ ...showingIcons, [order.orderNumber.toString()]: getIconByPaymentStatus(order.paymentStatus) });
             }
         }
+        setshowingIcons({ ...oldShowingIconsRef });
 
     }, [myOrders]);
 
