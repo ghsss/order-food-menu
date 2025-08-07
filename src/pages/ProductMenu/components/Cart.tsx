@@ -429,6 +429,11 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                         <FontAwesomeIcon icon={faCartShopping} /> {` Carrinho`}
                     </span>
                 </div>
+                <div className='row' style={{ paddingBottom: `1em`, alignItems: `center`, justifyContent: `center`, zIndex: '100' }}>
+                    <span style={{ fontSize: `1.25em`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', color: '#000', padding: '.5em' }}>
+                        {`Tempo de preparo do pedido: 15 à 30 minutos`}
+                    </span>
+                </div>
                 <div className="column" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '1em' }}>
                     <div className="cartContainer" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '0' }}>
                         <span style={{ marginTop: '1em', justifySelf: 'center', width: '90%', background: 'rgba(251, 0, 0, 1)', border: 'solid medium #000', borderRadius: '1em', color: '#fff', padding: '.5em' }}>
