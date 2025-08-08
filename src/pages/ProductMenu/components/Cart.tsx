@@ -678,6 +678,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                                 marginLeft: '.5em',
                                                 marginRight: '.5em',
                                             }}
+                                            disabled={true}
                                             onChange={e => {
                                                 if (typeof cart === 'object') {
                                                     const value = e.target.value.replaceAll(' ', '').replace('+', '').replace('-', '') || '';
