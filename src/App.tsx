@@ -112,12 +112,15 @@ function App() {
         if (accessCodeIsValid) {
           if (action === 'cart') {
             window.location.href = `/?action=cart`;
+            return;
           } else {
-            window.location.href = `/?action=orders`;
+            if (action === 'orders') {
+              window.location.href = `/?action=orders`;
+              return;
+            }
           }
-        } else {
-          window.location.href = `/`;
         }
+        window.location.href = `/`;
       }
       verifyInputtedAccessCode();
     }
