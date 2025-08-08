@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import Menu from './pages/Menu/';
-import './CustomerAccessCode.css';
+import './Login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft, faArrowLeft, faArrowRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 import AccessCodeServiceInstance from '../../../../services/AccessCodeService';
@@ -156,6 +156,7 @@ function Login({ company, showCartPage, showOrdersPage, setShowCartPage, setShow
             const requestAccessCodeTxt = `Envie a mensagem como está para receber seu acesso ⬇️
 
 ** CODIGO-DE-ACESSO **`;
+
             window.location.href = `https://wa.me/${company.chatId}?text=${requestAccessCodeTxt}`;
             // if (receiveThrough === 'whatsapp') {
             //   if (phone.length > 11) {
