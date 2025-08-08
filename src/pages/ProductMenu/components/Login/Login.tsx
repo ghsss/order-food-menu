@@ -153,7 +153,7 @@ function Login({ robot, showCartPage, showOrdersPage, setShowCartPage, setShowOr
         <button className='submitButton' type="submit"
           // style={{background: "orange"}}
           onClick={async e => {
-            const requestAccessCodeTxt = `Envie a mensagem como está para receber seu acesso ⬇️
+            const requestAccessCodeTxt = `Envie a mensagem como está para receber seu acesso.\n
 
 ** CODIGO-DE-ACESSO **`;
 
