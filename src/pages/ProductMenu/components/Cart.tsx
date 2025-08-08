@@ -532,7 +532,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                         );
                                     })}
                                 </div>
-                                <div className="column" style={{ paddingTop: '2em', paddingBottom: '2em' }}>
+                                <div className="column" style={{ border: 'solid thin #000', borderLeftWidth: '0', borderRightWidth: '0', paddingTop: '2em', paddingBottom: '2em' }}>
                                     <div className="column" style={{ background: '#fff', border: 'solid thin #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', paddingBottom: `1em`, color: '#000', textDecoration: 'none' }}>
                                         <p style={{ background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.25em', color: '#000', textDecoration: 'none' }}>Método de pagamento: {cart.paymentMethod.name}</p>
                                         {paymentMethods.map((paymentMethod, paymentMethodIdx) => {
@@ -583,7 +583,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                     </div>
                                 </div>
                                 {cart.paymentMethod.isOnlinePayment ?
-                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', paddingTop: '1em', paddingBottom: '1em' }}>
+                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', borderLeftWidth: '0', borderRightWidth: '0', paddingTop: '1em', paddingBottom: '1em' }}>
                                         <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid thin #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
                                             <label
                                                 htmlFor="cpfCnpj"
@@ -626,7 +626,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                     <></>
                                 }
                                 {cart.paymentMethod.isOnlinePayment ?
-                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', paddingTop: '1em', paddingBottom: '1em' }}>
+                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', borderLeftWidth: '0', borderRightWidth: '0', paddingTop: '1em', paddingBottom: '1em' }}>
                                         <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
                                             <label
                                                 htmlFor="email"
@@ -664,7 +664,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                     :
                                     <></>
                                 }
-                                <div className="column" style={{ alignItems: 'center', justifyContent: 'center', borderBottomRightRadius: '2em', borderBottomLeftRadius: '2em', paddingTop: '1em', paddingBottom: '1em' }}>
+                                <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', borderLeftWidth: '0', borderRightWidth: '0', borderBottomRightRadius: '2em', borderBottomLeftRadius: '2em', paddingTop: '1em', paddingBottom: '1em' }}>
                                     <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
                                         <label
                                             htmlFor="phone"
