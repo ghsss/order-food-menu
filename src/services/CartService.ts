@@ -19,7 +19,7 @@ class CartService {
           ";expires=" +
           now.getUTCDate() +
           ";max-age=" +
-          (60 * 60 * 24 * 15) +
+          (60 * 60 * 24) +
           ";path=/;";
         return this.getStoredCart();
       }
@@ -35,7 +35,7 @@ class CartService {
         ";expires=" +
         now.getUTCDate() +
         ";max-age=" +
-        (60 * 60 * 24 * 15) +
+        (60 * 60 * 24) +
         ";path=/;";
       return this.getStoredCart();
     }
@@ -58,7 +58,7 @@ class CartService {
           ";expires=" +
           now.getUTCDate() +
           ";max-age=" +
-          (60 * 60 * 24 * 15) +
+          (60 * 60 * 24) +
           ";path=/;";
       } else {
         const newCart = cartUpdated;
@@ -73,7 +73,7 @@ class CartService {
           ";expires=" +
           now.getUTCDate() +
           ";max-age=" +
-          (60 * 60 * 24 * 15) +
+          (60 * 60 * 24) +
           ";path=/;";
         // return this.getStoredCart();
       }
@@ -89,7 +89,7 @@ class CartService {
         ";expires=" +
         now.getUTCDate() +
         ";max-age=" +
-        (60 * 60 * 24 * 15) +
+        (60 * 60 * 24) +
         ";path=/;";
       // return this.getStoredCart();
     }
