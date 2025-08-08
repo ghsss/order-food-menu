@@ -533,8 +533,8 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                     })}
                                 </div>
                                 <div className="column" style={{ border: 'solid thin #000', paddingTop: '2em', paddingBottom: '2em' }}>
-                                    <div className="column" style={{ background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', paddingBottom: `1em`, color: '#000', textDecoration: 'none' }}>
-                                        <p style={{ background: '#fff', border: 'solid medium #000', borderLeftWidth: '0', borderRightWidth: '0', borderRadius: '1em', maxWidth: '90%', padding: '.25em', color: '#000', textDecoration: 'none' }}>Método de pagamento: {cart.paymentMethod.name}</p>
+                                    <div className="column" style={{ background: '#fff', border: 'solid medium #000', borderLeftWidth: '0', borderRightWidth: '0', borderRadius: '1em', maxWidth: '90%', padding: '.125em', paddingBottom: `1em`, color: '#000', textDecoration: 'none' }}>
+                                        <p style={{ background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.25em', color: '#000', textDecoration: 'none' }}>Método de pagamento: {cart.paymentMethod.name}</p>
                                         {paymentMethods.map((paymentMethod, paymentMethodIdx) => {
                                             return (
                                                 <div className="row">
