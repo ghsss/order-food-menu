@@ -627,7 +627,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                 }
                                 {cart.paymentMethod.isOnlinePayment ?
                                     <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', borderLeftWidth: '0', borderRightWidth: '0', paddingTop: '1em', paddingBottom: '1em' }}>
-                                        <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
+                                        <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid thin #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
                                             <label
                                                 htmlFor="email"
                                                 style={{ color: '#000' }}
@@ -665,7 +665,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                     <></>
                                 }
                                 <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', borderLeftWidth: '0', borderRightWidth: '0', borderBottomWidth: '0', borderBottomRightRadius: '2em', borderBottomLeftRadius: '2em', paddingTop: '1em', paddingBottom: '1em' }}>
-                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
+                                    <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid thin #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
                                         <label
                                             htmlFor="phone"
                                             style={{ color: '#000' }}
