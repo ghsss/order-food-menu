@@ -13,6 +13,7 @@ function App() {
   const [searchParams, setSearchParams] = useState<URLSearchParams>(new URLSearchParams(window.location.search));
   const [action, setAction] = useState<string>('');
   const [orderChannel, setOrderChannel] = useState<string>('');
+  const [accessCode, setAccessCode] = useState<string>(searchParams?.get('accessCode') || '');
   const [id, setId] = useState<string>(searchParams?.get('id') || '');
   const [collection, setCollection] = useState<string>(searchParams?.get('collection') || '');
   const [filter, setFilter] = useState<string>(searchParams?.get('filter') || '');
@@ -82,6 +83,7 @@ function App() {
         console.log('searchParams: ', searchParams?.keys());
         setAction(searchParams?.get('action') || 'order-bot');
         setOrderChannel(searchParams?.get('orderChannel') || 'WhatsApp');
+        setAccessCode(searchParams?.get('accessCode') || '');
         setId(searchParams?.get('id') || '');
         setCollection(searchParams?.get('collection') || '');
         setFilter(searchParams?.get('filter') || '');
@@ -104,11 +106,26 @@ function App() {
       // }
       // document.getElementById('listScroll')?.focus({ preventScroll: true });
     }
+    if (accessCode.length > 0) {
+      const verifyInputtedAccessCode = async () => {
+        const accessCodeIsValid = await AccessCodeServiceInstance.customerAccessCodeIsValid(accessCode);
+        if (accessCodeIsValid) {
+          if (action === 'cart') {
+            window.location.href = `/?action=cart`;
+          } else {
+            window.location.href = `/?action=orders`;
+          }
+        } else {
+          window.location.href = `/`;
+        }
+      }
+      verifyInputtedAccessCode();
+    }
     if (collection === 'user' && typeof isSuperAdmin !== 'undefined' && isSuperAdmin === false) {
       window.location.href = '/admin?action=menu';
     }
 
-  }, [action, orderChannel, collection, id, isAdmin]);
+  }, [action, orderChannel, collection, id, accessCode, isAdmin]);
 
   return (
     <div className="App">

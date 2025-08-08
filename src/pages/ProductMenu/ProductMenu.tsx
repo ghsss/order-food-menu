@@ -22,6 +22,7 @@ import MyOrdersPage from './components/MyOrders';
 import AccessCodeServiceInstance from '../../services/AccessCodeService';
 import CustomerAccessCodePage from '../Admin/CustomerAccessCode/CustomerAccessCode';
 import LoadingPage from '../Loading';
+import Login from './components/Login/Login';
 
 const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedido.');
 
@@ -480,8 +481,8 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
           setCart(JSON.parse(JSON.stringify(cart)));
         }
 
-        if(isAdmin) {
-          
+        if (isAdmin) {
+
           // window.location.href = '/?orderChannel=WebSite'
           setSelectedItem(null);
 
@@ -1106,8 +1107,9 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
     );
   } else if ((showCartPage === true) && typeof cart === 'object') {
 
-    if (!accessCodeIsSet) {
-      return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
+    if (!accessCodeIsSet && company) {
+      // return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
+      return <Login company={company} showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
     }
 
     return (
@@ -1118,8 +1120,9 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
     );
   } else if ((showOrdersPage === true) && typeof cart === 'object') {
 
-    if (!accessCodeIsSet) {
-      return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
+    if (!accessCodeIsSet && company) {
+      // return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
+      return <Login company={company} showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
     }
 
     return (
