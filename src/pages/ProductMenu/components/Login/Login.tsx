@@ -159,7 +159,9 @@ function Login({ robot, showCartPage, showOrdersPage, setShowCartPage, setShowOr
                               ——————————————
                               ** CONTEXTO: ${showCartPage? 'CARRINHO' : 'PEDIDOS'} **
                               ——————————————
-                              ** CODIGO-DE-ACESSO **`;
+                              ** CODIGO-DE-ACESSO **
+                              ——————————————
+                              Envie a mensagem como está para receber seu acesso.`;
 
             window.location.href = `https://wa.me/${robot.phone}?text=${requestAccessCodeTxt}`;
             // if (receiveThrough === 'whatsapp') {
