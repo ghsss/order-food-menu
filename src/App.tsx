@@ -106,7 +106,7 @@ function App() {
       // }
       // document.getElementById('listScroll')?.focus({ preventScroll: true });
     }
-    if (accessCode.length > 0) {
+    if (accessCode.length > 0 && (action === 'cart' || action === 'orders')) {
       const verifyInputtedAccessCode = async () => {
         const accessCodeIsValid = await AccessCodeServiceInstance.customerAccessCodeIsValid(accessCode);
         if (accessCodeIsValid) {
