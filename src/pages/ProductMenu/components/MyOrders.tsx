@@ -551,7 +551,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                     </span>
                 </div>
                 <div className="column" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '1em' }}>
-                    <div className="cartContainer" style={{ alignItems: `center`, justifyContent: `center`, flexWrap: `wrap`, maxWidth: '90%', minHeight: '20%', padding: '1em', paddingTop: '1.5em', paddingBottom: '1.5em', marginTop: '1em', marginBottom: '6em' }}
+                    <div className="cartContainer" style={{ alignItems: `center`, justifyContent: `center`, flexWrap: `wrap`, maxWidth: '85%', minHeight: '20%', padding: '1em', paddingTop: '1.5em', paddingBottom: '1.5em', marginTop: '1em', marginBottom: '6em' }}
                     >
                         {/* <span>Meus pedidos</span> */}
                         {myOrders.length === 0 ?
