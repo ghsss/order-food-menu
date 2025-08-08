@@ -1107,9 +1107,9 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
     );
   } else if ((showCartPage === true) && typeof cart === 'object') {
 
-    if (!accessCodeIsSet && company) {
+    if (!accessCodeIsSet && robot) {
       // return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
-      return <Login company={company} showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
+      return <Login robot={robot} showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
     }
 
     return (
@@ -1120,9 +1120,9 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
     );
   } else if ((showOrdersPage === true) && typeof cart === 'object') {
 
-    if (!accessCodeIsSet && company) {
+    if (!accessCodeIsSet && robot) {
       // return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
-      return <Login company={company} showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
+      return <Login robot={robot} showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
     }
 
     return (

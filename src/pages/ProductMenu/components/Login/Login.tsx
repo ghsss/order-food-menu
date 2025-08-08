@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft, faArrowLeft, faArrowRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 import AccessCodeServiceInstance from '../../../../services/AccessCodeService';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import CompanyModel from '../../../../models/Company';
+import RobotModel from '../../../../models/Robot';
 // import ProductMenu from './pages/ProductMenu/ProductMenu';
 // import AdminMenu from './pages/Admin/AdminMenu';
 
@@ -17,14 +17,14 @@ const requestNewAccesCodeMinIntervalInMs = 1000 * 60;
 // const requestNewAccesCodeMinIntervalInMs = 1000 * 3;
 
 interface LoginProps {
-  company: CompanyModel;
+  robot: RobotModel;
   showCartPage: boolean;
   showOrdersPage: boolean;
   setShowCartPage: (show: boolean) => void;
   setShowOrdersPage: (show: boolean) => void;
 }
 
-function Login({ company, showCartPage, showOrdersPage, setShowCartPage, setShowOrdersPage }: LoginProps) {
+function Login({ robot, showCartPage, showOrdersPage, setShowCartPage, setShowOrdersPage }: LoginProps) {
 
   const [lastAccessCodeRequestTimestamp, setLastAccessCodeRequestTimestamp] = useState<number>();
   const [requestedAccessCodeCount, setRequestedAccessCodeCount] = useState<number>(0);
@@ -157,7 +157,7 @@ function Login({ company, showCartPage, showOrdersPage, setShowCartPage, setShow
 
 ** CODIGO-DE-ACESSO **`;
 
-            window.location.href = `https://wa.me/${company.chatId}?text=${requestAccessCodeTxt}`;
+            window.location.href = `https://wa.me/${robot.phone}?text=${requestAccessCodeTxt}`;
             // if (receiveThrough === 'whatsapp') {
             //   if (phone.length > 11) {
             //     const requestedSuccessfully = await AccessCodeServiceInstance.requestAccessCode(phone);
