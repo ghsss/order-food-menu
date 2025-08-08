@@ -153,8 +153,8 @@ function Login({ robot, showCartPage, showOrdersPage, setShowCartPage, setShowOr
         <button className='submitButton' type="submit"
           // style={{background: "orange"}}
           onClick={async e => {
-            const requestAccessCodeTxt = `Envie a mensagem como está para receber seu acesso. \n\r
- ** CODIGO-DE-ACESSO **`;
+            const requestAccessCodeTxt = `Envie a mensagem como está para receber seu acesso. 
+\n\r\n ** CODIGO-DE-ACESSO **`;
 
             window.location.href = `https://wa.me/${robot.phone}?text=${requestAccessCodeTxt}`;
             // if (receiveThrough === 'whatsapp') {
