@@ -794,7 +794,8 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
 
   }
 
-  if ((selectedItem === null && !showCartPage) || (!showOrdersPage && !companyIsOpenNow())) {
+  if ((selectedItem === null && !showCartPage) ||
+    (selectedItem === null && !showCartPage && !showOrdersPage && !companyIsOpenNow())) {
 
     return (
       <div className="ProductMenuContainer">
