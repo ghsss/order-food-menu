@@ -584,7 +584,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                 </div>
                                 {cart.paymentMethod.isOnlinePayment ?
                                     <div className="column" style={{ alignItems: 'center', justifyContent: 'center', border: 'solid thin #000', paddingTop: '1em', paddingBottom: '1em' }}>
-                                        <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', border: 'solid medium #000', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
+                                        <div className="column" style={{ alignItems: 'center', justifyContent: 'center', background: '#fff', maxWidth: '80%', borderRadius: '1em', padding: '.25em', paddingBottom: '.75em' }}>
                                             <label
                                                 htmlFor="cpfCnpj"
                                                 style={{ color: '#000' }}
