@@ -550,7 +550,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                         {`Tempo de preparo do pedido: 15 à 30 minutos`}
                     </span>
                 </div>
-                <div className="cartContainer" style={{ alignItems: `center`, justifyContent: `center`, flexWrap: `wrap`, width: '100vw', minHeight: '20%', padding: '1em', paddingTop: '1.5em', paddingBottom: '1.5em', marginTop: '1em', marginBottom: '6em' }}
+                <div className="cartContainer" style={{ alignItems: `center`, justifyContent: `center`, flexWrap: `wrap`, width: '100vw', maxWidth: '90%', minHeight: '20%', padding: '1em', paddingTop: '1.5em', paddingBottom: '1.5em', marginTop: '1em', marginBottom: '6em' }}
                 >
                     {/* <span>Meus pedidos</span> */}
                     {myOrders.length === 0 ?
