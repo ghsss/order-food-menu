@@ -550,161 +550,163 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                         {`Tempo de preparo do pedido: 15 à 30 minutos`}
                     </span>
                 </div>
-                <div className="cartContainer" style={{ alignItems: `center`, justifyContent: `center`, flexWrap: `wrap`, maxWidth: '90%', minHeight: '20%', padding: '1em', paddingTop: '1.5em', paddingBottom: '1.5em', marginTop: '1em', marginBottom: '6em' }}
-                >
-                    {/* <span>Meus pedidos</span> */}
-                    {myOrders.length === 0 ?
-                        <span>Nenhum pedido encontrado</span>
-                        :
-                        <></>}
-                    {myOrders.map((order, orderIdx) => {
+                <div className="column" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '1em' }}>
+                    <div className="cartContainer" style={{ alignItems: `center`, justifyContent: `center`, flexWrap: `wrap`, maxWidth: '90%', minHeight: '20%', padding: '1em', paddingTop: '1.5em', paddingBottom: '1.5em', marginTop: '1em', marginBottom: '6em' }}
+                    >
+                        {/* <span>Meus pedidos</span> */}
+                        {myOrders.length === 0 ?
+                            <span>Nenhum pedido encontrado</span>
+                            :
+                            <></>}
+                        {myOrders.map((order, orderIdx) => {
 
-                        const date_of_expirationFormatted = new Date(order.pixRequest.date_of_expiration).toLocaleString('pt-BR');
+                            const date_of_expirationFormatted = new Date(order.pixRequest.date_of_expiration).toLocaleString('pt-BR');
 
-                        return (
-                            <div key={`order-${orderIdx}`} className="column"
-                                onClick={async event => {
-                                    if (isAdmin)
-                                        await handleCopyItemCode(event, order)
-                                }}>
-                                <div className="column" style={{ margin: `.5em`, paddingBottom: '1.5em', minHeight: `10vh`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '85%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
-                                    {
-                                        isAdmin && order.orderNumber && Object.keys(showingIcons).includes(order.orderNumber.toString()) ?
-                                            <div className="row" style={{ width: '92.5%' }}>
-                                                <div className={showingIcons[order.orderNumber.toString()] === faTruck ? 'moveCar copyIcon' : showingIcons[order.orderNumber.toString()] === faRefresh ? `rotateRefreshBig copyIcon` : 'copyIcon'} style={{
-                                                    color: (showingIcons[order.orderNumber.toString()] === faTruck || showingIcons[order.orderNumber.toString()] === faRefresh ? `inherit` : (showingIcons[order.orderNumber.toString()] === faX ? `red` : `green`)),
-                                                    justifySelf: `flex-start`, marginLeft: `1em`, marginTop: `2em`,
-                                                    zIndex: `100`,
-                                                    transform: 'scale(3) translateY(-.25em)'
-                                                }} >
-                                                    <FontAwesomeIcon
-                                                        icon={showingIcons[order.orderNumber.toString()]}
-                                                    />
-                                                </div>
-                                                <div id='printIcon' style={{
-                                                    color: (showingPrintIcon === faPrint ? `${printerDevice?.gatt?.connected ? `blue` : `grey`}` : (showingPrintIcon === faX ? `red` : `grey`)),
-                                                    justifySelf: `flex-end`, marginRight: `1em`, marginTop: `2em`,
-                                                    zIndex: `100`,
-                                                    transform: 'scale(3)translateY(-.25em)'
-                                                }}
-                                                    onClick={async e => {
-                                                        e.stopPropagation();
-                                                        await handlePrintItem(order);
+                            return (
+                                <div key={`order-${orderIdx}`} className="column"
+                                    onClick={async event => {
+                                        if (isAdmin)
+                                            await handleCopyItemCode(event, order)
+                                    }}>
+                                    <div className="column" style={{ margin: `.5em`, paddingBottom: '1.5em', minHeight: `10vh`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '85%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
+                                        {
+                                            isAdmin && order.orderNumber && Object.keys(showingIcons).includes(order.orderNumber.toString()) ?
+                                                <div className="row" style={{ width: '92.5%' }}>
+                                                    <div className={showingIcons[order.orderNumber.toString()] === faTruck ? 'moveCar copyIcon' : showingIcons[order.orderNumber.toString()] === faRefresh ? `rotateRefreshBig copyIcon` : 'copyIcon'} style={{
+                                                        color: (showingIcons[order.orderNumber.toString()] === faTruck || showingIcons[order.orderNumber.toString()] === faRefresh ? `inherit` : (showingIcons[order.orderNumber.toString()] === faX ? `red` : `green`)),
+                                                        justifySelf: `flex-start`, marginLeft: `1em`, marginTop: `2em`,
+                                                        zIndex: `100`,
+                                                        transform: 'scale(3) translateY(-.25em)'
+                                                    }} >
+                                                        <FontAwesomeIcon
+                                                            icon={showingIcons[order.orderNumber.toString()]}
+                                                        />
+                                                    </div>
+                                                    <div id='printIcon' style={{
+                                                        color: (showingPrintIcon === faPrint ? `${printerDevice?.gatt?.connected ? `blue` : `grey`}` : (showingPrintIcon === faX ? `red` : `grey`)),
+                                                        justifySelf: `flex-end`, marginRight: `1em`, marginTop: `2em`,
+                                                        zIndex: `100`,
+                                                        transform: 'scale(3)translateY(-.25em)'
                                                     }}
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={showingPrintIcon}
-                                                    />
-                                                </div>
-                                            </div>
-                                            :
-                                            <></>
-                                    }
-                                    <span style={{ margin: `.25em`, fontSize: `1.5em`, color: `#000` }}>{`Pedido #${order.orderNumber}`}</span>
-                                    {/* <br /> */}
-                                    <span style={{ color: `#000` }}>{`Data: ${new Date(order.createdAt).toLocaleString('pt-BR').substring(0, new Date(order.createdAt).toLocaleString('pt-BR').length - 3).replace(',', ' às')}`}</span>
-                                    <br />
-                                    <span style={{ color: `#000` }}>{`Status: ${getOrderStatusLabel(order.paymentStatus)}`}</span>
-                                    <div className="column" style={{ marginTop: '.5em' }}>
-                                        <div className="column" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000' }}>
-                                            <p style={{ fontSize: `1.25em`, color: `#000`, textDecoration: 'none', background: '#fff', padding: '.125em', border: 'solid medium #000', borderRadius: '1em' }}>Total: R$ {order.paymentAmount.toFixed(2).replace('.', ',')}</p>
-                                            {
-                                                !isAdmin ?
-                                                    <></>
-                                                    :
-                                                    order.paymentMethod.isOnlinePayment ?
-                                                        <p id='itemPaymentStatus' style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em`, padding: `.5em` }}>
-                                                            <span style={{ color: '#000' }}>Status do pagamento: </span>
-                                                            {getPaymentStatusLabel(order.paymentStatus)}
-                                                        </p>
-                                                        :
-                                                        <p style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em` }} id='itemReceivedPaymentInLocal' className='itemReceivedPaymentInLocal' onClick={async e => {
+                                                        onClick={async e => {
                                                             e.stopPropagation();
-                                                            if (!order.receivedPaymentInLocal) {
-                                                                console.log('itemReceivedPaymentInLocal click');
-                                                                await handleReceivedOrderPayment(e, order);
-                                                            } else {
-                                                                window.alert('Pagamento do pedido já foi confirmado.');
-                                                            }
-                                                        }}>
-                                                            <span style={{ color: `#000` }}>{order.receivedPaymentInLocal ? `Status do pagamento: ` : `Recebeu o pagamento? Clique aqui 👇🏻`}</span>
-                                                            {order.receivedPaymentInLocal ? 'PAGO' : 'AGUARDANDO PAGAMENTO ...'}
-                                                            {order.receivedPaymentInLocal ?
-                                                                <FontAwesomeIcon color='green' icon={faCheckCircle} />
-                                                                :
-                                                                <FontAwesomeIcon className='rotateRefresh' color='rgb(182, 182, 182)' icon={faRefresh} />
-                                                            }
-                                                        </p>
-                                            }
-                                        </div>
-                                        {order.items.map((orderItem, orderItemIdx) => {
+                                                            await handlePrintItem(order);
+                                                        }}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={showingPrintIcon}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                :
+                                                <></>
+                                        }
+                                        <span style={{ margin: `.25em`, fontSize: `1.5em`, color: `#000` }}>{`Pedido #${order.orderNumber}`}</span>
+                                        {/* <br /> */}
+                                        <span style={{ color: `#000` }}>{`Data: ${new Date(order.createdAt).toLocaleString('pt-BR').substring(0, new Date(order.createdAt).toLocaleString('pt-BR').length - 3).replace(',', ' às')}`}</span>
+                                        <br />
+                                        <span style={{ color: `#000` }}>{`Status: ${getOrderStatusLabel(order.paymentStatus)}`}</span>
+                                        <div className="column" style={{ marginTop: '.5em' }}>
+                                            <div className="column" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000' }}>
+                                                <p style={{ fontSize: `1.25em`, color: `#000`, textDecoration: 'none', background: '#fff', padding: '.125em', border: 'solid medium #000', borderRadius: '1em' }}>Total: R$ {order.paymentAmount.toFixed(2).replace('.', ',')}</p>
+                                                {
+                                                    !isAdmin ?
+                                                        <></>
+                                                        :
+                                                        order.paymentMethod.isOnlinePayment ?
+                                                            <p id='itemPaymentStatus' style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em`, padding: `.5em` }}>
+                                                                <span style={{ color: '#000' }}>Status do pagamento: </span>
+                                                                {getPaymentStatusLabel(order.paymentStatus)}
+                                                            </p>
+                                                            :
+                                                            <p style={{ zIndex: 100, textDecoration: `none`, color: `#000`, width: `33%`, fontSize: `1em`, border: `solid thin #000`, borderRadius: `1em` }} id='itemReceivedPaymentInLocal' className='itemReceivedPaymentInLocal' onClick={async e => {
+                                                                e.stopPropagation();
+                                                                if (!order.receivedPaymentInLocal) {
+                                                                    console.log('itemReceivedPaymentInLocal click');
+                                                                    await handleReceivedOrderPayment(e, order);
+                                                                } else {
+                                                                    window.alert('Pagamento do pedido já foi confirmado.');
+                                                                }
+                                                            }}>
+                                                                <span style={{ color: `#000` }}>{order.receivedPaymentInLocal ? `Status do pagamento: ` : `Recebeu o pagamento? Clique aqui 👇🏻`}</span>
+                                                                {order.receivedPaymentInLocal ? 'PAGO' : 'AGUARDANDO PAGAMENTO ...'}
+                                                                {order.receivedPaymentInLocal ?
+                                                                    <FontAwesomeIcon color='green' icon={faCheckCircle} />
+                                                                    :
+                                                                    <FontAwesomeIcon className='rotateRefresh' color='rgb(182, 182, 182)' icon={faRefresh} />
+                                                                }
+                                                            </p>
+                                                }
+                                            </div>
+                                            {order.items.map((orderItem, orderItemIdx) => {
 
-                                            let additionalProductsTotal = 0;
+                                                let additionalProductsTotal = 0;
 
-                                            const additionalProductsSubtotals = (Array.isArray(orderItem?.additionalProducts) ?
-                                                orderItem?.additionalProducts : []).map(additionalProduct => {
-                                                    return additionalProduct.price * additionalProduct.qty;
-                                                });
+                                                const additionalProductsSubtotals = (Array.isArray(orderItem?.additionalProducts) ?
+                                                    orderItem?.additionalProducts : []).map(additionalProduct => {
+                                                        return additionalProduct.price * additionalProduct.qty;
+                                                    });
 
-                                            for (const subtotal of additionalProductsSubtotals) {
+                                                for (const subtotal of additionalProductsSubtotals) {
 
-                                                additionalProductsTotal += subtotal;
+                                                    additionalProductsTotal += subtotal;
 
-                                            }
+                                                }
 
-                                            return (
-                                                <div key={`order-${orderIdx}-item-${orderItemIdx}`} className="row" style={{ display: 'flex', alignItems: `center`, justifyContent: `center`, border: 'solid thin #000', width: `100%`, paddingTop: '1em', paddingBottom: '1em' }}
-                                                // onClick={e => { setShowCartPage(false); setCartSelectedItemIdx(orderItemIdx); setSelectedItem(orderItem) }}
-                                                >
-                                                    {/* <div className="row"
+                                                return (
+                                                    <div key={`order-${orderIdx}-item-${orderItemIdx}`} className="row" style={{ display: 'flex', alignItems: `center`, justifyContent: `center`, border: 'solid thin #000', width: `100%`, paddingTop: '1em', paddingBottom: '1em' }}
+                                                    // onClick={e => { setShowCartPage(false); setCartSelectedItemIdx(orderItemIdx); setSelectedItem(orderItem) }}
+                                                    >
+                                                        {/* <div className="row"
                                                                             style={{
                                                                                 justifySelf: `flex-end`,
                                                                             }}
                                                                         > */}
-                                                    <div style={{ paddingBottom: '1.5em', background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
+                                                        <div style={{ paddingBottom: '1.5em', background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
 
-                                                        {/* </div> */}
-                                                        <span style={{ padding: '1.5em', color: `#000` }}>
-                                                            ({orderItem.qty}x) {orderItem.name} {orderItem.obs.length > 0 ? `| OBS: ${orderItem.obs}` : ''}{Array.isArray(orderItem?.additionalProducts) && orderItem?.additionalProducts?.length > 0 ?
-                                                                ` | Adicionais: ${orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
-                                                                    return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
-                                                                }).join(`, `)}`
-                                                                :
-                                                                ''} | Valor: R$ {orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ {((orderItem.qty * orderItem.price) + additionalProductsTotal).toFixed(2).replace('.', ',')}
-                                                        </span>
+                                                            {/* </div> */}
+                                                            <span style={{ padding: '1.5em', color: `#000` }}>
+                                                                ({orderItem.qty}x) {orderItem.name} {orderItem.obs.length > 0 ? `| OBS: ${orderItem.obs}` : ''}{Array.isArray(orderItem?.additionalProducts) && orderItem?.additionalProducts?.length > 0 ?
+                                                                    ` | Adicionais: ${orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
+                                                                        return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
+                                                                    }).join(`, `)}`
+                                                                    :
+                                                                    ''} | Valor: R$ {orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ {((orderItem.qty * orderItem.price) + additionalProductsTotal).toFixed(2).replace('.', ',')}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            );
-                                        })}
+                                                );
+                                            })}
+                                        </div>
+                                        {
+                                            order.paymentStatus === `pending` && order.paymentMethod.isOnlinePayment && order.paymentMethod.id === `PIX` && typeof order.paymentQRCode === `string` ?
+                                                <>
+                                                    <p style={{ color: `#000`, fontSize: '1.125em' }}><span style={{ color: `#000`, fontSize: '1em' }}>Prazo para realizar o pagamento: </span><br />30 minutos <br />({date_of_expirationFormatted.substring(0, date_of_expirationFormatted.length - 3).replace(`,`, ``)})</p>
+                                                    <button className='goBackButton'
+                                                        style={{ marginTop: `.5em`, fontSize: '1.125em', maxWidth: '90%', alignSelf: 'center' }}
+                                                        onClick={async e => {
+                                                            if (order.paymentQRCode)
+                                                                await navigator.clipboard.writeText(order.paymentQRCode)
+                                                                    .then(() => window.alert('Pix QRCode copiado!'));
+                                                        }}>
+                                                        <FontAwesomeIcon icon={faCopy} />
+                                                        {' Clique aqui para copiar o Pix QR Code'}
+                                                    </button>
+                                                    <img src={order.paymentQRCodeBase64DataURL} alt="Pix QRCode" style={{
+                                                        maxWidth: '80%',
+                                                        alignSelf: 'center',
+                                                        justifySelf: 'center',
+                                                        marginTop: '.25em'
+                                                    }} />
+                                                </>
+                                                :
+                                                <></>
+                                        }
                                     </div>
-                                    {
-                                        order.paymentStatus === `pending` && order.paymentMethod.isOnlinePayment && order.paymentMethod.id === `PIX` && typeof order.paymentQRCode === `string` ?
-                                            <>
-                                                <p style={{ color: `#000`, fontSize: '1.125em' }}><span style={{ color: `#000`, fontSize: '1em' }}>Prazo para realizar o pagamento: </span><br />30 minutos <br />({date_of_expirationFormatted.substring(0, date_of_expirationFormatted.length - 3).replace(`,`, ``)})</p>
-                                                <button className='goBackButton'
-                                                    style={{ marginTop: `.5em`, fontSize: '1.125em', maxWidth: '90%', alignSelf: 'center' }}
-                                                    onClick={async e => {
-                                                        if (order.paymentQRCode)
-                                                            await navigator.clipboard.writeText(order.paymentQRCode)
-                                                                .then(() => window.alert('Pix QRCode copiado!'));
-                                                    }}>
-                                                    <FontAwesomeIcon icon={faCopy} />
-                                                    {' Clique aqui para copiar o Pix QR Code'}
-                                                </button>
-                                                <img src={order.paymentQRCodeBase64DataURL} alt="Pix QRCode" style={{
-                                                    maxWidth: '80%',
-                                                    alignSelf: 'center',
-                                                    justifySelf: 'center',
-                                                    marginTop: '.25em'
-                                                }} />
-                                            </>
-                                            :
-                                            <></>
-                                    }
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
+                    </div>
                 </div>
                 <div className="row"
                     style={{ marginTop: '1em' }}
