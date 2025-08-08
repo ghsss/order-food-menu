@@ -1105,7 +1105,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
         }
       </div >
     );
-  } else if ((showCartPage === true) && typeof cart === 'object') {
+  } else if ((showCartPage === true) && typeof cart === 'object' && companyIsOpenNow() === true) {
 
     if (!accessCodeIsSet && robot) {
       // return <CustomerAccessCodePage showCartPage={showCartPage} showOrdersPage={showOrdersPage} setShowCartPage={setShowCartPage} setShowOrdersPage={setShowOrdersPage} />;
