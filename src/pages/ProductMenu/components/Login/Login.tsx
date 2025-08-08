@@ -155,6 +155,10 @@ function Login({ robot, showCartPage, showOrdersPage, setShowCartPage, setShowOr
           onClick={async e => {
             const requestAccessCodeTxt = `Envie a mensagem como está para receber seu acesso.
                               ——————————————
+                              ** ORIGEM: ${window.location.origin} **
+                              ——————————————
+                              ** CONTEXTO: ${showCartPage? 'CARRINHO' : 'PEDIDOS'} **
+                              ——————————————
                               ** CODIGO-DE-ACESSO **`;
 
             window.location.href = `https://wa.me/${robot.phone}?text=${requestAccessCodeTxt}`;
