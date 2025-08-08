@@ -30,12 +30,12 @@ export default function MyOrdersPage({ isAdmin, setShowOrdersPage, setCartSelect
             else
                 return 0;
         });
-        const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'expired': 4 };
+        const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'cancelled': 4 };
         ordersToSort.sort((a: OrderModel, b: OrderModel) => {
             return statusOrderBy[a.paymentStatus] - statusOrderBy[b.paymentStatus];
         });
         ordersToSort.sort((a: OrderModel, b: OrderModel) => {
-            const descStatus = ['finished', 'expired'];
+            const descStatus = ['finished', 'cancelled'];
             if (descStatus.includes(a.paymentStatus) && descStatus.includes(b.paymentStatus) && a.paymentStatus === b.paymentStatus) {
                 if (a.orderNumber && b.orderNumber)
                     return b.orderNumber - a.orderNumber;

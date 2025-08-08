@@ -68,7 +68,7 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
   const [orderStatusSelectOptions, setOrderStatusSelectOptions] = useState<OrderStatusSelect[]>([
     { value: 'approved', label: 'Em produção' },
     { value: 'pending', label: 'Pagamento pendente' },
-    { value: 'expired', label: 'Pagamento expirou' },
+    { value: 'cancelled', label: 'Pagamento expirou' },
     { value: 'finished', label: 'Pedidos finalizados' },
   ]);
 
@@ -183,12 +183,12 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
       else
         return 0;
     });
-    const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'expired': 4 };
+    const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'cancelled': 4 };
     ordersToSort.sort((a: OrderModel, b: OrderModel) => {
       return statusOrderBy[a.paymentStatus] - statusOrderBy[b.paymentStatus];
     });
     ordersToSort.sort((a: OrderModel, b: OrderModel) => {
-      const descStatus = ['finished', 'expired'];
+      const descStatus = ['finished', 'cancelled'];
       if (descStatus.includes(a.paymentStatus) && descStatus.includes(b.paymentStatus) && a.paymentStatus === b.paymentStatus) {
         if (a.orderNumber && b.orderNumber)
           return b.orderNumber - a.orderNumber;
@@ -208,12 +208,12 @@ function AdminMenu({ isSuperAdmin, action, collection, filter, id }: AdminMenuPr
       //   else
       //     return 0;
       // });
-      // const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'expired': 4 };
+      // const statusOrderBy: { [index: string]: number } = { 'approved': 1, 'pending': 2, 'finished': 3, 'cancelled': 4 };
       // getOrdersResponse.sort((a: OrderModel, b: OrderModel) => {
       //   return statusOrderBy[a.paymentStatus] - statusOrderBy[b.paymentStatus];
       // });
       // getOrdersResponse.sort((a: OrderModel, b: OrderModel) => {
-      //   const descStatus = ['finished', 'expired'];
+      //   const descStatus = ['finished', 'cancelled'];
       //   if (descStatus.includes(a.paymentStatus) && descStatus.includes(b.paymentStatus) && a.paymentStatus === b.paymentStatus) {
       //     if (a.orderNumber && b.orderNumber)
       //       return b.orderNumber - a.orderNumber;

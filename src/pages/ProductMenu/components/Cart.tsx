@@ -347,7 +347,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                     window.alert(`Pagamento confirmado! Seu pedido foi enviado para produção.`);
 
                 }
-                if (orderRecord.paymentStatus === `expired`) {
+                if (orderRecord.paymentStatus === `cancelled`) {
                     window.alert(`Pagamento expirou! Seu pedido foi cancelado.`);
                 }
 

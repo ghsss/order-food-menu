@@ -441,7 +441,7 @@ TOTAL: \x1B\x61\x01R$ ${item.paymentAmount.toFixed(2).replace(`.`, `, `)}
             </p>
         }
         {
-          item.paymentStatus === 'finished' || item.paymentStatus === 'approved' || item.paymentStatus === 'expired' ?
+          item.paymentStatus === 'finished' || item.paymentStatus === 'approved' || item.paymentStatus === 'cancelled' ?
             <p id='itemCustomerNotified'>
               <span>Cliente avisado sobre status do pedido: </span>
               <FontAwesomeIcon icon={getCustomerNotifiedIcon(item.customerNotified)} color={getCustomerNotifiedIconColor(item.customerNotified)} className={getCustomerNotifiedIconClassName(item.customerNotified)} />
