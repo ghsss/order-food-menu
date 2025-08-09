@@ -419,7 +419,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
             <div className="cartModalScroll">
                 <button className='goBackButton' style={{ borderWidth: `medium`, fontWeight: 'bold', fontSize: '1.125em', justifySelf: `flex-start`, alignSelf: `flex-start`, marginLeft: `.5em`, marginBottom: '1em', marginTop: '1em' }}
                     onClick={e => {
-                        window.location.href = '/?orderChannel=WebSite';
+                        window.location.href = '/#listTitle?orderChannel=WebSite';
                         // setShowCartPage(false); setSelectedItem(null); setCartSelectedItemIdx(-1)
                     }}>
                     <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Adicionar mais produtos`}
