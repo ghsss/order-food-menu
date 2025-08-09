@@ -795,7 +795,9 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
       companyName = `🔥 ` + companyName;
       await waitSeconds(.5);
       setCompanyNameAnimatedDisplay(companyName);
-      document.querySelector('#listTitle')?.scrollIntoView();
+      if (companyIsOpenNow()) {
+        document.querySelector('#listTitle')?.scrollIntoView();
+      }
     }
   }
 
