@@ -5,7 +5,7 @@ import ProductMenuList from './components/ProductMenuList';
 import ProductModel from '../../models/Product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faArrowCircleLeft, faCartPlus, faCartShopping, faCheck, faCheckCircle, faClock, faCopy, faFilter, faGlobe, faHeadphones, faList, faMap, faMapLocation, faMapLocationDot, faMinusCircle, faPlusCircle, faSearch, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft, faCartPlus, faCartShopping, faCheck, faCheckCircle, faClock, faCopy, faFilter, faGlobe, faHeadphones, faList, faMap, faMapLocation, faMapLocationDot, faMinusCircle, faPencil, faPlusCircle, faSearch, faX, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import ProductServiceInstance from '../../services/ProductService';
 import ProductTypeModel from '../../models/ProductType';
 import ProductTypeServiceInstance from '../../services/ProductTypeService';
@@ -520,6 +520,14 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
                 onClick={e => setSelectedItem(null)}>
                 <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
               </button>
+              {cartSelectedItemIdx === -1 ?
+                <></>
+                :
+                <div className='row' style={{ paddingBottom: `1em`, alignItems: `center`, justifyContent: `center`, zIndex: '100' }}>
+                  <span style={{ fontSize: `1.25em`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', color: '#000', padding: '.5em' }}>
+                    <FontAwesomeIcon icon={faPencil} /> {` editando Item ${cartSelectedItemIdx + 1}`}
+                  </span>
+                </div>}
               <div className="column" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '0' }}>
                 <div className="CartProductMenuListItemContainer glowBox"
                 // onClick={event => handleCartItemChange(selectedItem)}
@@ -749,7 +757,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
               <div className="fixedAddToCartContainer"
                 onClick={e => handleCartItemChange(selectedItem, cartSelectedItemIdx)}
               >
-                <p><FontAwesomeIcon icon={faCartPlus} /> {cartSelectedItemIdx === -1 ? `Adicionar no carrinho` : `Voltar para o carrinho`}</p>
+                <p><FontAwesomeIcon icon={faCartPlus} /> {cartSelectedItemIdx === -1 ? `Adicionar no carrinho` : `Salvar item ${cartSelectedItemIdx + 1}`}</p>
               </div>
 
             </div>
