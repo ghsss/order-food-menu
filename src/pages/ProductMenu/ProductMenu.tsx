@@ -292,6 +292,10 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
 
   }, [productTypeSearchTerm]);
 
+  const getRobotIsConnected: () => boolean = () => {
+    return robot?.state === 'CONNECTED';
+  }
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 
     const searchTermRefreshed = e.target.value;
@@ -799,6 +803,13 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
         await waitSeconds(.125);
         document.querySelector('#orderChannelsDiv')?.scrollIntoView();
         // await waitSeconds(.125);
+      }
+      if (!isAdmin && !getRobotIsConnected()) {
+        const msgTxt = `O site está indisponível temporariamente, você será redirecionado para o WhatsApp da empresa.`;
+        alert(msgTxt);
+        const wppTxt = `Olá, gostaria de fazer um pedido.`;
+        window.location.href = `https://wa.me/${company.phoneNumber}?text=${wppTxt}`;
+        // window.location.href = 'https://wa.me/';
       }
     }
   }
