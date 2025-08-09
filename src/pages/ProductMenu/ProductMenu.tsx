@@ -757,7 +757,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
               <div className="fixedAddToCartContainer"
                 onClick={e => handleCartItemChange(selectedItem, cartSelectedItemIdx)}
               >
-                <p><FontAwesomeIcon icon={faCartPlus} /> {cartSelectedItemIdx === -1 ? `Adicionar no carrinho` : `Salvar item ${cartSelectedItemIdx + 1}`}</p>
+                <p><FontAwesomeIcon icon={faCartPlus} /> {cartSelectedItemIdx === -1 ? `Adicionar no carrinho` : `Salvar item`}</p>
               </div>
 
             </div>
