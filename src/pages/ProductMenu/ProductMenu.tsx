@@ -517,7 +517,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
             <div className="cartModalScroll">
 
               <button className='goBackButton' style={{ fontSize: '1.25em', justifySelf: `flex-start`, alignSelf: `flex-start`, marginLeft: `1em`, marginBottom: '1em', marginTop: '1em' }}
-                onClick={e => { setSelectedItem(null); window.location.href = '#listTitle' }}>
+                onClick={e => { setSelectedItem(null); window.location.href = '#listTitle?orderChannel=WebSite' }}>
                 <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
               </button>
               {cartSelectedItemIdx === -1 ?
