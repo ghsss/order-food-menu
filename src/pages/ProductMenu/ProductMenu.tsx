@@ -798,6 +798,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
       if (companyIsOpenNow()) {
         await waitSeconds(.125);
         document.querySelector('#listTitle')?.scrollIntoView();
+        window.scrollTo({ top: window.scrollY * 0.9 })
       }
     }
   }
