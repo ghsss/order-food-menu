@@ -155,7 +155,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
 
     getProducts();
 
-    document.querySelector('#listTitle')?.scrollIntoView();
+    document.querySelector('#orderChannelsDiv')?.scrollIntoView();
 
   }, []);
 
@@ -519,7 +519,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
             <div className="cartModalScroll">
 
               <button className='goBackButton' style={{ fontSize: '1.25em', justifySelf: `flex-start`, alignSelf: `flex-start`, marginLeft: `1em`, marginBottom: '1em', marginTop: '1em' }}
-                onClick={e => { setSelectedItem(null); window.location.href = '/?orderChannel=WebSite#listTitle' }}>
+                onClick={e => { setSelectedItem(null); window.location.href = '/?orderChannel=WebSite#orderChannelsDiv' }}>
                 <FontAwesomeIcon icon={faArrowCircleLeft} /> {` Voltar`}
               </button>
               {cartSelectedItemIdx === -1 ?
@@ -797,7 +797,8 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
       setCompanyNameAnimatedDisplay(companyName);
       if (companyIsOpenNow()) {
         await waitSeconds(.125);
-        document.querySelector('#listTitle')?.scrollIntoView();
+        document.querySelector('#orderChannelsDiv')?.scrollIntoView();
+        // await waitSeconds(.125);
         window.scrollTo({ top: window.scrollY * 0.9 })
       }
     }
@@ -1045,7 +1046,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
             </div>
           </h1>
         </div >
-        <div className='row linksRow' style={{ zIndex: '100' }}>
+        <div id='orderChannelsDiv' className='row linksRow' style={{ zIndex: '100' }}>
           <button
             style={{ fontWeight: `bold`, zIndex: '101', cursor: 'pointer', background: orderChannel === `WebSite` ? '#fff' : 'grey' }}
             // href={"/#"} 
