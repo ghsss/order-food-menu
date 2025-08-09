@@ -792,10 +792,10 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
       companyName += ` 🔥`;
       await waitSeconds(.5);
       setCompanyNameAnimatedDisplay(companyName);
-      document.querySelector('#listTitle')?.scrollIntoView();
       companyName = `🔥 ` + companyName;
       await waitSeconds(.5);
       setCompanyNameAnimatedDisplay(companyName);
+      document.querySelector('#listTitle')?.scrollIntoView();
     }
   }
 
