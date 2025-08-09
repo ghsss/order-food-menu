@@ -293,7 +293,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
   }, [productTypeSearchTerm]);
 
   const getRobotIsConnected: () => boolean = () => {
-    return robot?.state === 'CONNECTED';
+    return robot?.state !== 'CONNECTED';
   }
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
