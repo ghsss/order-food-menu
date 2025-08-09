@@ -525,7 +525,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
                 :
                 <div className='row' style={{ paddingBottom: `1em`, alignItems: `center`, justifyContent: `center`, zIndex: '100' }}>
                   <span style={{ fontSize: `1.25em`, background: '#fff', border: 'solid medium #000', borderRadius: '1em', color: '#000', padding: '.5em' }}>
-                    <FontAwesomeIcon icon={faPencil} /> {` editando Item ${cartSelectedItemIdx + 1}`}
+                    <FontAwesomeIcon icon={faPencil} /> {`🔥 Item ${cartSelectedItemIdx + 1}`}
                   </span>
                 </div>}
               <div className="column" style={{ alignItems: 'center', justifyContent: 'center', marginBottom: '0' }}>
