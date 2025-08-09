@@ -796,7 +796,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
       await waitSeconds(.5);
       setCompanyNameAnimatedDisplay(companyName);
       if (companyIsOpenNow()) {
-        await waitSeconds(.5);
+        await waitSeconds(.125);
         document.querySelector('#listTitle')?.scrollIntoView();
       }
     }
