@@ -799,7 +799,6 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
         await waitSeconds(.125);
         document.querySelector('#orderChannelsDiv')?.scrollIntoView();
         // await waitSeconds(.125);
-        window.scrollTo({ top: window.scrollY * 0.9 })
       }
     }
   }
