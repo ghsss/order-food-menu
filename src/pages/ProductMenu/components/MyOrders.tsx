@@ -646,7 +646,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                                         <br />
                                         <span style={{ color: `#000` }}>{`Status: ${getOrderStatusLabel(order.paymentStatus)}`}</span>
                                         <div className="column" style={{ marginTop: '.5em' }}>
-                                            <div className="column" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000' }}>
+                                            <div className="column" style={{ width: `100%`, justifyContent: `center`, border: 'solid thin #000', borderLeftWidth: '0', borderRightWidth: '0', borderBottomWidth: '0' }}>
                                                 <p style={{ fontSize: `1.25em`, color: `#000`, textDecoration: 'none', background: '#fff', padding: '.125em', border: 'solid medium #000', borderRadius: '1em' }}>Total: R$ {order.paymentAmount.toFixed(2).replace('.', ',')}</p>
                                                 {
                                                     !isAdmin ?
@@ -693,7 +693,7 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                                                 }
 
                                                 return (
-                                                    <div key={`order-${orderIdx}-item-${orderItemIdx}`} className="row" style={{ display: 'flex', alignItems: `center`, justifyContent: `center`, border: 'solid thin #000', width: `100%`, paddingTop: '1em', paddingBottom: '1em' }}
+                                                    <div key={`order-${orderIdx}-item-${orderItemIdx}`} className="row" style={{ display: 'flex', alignItems: `center`, justifyContent: `center`, border: 'solid thin #000', borderLeftWidth: '0', borderRightWidth: '0', borderBottomWidth: '0', width: `100%`, paddingTop: '1em', paddingBottom: '1em' }}
                                                     // onClick={e => { setShowCartPage(false); setCartSelectedItemIdx(orderItemIdx); setSelectedItem(orderItem) }}
                                                     >
                                                         {/* <div className="row"
