@@ -529,6 +529,45 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
 
     }, [myOrders]);
 
+    function getItemResume(item: OrderItemModel, itemIdx: number) {
+
+        let additionalProductsTotal = 0;
+
+        const additionalProductsSubtotals = (item && Array.isArray(item?.additionalProducts) ?
+            item?.additionalProducts : []).map(additionalProduct => {
+                return additionalProduct.price * additionalProduct.qty;
+            });
+
+        if (Array.isArray(additionalProductsSubtotals)) {
+
+            for (const subtotal of additionalProductsSubtotals) {
+
+                additionalProductsTotal += subtotal;
+
+            }
+        }
+
+        return (
+            item ?
+                <>
+                    <span style={{ textDecoration: 'none', color: '#000' }}>{`❤️‍🔥 Item ${itemIdx}`}</span><br />
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`R$${((item.price * item.qty) + additionalProductsTotal).toFixed(2)}`}</span><br />
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`(${item.qty}x) ${item.name}`}</span>
+                    {/* <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidade(s).`}</span> */}
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`Preço/unidade: R$${(item.price).toFixed(2)}`}</span>
+                    {/* <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${item.qty} unidade(s).`}</span> */}
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`OBS: ${item.obs}`}</span>
+                    <br /><span style={{ textDecoration: 'none', color: '#000' }}>{`${Array.isArray(item?.additionalProducts) && item?.additionalProducts.length > 0 ?
+                        `
+                    Adicionais: ${item?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
+                            return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
+                        }).join(`, `)}` : ``}`}</span>
+                </>
+                :
+                ``
+        );
+    }
+
     return (
         <div className='cartModal'>
             <div className="cartModalScroll">
@@ -663,16 +702,11 @@ TOTAL: \x1B\x61\x01R$ ${order.paymentAmount.toFixed(2).replace(`.`, `, `)}
                                                                             }}
                                                                         > */}
                                                         <div style={{ paddingBottom: '1.5em', background: '#fff', border: 'solid medium #000', borderRadius: '1em', maxWidth: '90%', padding: '.125em', color: '#000', textDecoration: 'none' }}>
-
-                                                            {/* </div> */}
-                                                            <span style={{ padding: '1.5em', color: `#000` }}>
-                                                                ({orderItem.qty}x) {orderItem.name} {orderItem.obs.length > 0 ? `| OBS: ${orderItem.obs}` : ''}{Array.isArray(orderItem?.additionalProducts) && orderItem?.additionalProducts?.length > 0 ?
-                                                                    ` | Adicionais: ${orderItem?.additionalProducts?.map((additionalProduct, additionalProductIdx) => {
-                                                                        return `(${additionalProduct.qty}x) ${additionalProduct.name} = R$${(additionalProduct.qty * additionalProduct.price).toFixed(2)}`;
-                                                                    }).join(`, `)}`
-                                                                    :
-                                                                    ''} | Valor: R$ {orderItem.price.toFixed(2).replace('.', ',')} (Uni) | Subtotal: R$ {((orderItem.qty * orderItem.price) + additionalProductsTotal).toFixed(2).replace('.', ',')}
-                                                            </span>
+                                                            <p style={{ textDecoration: 'none', fontSize: `1em`, padding: '.25em', color: `#000` }}>
+                                                                <span style={{ color: `#000` }}>
+                                                                    {getItemResume(orderItem, orderItemIdx + 1)}
+                                                                </span>
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 );
