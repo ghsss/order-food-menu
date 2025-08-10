@@ -10,9 +10,9 @@ import OrderServiceInstance from "../../../services/OrderService";
 import CartServiceInstance from "../../../services/CartService";
 import { useEffect, useState } from "react";
 import AccessCodeServiceInstance from "../../../services/AccessCodeService";
-import { config } from 'dotenv';
+// import { config } from 'dotenv';
 import { io } from "socket.io-client";
-config();
+// config();
 
 const REACT_APP_PRODUCT_ENDPOINT = process.env.REACT_APP_PRODUCT_ENDPOINT;
 
