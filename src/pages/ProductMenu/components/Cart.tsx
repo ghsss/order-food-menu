@@ -216,13 +216,18 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
             return;
         }
 
+        if (processingOrderSubmit) {
+            window.alert('Processando seu pedido... Aguarde alguns segundos.');
+            return;
+        }
+
         cart.pixRequest.transaction_amount = cart.paymentAmount;
 
         const confirmed = window.confirm(`Confirma o pedido?\n\n${getOrderResume(cart)}`)
         // setshowingIcon(faCheckCircle);
         if (confirmed) {
-
-            const response = await OrderServiceInstance.newOrder(cart);
+            setProcessingOrderSubmit(true);
+            const response = await OrderServiceInstance.newOrder(cart).catch(err => { setProcessingOrderSubmit(false) });
             if (typeof response === `object` && typeof response._id === `string`) {
                 if (!cart.paymentMethod.isOnlinePayment) {
 
@@ -232,13 +237,15 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                     if (newCart) {
                         setCart(newCart);
                     }
+                    setProcessingOrderSubmit(false);
                     await waitSeconds(.1);
                     window.location.href = '/?action=orders';
-
+                    
                 } else {
-
+                    
                     // window.alert(`Pedido a com sucesso!\nVocê será notificado sobre o status do pedido via WhatsApp.`);
-
+                    
+                    setProcessingOrderSubmit(false);
                     setOnlinePaymentData(response);
 
                     CartServiceInstance.updateStoredCart(CartServiceInstance.newCart());
@@ -260,6 +267,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
 
     }
 
+    const [processingOrderSubmit, setProcessingOrderSubmit] = useState<boolean>(false);
     const [qrCodeBase64DataURL, setQrCodeBase64DataURL] = useState<string | undefined>(undefined);
     const [onlinePaymentData, setOnlinePaymentData] = useState<{
         _id: string,
@@ -291,6 +299,12 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
         getStoredPhone();
 
     }, []);
+
+    useEffect(() => {
+
+        console.log('processingOrderSubmit: ' + processingOrderSubmit);
+
+    }, [processingOrderSubmit]);
 
     useEffect(() => {
 
