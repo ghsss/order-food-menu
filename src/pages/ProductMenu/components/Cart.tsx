@@ -344,6 +344,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                                 if (newCart) {
                                     setCart(newCart);
                                 }
+                                socket.close();
                             }
                         })
 
