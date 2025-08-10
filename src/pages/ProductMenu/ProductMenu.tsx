@@ -99,6 +99,14 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
   const [productMenuOptions, setProductMenuOptions] = useState<ProductModel[]>([]);
   const [productTypeSelectOptions, setProductTypeSelectOptions] = useState<ProductTypeModel[]>([]);
 
+  const [processingOrderSubmit, setProcessingOrderSubmit] = useState<boolean>(false);
+
+  useEffect(() => {
+
+    console.log('processingOrderSubmit: ' + processingOrderSubmit);
+
+  }, [processingOrderSubmit]);
+
   useEffect(() => {
 
     const getProducts = async () => {
@@ -1141,6 +1149,8 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
 
     return (
       <CartPage cart={cart} setCart={setCart} setShowCartPage={setShowCartPage}
+        processingOrderSubmit={processingOrderSubmit}
+        setProcessingOrderSubmit={setProcessingOrderSubmit}
         setSelectedItem={setSelectedItem}
         setCartSelectedItemIdx={setCartSelectedItemIdx}
       />

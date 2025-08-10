@@ -19,6 +19,8 @@ const REACT_APP_PRODUCT_ENDPOINT = process.env.REACT_APP_PRODUCT_ENDPOINT;
 interface ProductMenuListItemProps {
     //   handleItemClick: (item: ProductModel, setshowingIcon: Dispatch<SetStateAction<IconDefinition>>) => void,
     //   item: ProductModel;
+    processingOrderSubmit: boolean;
+    setProcessingOrderSubmit: (processing: boolean) => void;
     cart: OrderModel;
     setCartSelectedItemIdx: (cartSelectedItemIdx: number) => void;
     setSelectedItem: (cart: OrderItemModel | null) => void;
@@ -27,7 +29,7 @@ interface ProductMenuListItemProps {
     children?: React.ReactNode;
 }
 
-export default function CartPage({ cart, setCart, setShowCartPage, setCartSelectedItemIdx, setSelectedItem }: ProductMenuListItemProps) {
+export default function CartPage({ processingOrderSubmit, setProcessingOrderSubmit, cart, setCart, setShowCartPage, setCartSelectedItemIdx, setSelectedItem }: ProductMenuListItemProps) {
 
     let paymentAmount = 0;
 
@@ -240,11 +242,11 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
                     setProcessingOrderSubmit(false);
                     await waitSeconds(.1);
                     window.location.href = '/?action=orders';
-                    
+
                 } else {
-                    
+
                     // window.alert(`Pedido a com sucesso!\nVocê será notificado sobre o status do pedido via WhatsApp.`);
-                    
+
                     setProcessingOrderSubmit(false);
                     setOnlinePaymentData(response);
 
@@ -267,7 +269,6 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
 
     }
 
-    const [processingOrderSubmit, setProcessingOrderSubmit] = useState<boolean>(false);
     const [qrCodeBase64DataURL, setQrCodeBase64DataURL] = useState<string | undefined>(undefined);
     const [onlinePaymentData, setOnlinePaymentData] = useState<{
         _id: string,
@@ -299,6 +300,7 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
         getStoredPhone();
 
     }, []);
+
 
     useEffect(() => {
 
