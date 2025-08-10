@@ -10,6 +10,12 @@ import OrderServiceInstance from "../../../services/OrderService";
 import CartServiceInstance from "../../../services/CartService";
 import { useEffect, useState } from "react";
 import AccessCodeServiceInstance from "../../../services/AccessCodeService";
+import { config } from 'dotenv';
+import { io } from "socket.io-client";
+config();
+
+const REACT_APP_PRODUCT_ENDPOINT = process.env.REACT_APP_PRODUCT_ENDPOINT;
+
 interface ProductMenuListItemProps {
     //   handleItemClick: (item: ProductModel, setshowingIcon: Dispatch<SetStateAction<IconDefinition>>) => void,
     //   item: ProductModel;
@@ -294,8 +300,46 @@ Adicionais: ${itemToSum?.additionalProducts?.map((additionalProduct, additionalP
 
             stringToQRBase64(onlinePaymentData.qr_code)
 
-            if (_idsInSync !== onlinePaymentData._id)
+            if (_idsInSync !== onlinePaymentData._id) {
+
                 syncNewOrderWithOnlinePayment(onlinePaymentData._id);
+
+                // const socket = new WebSocket('ws://localhost:8080');
+                try {
+
+                    if (REACT_APP_PRODUCT_ENDPOINT) {
+
+                        // const socket = new WebSocket(REACT_APP_PRODUCT_ENDPOINT);
+                        const socket = io(REACT_APP_PRODUCT_ENDPOINT);
+
+                        socket.on(onlinePaymentData.paymentId, (data) => {
+                            if (data.status) {
+                                const paymentStatus = data.status;
+                                if (paymentStatus === `approved`) {
+                                    window.alert(`Pagamento confirmado! Seu pedido foi enviado para produção.`);
+                                }
+                                if (paymentStatus === `cancelled`) {
+                                    window.alert(`Pagamento expirou! Seu pedido foi cancelado.`);
+                                }
+                                setOnlinePaymentData(null);
+                                set_IdsInSync(null);
+                                CartServiceInstance.updateStoredCart(CartServiceInstance.newCart());
+                                const newCart = CartServiceInstance.getStoredCart();
+                                if (newCart) {
+                                    setCart(newCart);
+                                }
+                            }
+                        })
+
+                    }
+
+                } catch (error) {
+
+                    console.error('Error connecting to WebSocket: ' + error);
+
+                }
+
+            }
 
         }
 
