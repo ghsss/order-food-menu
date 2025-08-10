@@ -95,7 +95,7 @@ function AccessCodePage() {
 
   useEffect(() => {
 
-    console.log('accessCode: ', accessCode);
+    // console.log('accessCode: ', accessCode);
 
   }, [accessCode, phone]);
 

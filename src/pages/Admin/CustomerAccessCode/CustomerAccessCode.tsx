@@ -103,7 +103,7 @@ function CustomerAccessCodePage({ showCartPage, showOrdersPage, setShowCartPage,
 
   useEffect(() => {
 
-    console.log('accessCode: ', accessCode);
+    // console.log('accessCode: ', accessCode);
 
   }, [accessCode, phone]);
 

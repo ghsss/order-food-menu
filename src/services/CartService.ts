@@ -3,10 +3,10 @@ import OrderModel from "../models/Order";
 class CartService {
   getStoredCart(): OrderModel | undefined {
     if (document.cookie) {
-      console.log("document.cookie", document.cookie);
+      // console.log("document.cookie", document.cookie);
       if (document.cookie.includes("cart=")) {
         const cart = document?.cookie?.split(`cart=`)[1].split(`;`)[0];
-        console.log("document.cookie cart", cart);
+        // console.log("document.cookie cart", cart);
         return JSON.parse(cart);
       } else {
         const newCart = this.newCart();
@@ -43,10 +43,10 @@ class CartService {
 
   updateStoredCart(cartUpdated: OrderModel) {
     if (document.cookie) {
-      console.log("document.cookie", document.cookie);
+      // console.log("document.cookie", document.cookie);
       if (document.cookie.includes("cart=")) {
         const cart = document?.cookie?.split(`cart=`)[1].split(`;`)[0];
-        console.log("document.cookie cart", cart);
+        // console.log("document.cookie cart", cart);
         // return JSON.parse(cart);
         const newCart = cartUpdated;
         const newCartStr = JSON.stringify(newCart);

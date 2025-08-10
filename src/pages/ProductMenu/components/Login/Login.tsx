@@ -105,7 +105,7 @@ function Login({ robot, showCartPage, showOrdersPage, setShowCartPage, setShowOr
 
   useEffect(() => {
 
-    console.log('accessCode: ', accessCode);
+    // console.log('accessCode: ', accessCode);
 
   }, [accessCode, phone]);
 

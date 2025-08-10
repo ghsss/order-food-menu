@@ -26,7 +26,7 @@ function App() {
       const accessCode = AccessCodeServiceInstance.getStoredAccessCode();
       if (accessCode) {
         const accessCodeIsValid = await AccessCodeServiceInstance.accessCodeIsValid(accessCode);
-        console.log(`accessCodeIsValid: `, accessCodeIsValid);
+        // console.log(`accessCodeIsValid: `, accessCodeIsValid);
         if (!accessCodeIsValid) {
           // if (response.status === 403) {
           // return false;
@@ -49,7 +49,7 @@ function App() {
     const accessCode = AccessCodeServiceInstance.getStoredAccessCode();
     if (accessCode) {
       const accessCodeIsValid = await AccessCodeServiceInstance.accessCodeIsValid(accessCode);
-      console.log(`accessCodeIsValid: `, accessCodeIsValid);
+      // console.log(`accessCodeIsValid: `, accessCodeIsValid);
       if (!accessCodeIsValid) {
         // window.location.href = `/admin/access-code?action=requestAccessCode`;
         const isCustomerAccessValid = await AccessCodeServiceInstance.customerAccessCodeIsValid(accessCode);
@@ -94,7 +94,7 @@ function App() {
 
   useEffect(() => {
 
-    console.log('isAdmin: ', isAdmin);
+    // console.log('isAdmin: ', isAdmin);
     console.log('orderChannel: ', orderChannel);
     console.log('action: ', action);
     console.log('collection: ', collection);

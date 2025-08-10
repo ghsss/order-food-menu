@@ -20,12 +20,12 @@ function sha512(str: string) {
 class AccessCodeService {
   getStoredAccessCode(): string | undefined {
     if (document.cookie) {
-      console.log("document.cookie", document.cookie);
+      // console.log("document.cookie", document.cookie);
       if (document.cookie.includes("accessCodeSHA512Hash=")) {
         const accessCode = document?.cookie
           ?.split(`accessCodeSHA512Hash=`)[1]
           .split(`;`)[0];
-        console.log("document.cookie accessCode", accessCode);
+        // console.log("document.cookie accessCode", accessCode);
         return accessCode;
       }
     }
@@ -33,10 +33,10 @@ class AccessCodeService {
 
   getStoredPhone(): string | undefined {
     if (document.cookie) {
-      console.log("document.cookie", document.cookie);
+      // console.log("document.cookie", document.cookie);
       if (document.cookie.includes("phone=")) {
         const phone = document?.cookie?.split(`phone=`)[1].split(`;`)[0];
-        console.log("document.cookie phone", phone);
+        // console.log("document.cookie phone", phone);
         return phone;
       }
     }

@@ -43,7 +43,7 @@ class UserService {
       });
       if (response.status === 200) {
         const user_Id = await response.text();
-        console.log("getUsers.User_Id: ", user_Id);
+        // console.log("getUsers.User_Id: ", user_Id);
         return user_Id;
       } else {
         window.alert("Erro de conexão ao servidor.");
@@ -72,7 +72,7 @@ class UserService {
       }).catch((err) => {
         return err.response;
       });
-      console.log("response.status: ", response.status);
+      // console.log("response.status: ", response.status);
       if (response.status === 200) {
         const booleanTxt = await response.text();
         console.log("deleteUser.booleanTxt: ", booleanTxt);
