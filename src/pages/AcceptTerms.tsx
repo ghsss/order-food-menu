@@ -97,7 +97,7 @@ export default function AcceptTermsPage({ setAcceptedTerms }: AcceptTermsPagePro
                     </a> */}
                     <p style={{ fontSize: `1.25em`, color: '#fff', textDecoration: `none`}}>Termos de uso</p>
                     <p style={{ fontSize: `1em`, maxHeight: '25vh', color: '#000', textDecoration: `none`, overflowY: `scroll` }}>É necessário informar seu número de WhatsApp para realizar pedidos, para pedidos com opção de pagamento online é obrigatório informar seu CPF/CNPJ e e-mail que serão utilizado apenas pelo MercadoPago para processar seu pagamento. Não compartilhamos dados de nossos clientes com terceiros, seus dados são utilizados exclusivamente para processar o pagamento do seu pedido através do MercadoPago e para entrarmos em contato para informar mudanças no status do pedido.</p>
-                    <div className="row">
+                    <div className="row" style={{justifyContent: 'space-between'}}>
                         <button className="goBackButton" style={{ fontWeight: `bold`, textDecoration: `none`, color: '#fff', background: 'red' }}
                             onClick={(e) => { setAcceptedTerms(false) }}
                         >
