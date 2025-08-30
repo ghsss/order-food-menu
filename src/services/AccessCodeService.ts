@@ -42,6 +42,24 @@ class AccessCodeService {
     }
   }
 
+  getStoredAcceptedTerms(): boolean | null {
+    if (document.cookie) {
+      // console.log("document.cookie", document.cookie);
+      if (document.cookie.includes("acceptedTerms=")) {
+        const acceptedTerms = document?.cookie
+          ?.split(`acceptedTerms=`)[1]
+          .split(`;`)[0];
+        // console.log("document.cookie phone", phone);
+        return acceptedTerms === "true"
+          ? true
+          : acceptedTerms === "false"
+          ? false
+          : null;
+      }
+    }
+    return null;
+  }
+
   async getAdmins(): Promise<UserModel[]> {
     try {
       const accessCode = this.getStoredAccessCode();
@@ -475,6 +493,26 @@ class AccessCodeService {
       window.alert("Erro de conexão ao servidor.");
       window.close();
       return false;
+    }
+  }
+  async storeAcceptTerms(accept: boolean) {
+    try {
+      const now = new Date();
+      now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
+      document.cookie =
+        "acceptedTerms=" +
+        accept +
+        ";expires=" +
+        now.getUTCDate() +
+        ";max-age=" +
+        60 * 60 * 24 +
+        ";Secure=true" +
+        ";SameSite=strict" +
+        ";path=/;";
+    } catch (error) {
+      // window.alert("Erro de conexão ao servidor.");
+      // window.close();
+      // return false;
     }
   }
 

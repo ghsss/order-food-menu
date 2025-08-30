@@ -23,6 +23,7 @@ import AccessCodeServiceInstance from '../../services/AccessCodeService';
 // import CustomerAccessCodePage from '../Admin/CustomerAccessCode/CustomerAccessCode';
 import LoadingPage from '../Loading';
 import Login from './components/Login/Login';
+import AcceptTermsPage from '../AcceptTerms';
 
 const whatsAppQueryParams = encodeURIComponent('Olá! Gostaria de fazer um pedido.');
 
@@ -36,6 +37,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
 
   const [companyNameAnimatedDisplay, setCompanyNameAnimatedDisplay] = useState<string>('');
   const [logoClass, setLogoClass] = useState<string>('');
+  const [acceptedTerms, setAcceptedTerms] = useState<boolean | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [accessCodeIsSet, setAccessCodeIsSet] = useState<boolean>(false);
   const [showOrdersPage, setShowOrdersPage] = useState<boolean>(false);
@@ -177,6 +179,23 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
 
   }, [loading]);
 
+  useEffect(() => {
+
+    if (acceptedTerms !== null) {
+      if (acceptedTerms === false && company) {
+        // showCompanyNameAnimatedDisplay();
+        // showAcceptTermsModal();
+        const msgTxt = `Você será redirecionado para o WhatsApp da empresa para realizar seu pedido.`;
+        alert(msgTxt);
+        const wppTxt = `Olá, gostaria de fazer um pedido.`;
+        window.location.href = `https://wa.me/${company.phoneNumber}?text=${wppTxt}`;
+      } else {
+        AccessCodeServiceInstance.storeAcceptTerms(acceptedTerms);
+      }
+    }
+
+  }, [acceptedTerms]);
+
   function waitSeconds(seconds: number) {
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
@@ -189,6 +208,7 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
 
 
     const isSet = typeof AccessCodeServiceInstance.getStoredAccessCode() !== 'undefined';
+    setAcceptedTerms(AccessCodeServiceInstance.getStoredAcceptedTerms());
 
     setAccessCodeIsSet(isSet);
 
@@ -822,9 +842,17 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
     }
   }
 
+  // function showAcceptTermsModal()
+
   if (loading) {
 
     return (<LoadingPage action={action} />)
+
+  }
+
+  if (acceptedTerms === null) {
+
+    return (<AcceptTermsPage setAcceptedTerms={setAcceptedTerms} />)
 
   }
 
