@@ -93,15 +93,15 @@ export default function AcceptTermsPage({ setAcceptedTerms }: AcceptTermsPagePro
                     {/* <a href="/#" style={{ fontWeight: `bold`, textDecoration: `none`, color: '#000' }}>
                         {action === 'order-bot'? 'Baixando cardápio ...' : action === 'cart'? 'Baixando dados do carrinho ...' : action === 'orders'? 'Baixando pedidos ...' : 'Baixando cardápio ...' }
                     </a> */}
-                    <pre style={{ maxHeight: '25vh' }}>Termos de uso: É necessário informar seu número de WhatsApp para realizar pedidos, para pedidos com opção de pagamento online é obrigatório informar seu CPF/CNPJ e e-mail que serão utilizado apenas pelo MercadoPago para processar seu pagamento. Não compartilhamos dados de nossos clientes com terceiros, seus dados são utilizados exclusivamente para processar o pagamento do seu pedido através do MercadoPago e para entrarmos em contato para informar mudanças no status do pedido.</pre>
+                    <pre style={{ maxHeight: '25vh', color: '#000' }}>Termos de uso: É necessário informar seu número de WhatsApp para realizar pedidos, para pedidos com opção de pagamento online é obrigatório informar seu CPF/CNPJ e e-mail que serão utilizado apenas pelo MercadoPago para processar seu pagamento. Não compartilhamos dados de nossos clientes com terceiros, seus dados são utilizados exclusivamente para processar o pagamento do seu pedido através do MercadoPago e para entrarmos em contato para informar mudanças no status do pedido.</pre>
                     <div className="row">
-                        <button style={{ fontWeight: `bold`, textDecoration: `none`, color: '#000', background: 'green' }}
+                        <button style={{ fontWeight: `bold`, textDecoration: `none`, color: '#fff', background: 'green' }}
                             onClick={(e) => { setAcceptedTerms(true) }}
                         >
                             Aceitar
                             {/* {action === 'order-bot'? 'Baixando cardápio ...' : action === 'cart'? 'Baixando dados do carrinho ...' : action === 'orders'? 'Baixando pedidos ...' : 'Baixando cardápio ...' } */}
                         </button>
-                        <button style={{ fontWeight: `bold`, textDecoration: `none`, color: '#000', background: 'red' }}
+                        <button style={{ fontWeight: `bold`, textDecoration: `none`, color: '#fff', background: 'red' }}
                             onClick={(e) => { setAcceptedTerms(false) }}
                         >
                             Declinar
