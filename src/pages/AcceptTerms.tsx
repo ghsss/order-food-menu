@@ -21,6 +21,7 @@ export default function AcceptTermsPage({ setAcceptedTerms }: AcceptTermsPagePro
                     alignContent: `center`,
                     alignItems: `center`,
                     flexWrap: `wrap`,
+                    minWidth: '30vw',
                     width: '15em',
                     maxWidth: '75vw',
                     height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '1em', marginBottom: '1em',
