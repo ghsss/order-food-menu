@@ -24,7 +24,7 @@ export default function AcceptTermsPage({ setAcceptedTerms }: AcceptTermsPagePro
                     minWidth: '30vw',
                     width: '15em',
                     maxWidth: '75vw',
-                    height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '1em', marginBottom: '1em',
+                    height: 'auto', padding: '1em', paddingBottom: '2em', marginTop: '0', marginBottom: '1em',
 
                     justifyContent: 'center',
                     backgroundColor: 'rgb(231, 77, 0)',
