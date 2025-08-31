@@ -190,7 +190,9 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
         // const wppTxt = `Olá, gostaria de fazer um pedido.`;
         window.location.href = `https://wa.me/c/${company.phoneNumber}`;
       } else {
-        AccessCodeServiceInstance.storeAcceptTerms(acceptedTerms);
+        if(acceptedTerms === true) {
+          AccessCodeServiceInstance.storeAcceptTerms(acceptedTerms);
+        }
       }
     }
 
