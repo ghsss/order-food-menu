@@ -187,10 +187,10 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
         // showAcceptTermsModal();
         const msgTxt = `Você será redirecionado para o WhatsApp da empresa para realizar seu pedido.`;
         alert(msgTxt);
-        // const wppTxt = `Olá, gostaria de fazer um pedido.`;
-        window.location.href = `https://wa.me/c/${company.phoneNumber}`;
+        const wppTxt = `Olá, gostaria de fazer um pedido.`;
+        window.location.href = isMobileUser() ? `https://wa.me/c/${company.phoneNumber}` : `https://wa.me/${company.phoneNumber}?text=${wppTxt}`;
       } else {
-        if(acceptedTerms === true) {
+        if (acceptedTerms === true) {
           AccessCodeServiceInstance.storeAcceptTerms(acceptedTerms);
         }
       }
@@ -814,6 +814,20 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
     window.location.href = '/?action=orders'
   }
 
+  function isMobileUser(): boolean {
+    const userAgent = navigator.userAgent.toLowerCase();
+    if (/mobile/i.test(userAgent)) {
+      console.log("Mobile device detected");
+      return true;
+    } else if (/tablet|ipad/i.test(userAgent)) {
+      console.log("Tablet device detected");
+      return true;
+    } else {
+      console.log("Desktop detected");
+      return false;
+    }
+  }
+
   async function showCompanyNameAnimatedDisplay() {
     console.log('showCompanyNameAnimatedDisplay');
     if (typeof company === 'object') {
@@ -837,9 +851,8 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
       if (!isAdmin && !getRobotIsConnected()) {
         const msgTxt = `O site está indisponível temporariamente, você será redirecionado para o WhatsApp da empresa.`;
         alert(msgTxt);
-        // const wppTxt = `Olá, gostaria de fazer um pedido.`;
-        // window.location.href = `https://wa.me/${company.phoneNumber}?text=${wppTxt}`;
-        window.location.href = `https://wa.me/c/${company.phoneNumber}`;
+        const wppTxt = `Olá, gostaria de fazer um pedido.`;
+        window.location.href = isMobileUser() ? `https://wa.me/c/${company.phoneNumber}` : `https://wa.me/${company.phoneNumber}?text=${wppTxt}`;
         // window.location.href = 'https://wa.me/';
       }
     }
