@@ -187,8 +187,8 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
         // showAcceptTermsModal();
         const msgTxt = `Você será redirecionado para o WhatsApp da empresa para realizar seu pedido.`;
         alert(msgTxt);
-        const wppTxt = `Olá, gostaria de fazer um pedido.`;
-        window.location.href = `https://wa.me/${company.phoneNumber}?text=${wppTxt}`;
+        // const wppTxt = `Olá, gostaria de fazer um pedido.`;
+        window.location.href = `https://wa.me/c/${company.phoneNumber}`;
       } else {
         AccessCodeServiceInstance.storeAcceptTerms(acceptedTerms);
       }
