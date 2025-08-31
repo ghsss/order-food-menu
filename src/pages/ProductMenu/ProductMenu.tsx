@@ -837,8 +837,9 @@ function ProductMenu({ isAdmin, action, prefilledOrderChannel }: ProductMenuProp
       if (!isAdmin && !getRobotIsConnected()) {
         const msgTxt = `O site está indisponível temporariamente, você será redirecionado para o WhatsApp da empresa.`;
         alert(msgTxt);
-        const wppTxt = `Olá, gostaria de fazer um pedido.`;
-        window.location.href = `https://wa.me/${company.phoneNumber}?text=${wppTxt}`;
+        // const wppTxt = `Olá, gostaria de fazer um pedido.`;
+        // window.location.href = `https://wa.me/${company.phoneNumber}?text=${wppTxt}`;
+        window.location.href = `https://wa.me/c/${company.phoneNumber}`;
         // window.location.href = 'https://wa.me/';
       }
     }
